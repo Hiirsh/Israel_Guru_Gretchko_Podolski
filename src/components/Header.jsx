@@ -1,6 +1,6 @@
 import React from 'react';
 import user from '../images/user.jpg';
-import style from '../components/Header.css';
+import style from '../componentStyles/Header.css';
 
 export default function Header() {
     return (

@@ -2,7 +2,7 @@ import React from 'react';
 import facebook_logo from '..//images/facebook_logo.jpg';
 import inst_logo from '..//images/inst_logo.png';
 import whatsapp from '..//images/whatsapp_logo.png';
-import styles from '../components/Footer.css';
+import styles from '../componentStyles/Footer.css';
 
 export default function Footer() {
     return (

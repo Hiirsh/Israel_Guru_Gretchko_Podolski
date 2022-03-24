@@ -10,37 +10,6 @@ export default function Events() {
     let numEvents = events.length;
     const eventsRender = events.slice(renderFirstEvent, renderLastEvent);
 
-    // useEffect(() => {
-    //     if (!isCollapced)
-    //         // setCollapse(!isCollapced);
-    //         // console.log('click', isCollapced);
-    //         setRenderLastEvent(numEvents);
-    // }, []);
-    // function renderEvents (arr) {
-    //     return arr.map((item, index) => (
-    //         <div className="border border-dark m-2" key={index}>
-    //             <Event
-    //                 place={item.place}
-    //                 date={item.date}
-    //                 timeStart={item.timeStart}
-    //                 timeEnd={item.timeEnd}
-    //                 price={item.price}
-    //                 shortDescription={item.shortDescription}
-    //                 fullDescription={item.fullDescription}
-    //                 additionalInfo={item.additionalInfo}
-    //                 difficulty={item.difficulty}
-    //                 meetingPoint={item.meetingPoint}
-    //                 key={index}
-    //                 title={item.title}
-    //                 freeSpace={item.freeSpace}
-    //                 shortDesctiption={item.shortDescription}
-    //             />
-    //         </div>
-    //     ))
-    // }
-    // useEffect(()=>{
-    // },[])
-
     return (
         <div className="text-center">
             <div className="d-grid gap-2 m-3">
@@ -76,9 +45,8 @@ export default function Events() {
                     className="btn btn-secondary "
                     onClick={e => {
                         e.preventDefault();
+                        setRenderLastEvent(!isCollapced ? 2 : numEvents);
                         setCollapse(!isCollapced);
-                        console.log('click', isCollapced, renderLastEvent);
-                        setRenderLastEvent(isCollapced ? 2 : numEvents);
                     }}
                 >
                     {`${isCollapced ? 'Show all' : 'Hide'}`}

@@ -40,6 +40,7 @@ export default function Events() {
     // }
     // useEffect(()=>{
     // },[])
+
     return (
         <div className="text-center">
             <div className="d-grid gap-2 m-3">
@@ -77,7 +78,7 @@ export default function Events() {
                         e.preventDefault();
                         setCollapse(!isCollapced);
                         console.log('click', isCollapced, renderLastEvent);
-                        setRenderLastEvent(numEvents);
+                        setRenderLastEvent(isCollapced ? 2 : numEvents);
                     }}
                 >
                     {`${isCollapced ? 'Show all' : 'Hide'}`}

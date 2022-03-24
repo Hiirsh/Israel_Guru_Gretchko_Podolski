@@ -6,3 +6,8 @@
 перенос головы			git revert //head
 откат назад			git reser --hard //commit's hash
 
+git remote add origin https://github.com/*href
+git branch -M main
+git push -u origin main
+
+git clone *href

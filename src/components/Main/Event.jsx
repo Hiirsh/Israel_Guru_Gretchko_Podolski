@@ -7,11 +7,12 @@ export default function Event(props) {
             <div className="d-flex flex-row justify-content-between ms-5 me-5 mt-2 mb-2">
                 <h3 className="d-flex align-items-center">{`${props.date}`}</h3>
                 <div>
-                    <h4>{`${props.place}`}</h4> <h4>{`${props.price}`}</h4>
+                    <h4>Цена: {`${props.place}`}</h4>{' '}
+                    <h4>{`${props.price}`} NIS</h4>
                 </div>
                 <div>
                     <h4>{`${props.timeStart}-${props.timeEnd}`}</h4>
-                    <h4>{`${props.freeSpace}`}</h4>
+                    <h4>Осталось мест: {`${props.freeSpace}`}</h4>
                 </div>
             </div>
             <div className="text-left">{`${props.shortDesctiption || ''}`}</div>

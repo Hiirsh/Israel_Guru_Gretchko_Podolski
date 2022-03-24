@@ -1,17 +1,17 @@
-.icon-contact{
+.icon-contact {
     background-color: transparent;
     width: 4em;
     height: 4em;
     border-radius: 50%;
 }
 
-.footer{
+.footer {
     display: flex;
     justify-content: space-between;
     background-color: rgb(140, 162, 228);
     padding: 1em 2em 0em 2em;
-    position: absolute;
+    /* position: absolute;
     left: 0;
     bottom: 0;
-    width: 100%;
+    width: 100%; */
 }

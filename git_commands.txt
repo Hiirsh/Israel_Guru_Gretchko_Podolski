@@ -1,0 +1,8 @@
+инициализаци			git init
+решение проблемы с crlf		git config core.autocrlf false
+коммит				git commit -m "//comment//"
+граф				git log --all --decorate --oneline --graph
+создание/редактирование		vi
+перенос головы			git revert //head
+откат назад			git reser --hard //commit's hash
+

@@ -1,9 +1,11 @@
 import React from 'react';
+import user from '../images/user.jpg';
+import style from '../components/Header.css';
 
 export default function Header() {
     return (
-        <div>
-            <div>
+        <div className="header">
+            <div className="header_name">
                 <h2>Israel Guru</h2>
             </div>
 
@@ -15,7 +17,7 @@ export default function Header() {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                 >
-                    <img src="#" />
+                    <img className="user-icon" src={user} />
                 </button>
 
                 <ul

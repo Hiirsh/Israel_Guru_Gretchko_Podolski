@@ -3,7 +3,7 @@ import Events from './Main/Events';
 
 export default function Main() {
     return (
-        <div>
+        <div className="main">
             <Events />
         </div>
     );

@@ -1,0 +1,29 @@
+.user-icon{
+    background-color: white;
+    width: 6em;
+    height: 4em;
+    border-radius: 50%;
+    
+}
+
+.dropdown{
+    flex: row;
+    justify-self: center;
+    margin: 1em 1em 0 0;
+}
+
+.btn btn-secondary dropdown-toggle{
+    width: 80%;
+}
+
+.header_name{
+    margin: 2em 0 0 3em;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(140, 162, 228);
+    height: 6em;
+}
+

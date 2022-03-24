@@ -4,7 +4,7 @@ import style from '../componentStyles/Header.css';
 
 export default function Header() {
     return (
-        <div className="header">
+        <header className="header">
             <div className="header_name">
                 <h2>Israel Guru</h2>
             </div>
@@ -41,6 +41,6 @@ export default function Header() {
                     </li>
                 </ul>
             </div>
-        </div>
+        </header>
     );
 }

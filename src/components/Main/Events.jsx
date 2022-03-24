@@ -11,7 +11,7 @@ export default function Events() {
     const eventsRender = events.slice(renderFirstEvent, renderLastEvent);
 
     return (
-        <div className="text-center">
+        <div>
             <div className="d-grid gap-2 m-3">
                 <button type="button" className="btn btn-secondary ">
                     Search

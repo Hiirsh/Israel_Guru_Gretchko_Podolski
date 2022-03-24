@@ -6,7 +6,7 @@ import styles from '../componentStyles/Footer.css';
 
 export default function Footer() {
     return (
-        <div className="footer">
+        <footer className="footer">
             <div className="adress">
                 <p>
                     Rotshild, 1 <br />
@@ -26,6 +26,6 @@ export default function Footer() {
                     <img className="icon-contact" src={whatsapp}></img>
                 </a>
             </div>
-        </div>
+        </footer>
     );
 }

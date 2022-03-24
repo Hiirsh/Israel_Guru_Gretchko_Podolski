@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
-import Event from './Event';
+import EventInList from './EventInList';
+import EventExtended from './EventExtended';
 
 export default function Events() {
     const [isCollapced, setCollapse] = useState(true);
@@ -20,14 +21,15 @@ export default function Events() {
             <div className="border border-dark m-2">
                 {eventsRender.map((item, index) => (
                     <div className="border border-dark m-2" key={index}>
-                        <Event
+                        <EventInList
+                            id={item.id}
                             place={item.place}
                             date={item.date}
                             timeStart={item.timeStart}
                             timeEnd={item.timeEnd}
                             price={item.price}
                             shortDescription={item.shortDescription}
-                            fullDescription={item.fullDescription}
+                            // fullDescription={item.fullDescription}
                             additionalInfo={item.additionalInfo}
                             difficulty={item.difficulty}
                             meetingPoint={item.meetingPoint}
@@ -52,6 +54,7 @@ export default function Events() {
                     {`${isCollapced ? 'Show all' : 'Hide'}`}
                 </button>
             </div>
+            {/* <EventExtended /> */}
         </div>
     );
 }

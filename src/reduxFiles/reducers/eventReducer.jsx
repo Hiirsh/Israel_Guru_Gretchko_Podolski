@@ -3,7 +3,8 @@ import {ADD_EVENT, REMOVE_EVENT} from '../actions/eventActions';
 export const initialState = {
     events: [
         {
-            title: 'Тель-Авив. С чего все началось и кто в этои виноват?',
+            id: 0,
+            title: 'Тель-Авив. С чего все началось и кто в этом виноват?',
             place: 'Тель-Авив',
             date: '03.09.2022',
             timeStart: '16:00',
@@ -22,6 +23,7 @@ export const initialState = {
                 'Часовая башня в Яффо. На перекрестке у фалафельной. На левой стороне от причала в пятницу в 19.00. Будем рады видеть вас и ваших детей (от 4 лет) и собак (от года).',
         },
         {
+            id: 1,
             title: 'TEST1',
             place: 'TEST1 place',
             date: 'TEST1 date',
@@ -37,6 +39,7 @@ export const initialState = {
             meetingPoint: 'TEST1 meetingPoint',
         },
         {
+            id: 2,
             title: 'TEST2',
             place: 'TEST2 place',
             date: 'TEST2 date',
@@ -52,6 +55,7 @@ export const initialState = {
             meetingPoint: 'TEST2 meetingPoint',
         },
         {
+            id: 3,
             title: 'TEST3',
             place: 'TEST3 place',
             date: 'TEST3 date',

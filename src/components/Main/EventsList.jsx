@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
-import EventInList from './EventInList';
-import EventExtended from './EventExtended';
+import Event from './Event';
 
 export default function Events() {
     const [isCollapced, setCollapse] = useState(true);
@@ -21,22 +20,24 @@ export default function Events() {
             <div className="border border-dark m-2">
                 {eventsRender.map((item, index) => (
                     <div className="border border-dark m-2" key={index}>
-                        <EventInList
-                            id={item.id}
-                            place={item.place}
-                            date={item.date}
-                            timeStart={item.timeStart}
-                            timeEnd={item.timeEnd}
-                            price={item.price}
-                            shortDescription={item.shortDescription}
-                            // fullDescription={item.fullDescription}
-                            additionalInfo={item.additionalInfo}
-                            difficulty={item.difficulty}
-                            meetingPoint={item.meetingPoint}
-                            key={index}
-                            title={item.title}
-                            freeSpace={item.freeSpace}
-                            shortDesctiption={item.shortDescription}
+                        <Event
+                            ev={item}
+                            extended={false}
+                            // id={item.id}
+                            // place={item.place}
+                            // date={item.date}
+                            // timeStart={item.timeStart}
+                            // timeEnd={item.timeEnd}
+                            // price={item.price}
+                            // shortDescription={item.shortDescription}
+                            // // fullDescription={item.fullDescription}
+                            // additionalInfo={item.additionalInfo}
+                            // difficulty={item.difficulty}
+                            // meetingPoint={item.meetingPoint}
+                            // key={index}
+                            // title={item.title}
+                            // freeSpace={item.freeSpace}
+                            // shortDesctiption={item.shortDescription}
                         />
                     </div>
                 ))}
@@ -58,3 +59,19 @@ export default function Events() {
         </div>
     );
 }
+
+/* id={item.id}
+place={item.place}
+date={item.date}
+timeStart={item.timeStart}
+timeEnd={item.timeEnd}
+price={item.price}
+shortDescription={item.shortDescription}
+// fullDescription={item.fullDescription}
+additionalInfo={item.additionalInfo}
+difficulty={item.difficulty}
+meetingPoint={item.meetingPoint}
+key={index}
+title={item.title}
+freeSpace={item.freeSpace}
+shortDesctiption={item.shortDescription} */

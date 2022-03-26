@@ -1,13 +1,16 @@
+import {guidePhoto} from '../../utils/constants';
 import {} from '../actions/eventActions';
 import {ADD_GUIDE, REMOVE_GUIDE} from '../actions/guidesReducer';
 
 export const initialState = {
     guides: [
         {
-            firstName: '',
-            lastName: '',
-            license: '',
-            phone: '',
+            firstName: 'Святослав',
+            lastName: 'Волк',
+            email: 'testmail@gmail.com',
+            license: '111',
+            phone: '12345678',
+            photo: guidePhoto,
         },
     ],
 };

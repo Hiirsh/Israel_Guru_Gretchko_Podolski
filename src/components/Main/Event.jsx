@@ -4,9 +4,8 @@ import {eventPage} from '../../utils/constants';
 import EventMainInfo from './EventMainInfo';
 // import style from '..//..//componentStyles/Event.css';
 
-export default function EventInList(props) {
+export default function Event(props) {
     const navigate = useNavigate();
-    // console.log(props.ev);
     const ev = props.ev;
     const isExtended = props.extended;
     return (

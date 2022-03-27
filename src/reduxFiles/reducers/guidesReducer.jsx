@@ -1,5 +1,4 @@
 import {guidePhoto} from '../../utils/constants';
-import {} from '../actions/eventActions';
 import {ADD_GUIDE, REMOVE_GUIDE} from '../actions/guidesReducer';
 
 export const initialState = {

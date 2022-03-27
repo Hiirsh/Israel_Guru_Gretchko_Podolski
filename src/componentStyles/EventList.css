@@ -1,0 +1,10 @@
+.list-group{
+    margin: 1em 2em 1em 2em; 
+}
+
+.eventInList{
+    border: solid 1px;
+    border-radius: 1em;
+    padding: 1em;
+    margin-bottom: 1em;
+}

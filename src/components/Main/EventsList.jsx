@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
 import Event from './Event';
+import styles from '..//..//componentStyles/EventList.css';
 
 export default function Events() {
     const [isCollapced, setCollapse] = useState(true);
@@ -17,9 +18,9 @@ export default function Events() {
                     Search
                 </button>
             </div>
-            <div className="border border-dark m-2">
+            <div className="list-group">
                 {eventsRender.map((item, index) => (
-                    <div className="border border-dark m-2" key={index}>
+                    <div className="eventInList" key={index}>
                         <Event
                             ev={item}
                             extended={false}

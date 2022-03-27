@@ -10,8 +10,20 @@
     justify-content: space-between;
     background-color: rgb(140, 162, 228);
     padding: 1em 2em 0em 2em;
-    /* position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%; */
+    
+}
+
+#facebook {
+    height: 7em;
+    width: 7em;
+}
+
+#whatsapp {
+    height: 4em;
+    width: 4em;
+    border-radius: 0%;
+}
+
+.adress{
+    padding: 1em 0;
 }

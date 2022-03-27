@@ -1,4 +1,50 @@
 .eventTitle {
     font-weight: 600;
     font-size: 2em;
+    padding: 0 1rem 0 0;
+    cursor: pointer;
+
+}
+
+
+.eventMainInfo{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-radius: 2em;
+    border-color: gray;
+    border-style: solid;
+    border-width: 3px;
+    font-size: 1em;
+}
+
+.eventData{
+    display: flex;
+    align-items: center;
+    font-size: 1.3em;
+    margin-left: 1rem;
+}
+
+.costTicketsPlace h4{
+    font-size: 1.1rem;
+    margin-top: 1em;
+}
+
+/* .costAndPlace{
+    margin: 1rem 0 1rem 0;
+} */
+
+.timeAndButton h4{
+    font-size: 1.1rem;
+}
+
+.timeAndButton{
+    margin: 1rem 1rem 1rem 0;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.go{
+    border-radius: 10px;
 }

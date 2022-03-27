@@ -24,21 +24,7 @@ export default function Events() {
                         <Event
                             ev={item}
                             extended={false}
-                            // id={item.id}
-                            // place={item.place}
-                            // date={item.date}
-                            // timeStart={item.timeStart}
-                            // timeEnd={item.timeEnd}
-                            // price={item.price}
-                            // shortDescription={item.shortDescription}
-                            // // fullDescription={item.fullDescription}
-                            // additionalInfo={item.additionalInfo}
-                            // difficulty={item.difficulty}
-                            // meetingPoint={item.meetingPoint}
-                            // key={index}
-                            // title={item.title}
-                            // freeSpace={item.freeSpace}
-                            // shortDesctiption={item.shortDescription}
+                            
                         />
                     </div>
                 ))}
@@ -61,18 +47,4 @@ export default function Events() {
     );
 }
 
-/* id={item.id}
-place={item.place}
-date={item.date}
-timeStart={item.timeStart}
-timeEnd={item.timeEnd}
-price={item.price}
-shortDescription={item.shortDescription}
-// fullDescription={item.fullDescription}
-additionalInfo={item.additionalInfo}
-difficulty={item.difficulty}
-meetingPoint={item.meetingPoint}
-key={index}
-title={item.title}
-freeSpace={item.freeSpace}
-shortDesctiption={item.shortDescription} */
+

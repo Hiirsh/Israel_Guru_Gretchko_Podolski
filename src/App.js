@@ -2,6 +2,8 @@ import './App.css';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import Main from './components/Main';
+import {Context} from './utils/Context';
+import {useState} from 'react';
 
 function App() {
     return (
@@ -12,5 +14,4 @@ function App() {
         </div>
     );
 }
-
 export default App;

@@ -4,9 +4,8 @@ import {eventPage} from '../../utils/constants';
 import EventMainInfo from './EventMainInfo';
 import style from '..//..//componentStyles/Event.css';
 
-export default function EventInList(props) {
+export default function Event(props) {
     const navigate = useNavigate();
-    // console.log(props.ev);
     const ev = props.ev;
     const isExtended = props.extended;
     return (
@@ -15,7 +14,7 @@ export default function EventInList(props) {
                 className="eventTitle"
                 onClick={() => navigate(`/${eventPage}/${ev.id}`)}
             >{`${ev.title}`}</h1>
-        
+       
             <EventMainInfo ev={ev} />
             <div className="text-left m-2"><p>{`${ev.preview}`}</p></div>
             <div className="text-left m-2">
@@ -23,4 +22,5 @@ export default function EventInList(props) {
             </div>
         </div>
     );
+
 }

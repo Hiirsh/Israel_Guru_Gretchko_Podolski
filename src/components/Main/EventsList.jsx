@@ -1,15 +1,21 @@
 import React, {useState} from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {changeEventList} from '../../reduxFiles/actions/changePageStateAction';
 import Event from './Event';
 
 export default function Events() {
-    const [isCollapced, setCollapse] = useState(true);
-    const [renderFirstEvent, setRenderFirstEvent] = useState(0);
-    const [renderLastEvent, setRenderLastEvent] = useState(2);
+    // const [isCollapced, setCollapse] = useState(true);
     const {events} = useSelector(state => state.events);
+    const [renderFirstEvent, setRenderFirstEvent] = useState(0);
+    const isCollapced = useSelector(
+        state => state.pageState.eventListCollapced
+    );
     let numEvents = events.length;
+    const [renderLastEvent, setRenderLastEvent] = useState(
+        isCollapced ? 2 : numEvents
+    );
     const eventsRender = events.slice(renderFirstEvent, renderLastEvent);
-
+    const dispatch = useDispatch();
     return (
         <div>
             <div className="d-grid gap-2 m-3">
@@ -31,13 +37,12 @@ export default function Events() {
                     onClick={e => {
                         e.preventDefault();
                         setRenderLastEvent(!isCollapced ? 2 : numEvents);
-                        setCollapse(!isCollapced);
+                        dispatch(changeEventList());
                     }}
                 >
                     {`${isCollapced ? 'Show all' : 'Hide'}`}
                 </button>
             </div>
-            {/* <EventExtended /> */}
         </div>
     );
 }

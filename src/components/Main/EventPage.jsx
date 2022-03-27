@@ -4,7 +4,7 @@ import Event from './Event';
 import EventMainInfo from './EventMainInfo';
 
 export default function EventPage() {
-    const eventId = Number(window.location.pathname.replace('/event/', '')); //Это ШЭДЭВР!!!!!!
+    const eventId = Number(window.location.pathname.replace('/event/', ''));
     const {events} = useSelector(state => state.events);
     const eventExt = events.find(ev => ev.id === eventId);
 

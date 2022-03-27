@@ -2,12 +2,13 @@
     font-weight: 600;
     font-size: 2em;
     padding: 0 1rem 0 0;
-    cursor: pointer;
-
 }
 
+.titleActive {
+    cursor: pointer;
+}
 
-.eventMainInfo{
+.eventMainInfo {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -18,14 +19,14 @@
     font-size: 1em;
 }
 
-.eventData{
+.eventData {
     display: flex;
     align-items: center;
     font-size: 1.3em;
     margin-left: 1rem;
 }
 
-.costTicketsPlace h4{
+.costTicketsPlace h4 {
     font-size: 1.1rem;
     margin-top: 1em;
 }
@@ -34,17 +35,17 @@
     margin: 1rem 0 1rem 0;
 } */
 
-.timeAndButton h4{
+.timeAndButton h4 {
     font-size: 1.1rem;
 }
 
-.timeAndButton{
+.timeAndButton {
     margin: 1rem 1rem 1rem 0;
-    display:flex;
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.go{
+.go {
     border-radius: 10px;
 }

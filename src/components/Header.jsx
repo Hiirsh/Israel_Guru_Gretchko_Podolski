@@ -8,7 +8,6 @@ export default function Header() {
             <div className="header_name">
                 <h2>Israel Guru</h2>
             </div>
-
             <div className="dropdown">
                 <button
                     className="btn btn-secondary dropdown-toggle"
@@ -19,7 +18,6 @@ export default function Header() {
                 >
                     <img className="user-icon" src={user} />
                 </button>
-
                 <ul
                     className="dropdown-menu"
                     aria-labelledby="dropdownMenuButton1"

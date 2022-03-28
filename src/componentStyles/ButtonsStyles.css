@@ -1,0 +1,11 @@
+.buttonStyle {
+    width: 30%;
+    display: block;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 2%;
+    text-align: center;
+}

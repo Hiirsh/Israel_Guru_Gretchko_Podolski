@@ -1,25 +1,27 @@
+import {Button} from '@mui/material';
 import React from 'react';
 import {useSelector} from 'react-redux';
-import Event from './Event';
-import EventMainInfo from './EventMainInfo';
-import styles from '..//..//componentStyles/Main.css';
-import style from '..//..//componentStyles/EventPage.css';
 import {useNavigate} from 'react-router-dom';
-import {Button} from '@mui/material';
-import {homePage} from '../../utils/constants';
-import stylesTitle from '..//..//componentStyles/TitleStyle.css';
+import {homePage, ticketPage} from '../../utils/constants';
+import style from '../../componentStyles/Main.css';
 
-export default function EventPage() {
-    const eventId = Number(window.location.pathname.replace('/event/', ''));
+export default function PaymentPage() {
+    const eventId = Number(window.location.pathname.replace('/payment/', ''));
     const {events} = useSelector(state => state.events);
-    const eventExt = events.find(ev => ev.id === eventId);
+    const ev = events.find(ev => ev.id === eventId);
     const navigate = useNavigate();
-
     return (
         <div className="eventAndMainInfo">
-            <Event ev={eventExt} extended={true} />
-            <EventMainInfo ev={eventExt} />
+            <h1 className="eventTitle">Оплатить</h1>
+
             <div className="buttonContainer">
+                <Button
+                    variant="contained"
+                    className="buttonStyle"
+                    onClick={() => navigate(`../${ticketPage}/${ev.id}`)}
+                >
+                    Оплатить
+                </Button>
                 <Button
                     variant="contained"
                     className="buttonStyle"

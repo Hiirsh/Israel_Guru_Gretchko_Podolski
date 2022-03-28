@@ -1,16 +1,11 @@
-.main {
-    margin-left: 2em;
-    font-family: 'Merriweather', serif;
-}
-
-.eventAndMainInfo {
-    padding: 2em 2em 2em 2em;
-}
-
 .eventTitle {
     font-weight: 600;
     font-size: 2em;
     padding: 0 1rem 0 0;
+}
+.entryForm {
+    display: flex;
+    flex-direction: column;
 }
 .buttonContainer {
     display: flex;
@@ -18,7 +13,8 @@
     margin-top: 2%;
     text-align: center;
 }
+
 .buttonStyle {
-    width: 30%;
-    display: block;
+    width: 20%;
+    /* flex-direction: ; */
 }

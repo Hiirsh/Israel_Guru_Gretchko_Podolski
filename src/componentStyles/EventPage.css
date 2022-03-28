@@ -1,0 +1,10 @@
+.buttonStyle {
+    width: 40%;
+    display: block;
+}
+
+.buttonContainer {
+    padding: auto;
+    margin-top: 2%;
+    text-align: center;
+}

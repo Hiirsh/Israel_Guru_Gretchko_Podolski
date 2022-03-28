@@ -1,25 +1,29 @@
+import {Button} from '@mui/material';
 import React from 'react';
 import {useSelector} from 'react-redux';
-import Event from './Event';
-import EventMainInfo from './EventMainInfo';
-import styles from '..//..//componentStyles/Main.css';
-import style from '..//..//componentStyles/EventPage.css';
 import {useNavigate} from 'react-router-dom';
-import {Button} from '@mui/material';
 import {homePage} from '../../utils/constants';
-import stylesTitle from '..//..//componentStyles/TitleStyle.css';
+import stylesMain from '..//..//componentStyles/TitleStyle.css';
+import EventMainInfo from './EventMainInfo';
 
-export default function EventPage() {
-    const eventId = Number(window.location.pathname.replace('/event/', ''));
+export default function TicketPage() {
+    const eventId = Number(window.location.pathname.replace('/ticket/', ''));
     const {events} = useSelector(state => state.events);
-    const eventExt = events.find(ev => ev.id === eventId);
+    const ev = events.find(ev => ev.id === eventId);
     const navigate = useNavigate();
-
     return (
         <div className="eventAndMainInfo">
-            <Event ev={eventExt} extended={true} />
-            <EventMainInfo ev={eventExt} />
+            <h1 className="eventTitle">Уверены, вам понравится!</h1>
+            <h1 className="eventTitle">{ev.title}</h1>
+
+            <EventMainInfo ev={ev} noButton={true} />
             <div className="buttonContainer">
+                <Button variant="contained" className="buttonStyle">
+                    Сохранить
+                </Button>
+                <Button variant="contained" className="buttonStyle">
+                    Поделиться в FB
+                </Button>
                 <Button
                     variant="contained"
                     className="buttonStyle"

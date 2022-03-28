@@ -1,8 +1,13 @@
+import {Button} from '@mui/material';
 import React from 'react';
-import styles from '..//..//componentStyles/Event.css'
+import {useNavigate} from 'react-router-dom';
+import {entryPage} from '../../utils/constants';
+import styles from '..//..//componentStyles/Event.css';
+import stylesTitle from '..//..//componentStyles/TitleStyle.css';
 
 export default function EventMainInfo(props) {
     const ev = props.ev;
+    const navigate = useNavigate();
     return (
         <div className="eventMainInfo">
             {/* <div className="d-flex flex-row justify-content-between ms-5 me-5 mt-2 mb-2"></div> */}
@@ -14,7 +19,15 @@ export default function EventMainInfo(props) {
             </div>
             <div className="timeAndButton">
                 <h4>{`${ev.timeStart}-${ev.timeEnd}`}</h4>
-                <button className="go">Я пойду</button>
+                {!props.noButton && (
+                    <Button
+                        variant="contained"
+                        className="go"
+                        onClick={() => navigate(`../${entryPage}/${ev.id}`)}
+                    >
+                        Я пойду
+                    </Button>
+                )}
             </div>
         </div>
     );

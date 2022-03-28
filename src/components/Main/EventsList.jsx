@@ -3,6 +3,8 @@ import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {changeEventList} from '../../reduxFiles/actions/changePageStateAction';
 import Event from './Event';
+import {Button} from '@mui/material';
+import stylesTitle from '..//..//componentStyles/TitleStyle.css';
 
 export default function Events() {
     // const [isCollapced, setCollapse] = useState(true);
@@ -18,16 +20,20 @@ export default function Events() {
     );
     let numEvents = events.length;
     const [renderLastEvent, setRenderLastEvent] = useState(
-        isCollapced ? 2 : numEvents
+        isCollapced ? 3 : numEvents
     );
     const eventsRender = events.slice(renderFirstEvent, renderLastEvent);
     const dispatch = useDispatch();
     return (
         <div>
-            <div className="d-grid gap-2 m-3">
-                <button type="button" className="btn btn-secondary ">
+            <div className="d-grid  m-3">
+                <Button
+                    variant="contained"
+                    type="button"
+                    // className="btn btn-secondary "
+                >
                     Search
-                </button>
+                </Button>
             </div>
             <div className="list-group">
                 {eventsRender.map((item, index) => (
@@ -37,19 +43,19 @@ export default function Events() {
                 ))}
             </div>
             <div className="d-grid gap-2 m-3">
-                <button
+                <Button
+                    variant="contained"
                     type="button"
-                    className="btn btn-secondary "
+                    // className="btn btn-secondary "
                     onClick={e => {
                         e.preventDefault();
-                        setRenderLastEvent(!isCollapced ? 2 : numEvents);
+                        setRenderLastEvent(!isCollapced ? 3 : numEvents);
                         dispatch(changeEventList());
                     }}
                 >
                     {`${isCollapced ? 'Show all' : 'Hide'}`}
-                </button>
+                </Button>
             </div>
-            {/* <EventExtended /> */}
         </div>
     );
 }

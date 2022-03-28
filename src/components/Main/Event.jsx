@@ -1,13 +1,14 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
-import {eventPage, homePage} from '../../utils/constants';
+import {eventPage} from '../../utils/constants';
 import EventMainInfo from './EventMainInfo';
-import style from '..//..//componentStyles/Event.css';
+import style from '..//..//componentStyles/TitleStyle.css';
 
 export default function Event(props) {
     const navigate = useNavigate();
     const ev = props.ev;
     const isExtended = props.extended;
+
     return (
         <div>
             {isExtended ? (

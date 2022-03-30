@@ -3,7 +3,7 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import {homePage} from '../../utils/constants';
-import stylesMain from '..//..//componentStyles/TitleStyle.css';
+import stylesMain from '..//..//componentStyles/TicketPage.css';
 import EventMainInfo from './EventMainInfo';
 
 export default function TicketPage() {

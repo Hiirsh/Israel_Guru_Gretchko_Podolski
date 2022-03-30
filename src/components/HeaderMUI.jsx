@@ -15,6 +15,8 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import {useNavigate} from 'react-router-dom';
+import {homePage, signInPage, signUpPage} from '../utils/constants';
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
@@ -59,9 +61,11 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
 export default function HeaderMUI() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
+    const [isAutorised, setAutorised] = React.useState(false);
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+    const navigate = useNavigate();
 
     const handleProfileMenuOpen = event => {
         setAnchorEl(event.currentTarget);
@@ -72,6 +76,16 @@ export default function HeaderMUI() {
     };
 
     const handleMenuClose = () => {
+        setAnchorEl(null);
+        handleMobileMenuClose();
+    };
+    const handleMenuSignIn = () => {
+        navigate(`../${signInPage}/`);
+        setAnchorEl(null);
+        handleMobileMenuClose();
+    };
+    const handleMenuSignUp = () => {
+        navigate(`../${signUpPage}/`);
         setAnchorEl(null);
         handleMobileMenuClose();
     };
@@ -98,10 +112,18 @@ export default function HeaderMUI() {
             onClose={handleMenuClose}
         >
             {/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Менять здесь */}
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Sign In</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Sign Up</MenuItem>
+            {isAutorised && (
+                <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+            )}
+            {isAutorised && (
+                <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            )}
+            {!isAutorised && (
+                <MenuItem onClick={handleMenuSignIn}>Sign In</MenuItem>
+            )}
+            {!isAutorised && (
+                <MenuItem onClick={handleMenuSignUp}>Sign Up</MenuItem>
+            )}
         </Menu>
     );
 
@@ -128,7 +150,7 @@ export default function HeaderMUI() {
                     aria-label="show 4 new mails"
                     color="inherit"
                 >
-                    <Badge badgeContent={4} color="error">
+                    <Badge badgeContent={0} color="error">
                         <MailIcon />
                     </Badge>
                 </IconButton>
@@ -140,12 +162,13 @@ export default function HeaderMUI() {
                     aria-label="show 17 new notifications"
                     color="inherit"
                 >
-                    <Badge badgeContent={17} color="error">
+                    <Badge badgeContent={0} color="error">
                         <NotificationsIcon />
                     </Badge>
                 </IconButton>
                 <p>Notifications</p>
             </MenuItem>
+
             <MenuItem onClick={handleProfileMenuOpen}>
                 <IconButton
                     size="large"
@@ -157,6 +180,22 @@ export default function HeaderMUI() {
                     <AccountCircle />
                 </IconButton>
                 <p>Profile</p>
+            </MenuItem>
+            <MenuItem>
+                {/* <IconButton
+                    size="large"
+                    aria-label="show 17 new notifications"
+                    color="inherit"
+                ></IconButton> */}
+                <p onClick={() => navigate(`../${signInPage}`)}>Sign In</p>
+            </MenuItem>
+            <MenuItem>
+                {/* <IconButton
+                    size="large"
+                    aria-label="show 17 new notifications"
+                    color="inherit"
+                ></IconButton> */}
+                <p onClick={() => navigate(`../${signUpPage}`)}>Sign Up</p>
             </MenuItem>
         </Menu>
     );
@@ -179,6 +218,7 @@ export default function HeaderMUI() {
                         noWrap
                         component="div"
                         sx={{display: {xs: 'none', sm: 'block'}}}
+                        onClick={() => navigate(`../${homePage}`)}
                     >
                         Israel Guru
                     </Typography>

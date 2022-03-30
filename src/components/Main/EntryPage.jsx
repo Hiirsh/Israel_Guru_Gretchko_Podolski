@@ -33,22 +33,22 @@ export default function EntryPage() {
                 <TextField
                     required
                     id="standard-required"
-                    label="Required"
-                    defaultValue="Имя"
+                    label="Имя"
+                    // defaultValue="Имя"
                     variant="standard"
                 />
                 <TextField
                     required
                     id="standard-required"
-                    label="Required"
-                    defaultValue="Телефон"
+                    label="Телефон"
+                    // defaultValue="Телефон"
                     variant="standard"
                 />
                 <TextField
                     required
                     id="standard-required"
-                    label="Required"
-                    defaultValue="Email"
+                    label="Email"
+                    // defaultValue="Email"
                     variant="standard"
                 />
             </Box>

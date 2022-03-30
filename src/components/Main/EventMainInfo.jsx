@@ -16,10 +16,11 @@ export default function EventMainInfo(props) {
                 <h4>Место: {`${ev.place}`}</h4>{' '}
                 <h4>Осталось мест: {`${ev.freeSpace}`}</h4>
                 <h4>Цена:{`${ev.price}`} NIS</h4>
+                <h4>{props.noButton && `${ev.timeStart}-${ev.timeEnd}`}</h4>
             </div>
-            <div className="timeAndButton">
-                <h4>{`${ev.timeStart}-${ev.timeEnd}`}</h4>
-                {!props.noButton && (
+            {!props.noButton && (
+                <div className="timeAndButton">
+                    <h4>{`${ev.timeStart}-${ev.timeEnd}`}</h4>
                     <Button
                         variant="contained"
                         className="go"
@@ -27,8 +28,8 @@ export default function EventMainInfo(props) {
                     >
                         Я пойду
                     </Button>
-                )}
-            </div>
+                </div>
+            )}
         </div>
     );
 }

@@ -11,7 +11,7 @@
 .eventMainInfo {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
     border-radius: 2em;
     border-color: gray;
     border-style: solid;

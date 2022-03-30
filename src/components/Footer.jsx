@@ -20,11 +20,18 @@ export default function Footer() {
                     <img className="icon-contact" src={inst_logo} />
                 </a>
                 <a href="https://www.facebook.com/profile.php?id=100059381994346">
-                    <img className="icon-contact" id="facebook" src={facebook_logo}></img>
+                    <img
+                        className="icon-contact"
+                        id="facebook"
+                        src={facebook_logo}
+                    ></img>
                 </a>
                 <a href="https://api.whatsapp.com/send?phone=79122414944">
-                    <img className="icon-contact" id="whatsapp" src={whatsapp}></img>
-
+                    <img
+                        className="icon-contact"
+                        id="whatsapp"
+                        src={whatsapp}
+                    ></img>
                 </a>
             </div>
         </footer>

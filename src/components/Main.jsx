@@ -7,11 +7,15 @@ import {
     eventPage,
     homePage,
     paymentPage,
+    signInPage,
+    signUpPage,
     ticketPage,
 } from '../utils/constants';
 import EntryPage from './Main/EntryPage';
 import PaymentPage from './Main/PaymentPage';
 import TicketPage from './Main/TicketPage';
+import SignInPage from './Main/SignInPage';
+import SignUpPage from './Main/SignUpPage';
 
 export default function Main() {
     return (
@@ -21,6 +25,8 @@ export default function Main() {
             <Route path={`/${entryPage}/:pageId`} element={<EntryPage />} />
             <Route path={`/${paymentPage}/:pageId`} element={<PaymentPage />} />
             <Route path={`/${ticketPage}/:pageId`} element={<TicketPage />} />
+            <Route path={`/${signInPage}/`} element={<SignInPage />} />
+            <Route path={`/${signUpPage}/`} element={<SignUpPage />} />
         </Routes>
     );
 }

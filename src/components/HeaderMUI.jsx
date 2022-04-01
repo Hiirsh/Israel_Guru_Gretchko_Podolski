@@ -17,6 +17,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import {useNavigate} from 'react-router-dom';
 import {homePage, signInPage, signUpPage} from '../utils/constants';
+import style from '../componentStyles/Header.css';
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
@@ -118,6 +119,9 @@ export default function HeaderMUI() {
             {isAutorised && (
                 <MenuItem onClick={handleMenuClose}>My account</MenuItem>
             )}
+            {isAutorised && (
+                <MenuItem onClick={handleMenuClose}>Log Out</MenuItem>
+            )}
             {!isAutorised && (
                 <MenuItem onClick={handleMenuSignIn}>Sign In</MenuItem>
             )}
@@ -144,7 +148,7 @@ export default function HeaderMUI() {
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
-            <MenuItem>
+            {/*             <MenuItem>
                 <IconButton
                     size="large"
                     aria-label="show 4 new mails"
@@ -167,8 +171,7 @@ export default function HeaderMUI() {
                     </Badge>
                 </IconButton>
                 <p>Notifications</p>
-            </MenuItem>
-
+            </MenuItem> 
             <MenuItem onClick={handleProfileMenuOpen}>
                 <IconButton
                     size="large"
@@ -180,23 +183,27 @@ export default function HeaderMUI() {
                     <AccountCircle />
                 </IconButton>
                 <p>Profile</p>
-            </MenuItem>
-            <MenuItem>
-                {/* <IconButton
+            </MenuItem>*/}
+            {!isAutorised && (
+                <MenuItem>
+                    {/* <IconButton
                     size="large"
                     aria-label="show 17 new notifications"
                     color="inherit"
                 ></IconButton> */}
-                <p onClick={() => navigate(`../${signInPage}`)}>Sign In</p>
-            </MenuItem>
-            <MenuItem>
-                {/* <IconButton
+                    <p onClick={() => navigate(`../${signInPage}`)}>Sign In</p>
+                </MenuItem>
+            )}
+            {!isAutorised && (
+                <MenuItem>
+                    {/* <IconButton
                     size="large"
                     aria-label="show 17 new notifications"
                     color="inherit"
                 ></IconButton> */}
-                <p onClick={() => navigate(`../${signUpPage}`)}>Sign Up</p>
-            </MenuItem>
+                    <p onClick={() => navigate(`../${signUpPage}`)}>Sign Up</p>
+                </MenuItem>
+            )}
         </Menu>
     );
 
@@ -219,6 +226,7 @@ export default function HeaderMUI() {
                         component="div"
                         sx={{display: {xs: 'none', sm: 'block'}}}
                         onClick={() => navigate(`../${homePage}`)}
+                        className={'titleActive'}
                     >
                         Israel Guru
                     </Typography>

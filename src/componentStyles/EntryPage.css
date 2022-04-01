@@ -1,6 +1,11 @@
-.eventTitle {
+.pageTitle {
     font-weight: 600;
     font-size: 2em;
+    padding: 0 1rem 0 0;
+}
+.eventTitle {
+    font-weight: 400;
+    /* font-size: 1.5em; */
     padding: 0 1rem 0 0;
 }
 .entryForm {

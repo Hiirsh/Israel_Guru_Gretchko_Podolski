@@ -8,7 +8,7 @@ function App() {
     return (
         <div className="body">
             <HeaderMUI />
-            <Header />
+            {/* <Header /> */}
             <Main />
             <Footer />
         </div>

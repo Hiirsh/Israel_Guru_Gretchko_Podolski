@@ -1,9 +1,7 @@
 import {Box, Button, TextField} from '@mui/material';
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
-import stylesMain from '..//..//componentStyles/Main.css';
-import styles from '..//..//componentStyles/EntryPage.css';
-
+import style from '..//..//componentStyles/EntryPage.css';
 import {useSelector} from 'react-redux';
 import EventMainInfo from './EventMainInfo';
 import {homePage, paymentPage, ticketPage} from '../../utils/constants';
@@ -16,7 +14,7 @@ export default function EntryPage() {
 
     return (
         <div className="eventAndMainInfo">
-            <h1 className="eventTitle">Записаться и оплатить</h1>
+            <h1 className="pageTitle">Записаться и оплатить</h1>
             <h1 className="eventTitle">{ev.title}</h1>
             <p>{ev.preview}</p>
             <p>Уровень сложности материала: {ev.difficulty.toLowerCase()}.</p>

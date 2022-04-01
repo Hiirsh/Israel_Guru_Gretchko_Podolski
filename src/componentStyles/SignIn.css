@@ -1,0 +1,35 @@
+.pageBody {
+    padding: 2em 2em 2em 2em;
+    justify-content: center;
+}
+
+.pageTitle {
+    font-weight: 600;
+    font-size: 1.75em;
+    padding: 0 1rem 0 0;
+}
+
+.entryForm {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+.entryFormBox {
+    justify-content: center;
+    display: flex;
+    /* flex-direction: column; */
+}
+
+.text {
+    font-weight: 300;
+    font-size: 1.2em;
+    padding: 1rem 1rem 0 0;
+    display: flex;
+    justify-content: center;
+}
+
+.signUp {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}

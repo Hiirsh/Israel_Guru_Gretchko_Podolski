@@ -14,9 +14,8 @@ import {
 import EntryPage from './Main/EntryPage';
 import PaymentPage from './Main/PaymentPage';
 import TicketPage from './Main/TicketPage';
-import SignInPage from './Main/SignInPage';
-import SignUpPage from './Main/SignUpPage';
-
+import SignInPage from '../components/Main/Profile/SignInPage';
+import SignUpPage from '../components/Main/Profile/SignUpPage';
 export default function Main() {
     return (
         <Routes>

@@ -2,12 +2,10 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import Event from './Event';
 import EventMainInfo from './EventMainInfo';
-import styles from '..//..//componentStyles/Main.css';
 import style from '..//..//componentStyles/EventPage.css';
 import {useNavigate} from 'react-router-dom';
 import {Button} from '@mui/material';
 import {homePage} from '../../utils/constants';
-import stylesTitle from '..//..//componentStyles/TitleStyle.css';
 
 export default function EventPage() {
     const eventId = Number(window.location.pathname.replace('/event/', ''));

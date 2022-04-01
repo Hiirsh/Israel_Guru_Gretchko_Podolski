@@ -1,11 +1,35 @@
-/* .eventTitle {
+.eventTitle {
     font-weight: 600;
     font-size: 2em;
     padding: 0 1rem 0 0;
-} */
+    margin-top: 1em;
+}
 
 .titleActive {
+    display: flex;
     cursor: pointer;
+    text-align: right;
+    padding: 0;
+}
+
+.eventImage{
+    display: flex;
+    align-items: center;
+    height: flex;
+    width: 100%;
+}
+
+.imageActive{
+    display: flex;
+    height: 10em;
+    width: flex;
+    padding-bottom: 1em;
+}
+
+.img_title_location{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .eventMainInfo {
@@ -17,6 +41,7 @@
     border-style: solid;
     border-width: 3px;
     font-size: 1em;
+    margin: 1em 0 1em 0;
 }
 
 .eventData {

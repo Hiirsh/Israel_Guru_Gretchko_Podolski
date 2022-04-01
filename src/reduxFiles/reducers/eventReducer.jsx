@@ -1,9 +1,11 @@
 import {ADD_EVENT, REMOVE_EVENT} from '../actions/eventActions';
+//import tour1 from '..//..//images/tour1.jpg'
 
 export const initialState = {
     events: [
         {
             id: 1,
+            //image: tour1,
             title: 'Тель-Авив. С чего все началось и кто в этом виноват?',
             place: 'Тель-Авив',
             date: '03.09.2022',
@@ -25,6 +27,7 @@ export const initialState = {
         },
         {
             id: 2,
+            //img: tour1.jpg,
             title: 'TEST2',
             place: '0',
             date: '1.01.1990',
@@ -41,6 +44,7 @@ export const initialState = {
         },
         {
             id: 3,
+            //img: tour1.jpg,
             title: 'TEST3',
             place: '0',
             date: '1.01.1990',
@@ -57,6 +61,7 @@ export const initialState = {
         },
         {
             id: 4,
+            //img: tour1.jpg,
             title: 'TEST4',
             place: '0',
             date: '1.01.1990',
@@ -73,6 +78,7 @@ export const initialState = {
         },
         {
             id: 5,
+            //img: tour1.jpg,
             title: 'TEST5',
             place: '0',
             date: '1.01.1990',
@@ -89,6 +95,7 @@ export const initialState = {
         },
         {
             id: 6,
+            //img: tour1.jpg,
             title: 'TEST6',
             place: '0',
             date: '1.01.1990',
@@ -104,6 +111,7 @@ export const initialState = {
         },
         {
             id: 7,
+            //img: tour1.jpg,
             title: 'TEST7',
             place: '0',
             date: '1.01.1990',

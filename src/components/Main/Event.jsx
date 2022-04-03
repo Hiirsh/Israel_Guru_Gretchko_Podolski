@@ -3,6 +3,7 @@ import {useNavigate} from 'react-router-dom';
 import {eventPage} from '../../utils/constants';
 import EventMainInfo from './EventMainInfo';
 import tour1 from '..//..//images/tour1.jpg';
+
 import style from '..//..//componentStyles/TitleStyle.css';
 
 export default function Event(props) {
@@ -19,11 +20,13 @@ export default function Event(props) {
             <div>
                 {isExtended ? (
                 <img className="eventImage" src={`${tour1}`}/>
+                // <img className="eventImage" src={`${ev.image}`}/>
             ) : (
                 <img
                     className="imageActive"
                     onClick={() => navigate(`/${eventPage}/${ev.id}`)}
                 src={`${tour1}`}/>
+                // src={`${ev.image}`}/>
             )} </div>
             
             <div>{isExtended ? (
@@ -48,3 +51,4 @@ export default function Event(props) {
         </>
     );
 }
+

@@ -1,0 +1,22 @@
+.searchBlock{
+    display: flex;
+    direction: column;
+    width: 96%;
+    height: 4em;
+    justify-content: space-between;
+    margin: 1em 1em 1em 1em;
+}
+
+.searchInput{
+    font-size: 1.5em;
+}
+
+.searchCalendar input{
+    padding:10px 14px;
+}
+
+.btnSearch{
+    height: 2.7em;
+    border-radius: 5px;
+    background-color: #1976d2;
+}

@@ -1,5 +1,5 @@
 import {ADD_EVENT, REMOVE_EVENT} from '../actions/eventActions';
-//import tour1 from '..//..//images/tour1.jpg'
+import tour1 from '..//..//images/tour1.jpg'
 
 export const initialState = {
     events: [
@@ -27,7 +27,7 @@ export const initialState = {
         },
         {
             id: 2,
-            //img: tour1.jpg,
+            image: tour1,
             title: 'TEST2',
             place: '0',
             date: '1.01.1990',

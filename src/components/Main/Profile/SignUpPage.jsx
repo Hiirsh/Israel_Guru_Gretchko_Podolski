@@ -1,14 +1,6 @@
 import React, {useState} from 'react';
 import style from '..//../..//componentStyles/SignIn.css';
-import {
-    Box,
-    Button,
-    FormControlLabel,
-    FormGroup,
-    InputLabel,
-    Switch,
-    TextField,
-} from '@mui/material';
+import {Box, Button, FormControlLabel, Switch, TextField} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
 import {signUpPage} from '..//..//..//utils/constants';
 
@@ -39,9 +31,10 @@ export default function SignUpPage() {
                     <TextField
                         required
                         id="standard-required"
-                        label="Имя или псевдоним"
+                        label="Имя"
                         variant="standard"
                     />
+                    {/* генерируется когда турист */}
                     {!isGuide && (
                         <TextField
                             id="standard-required"
@@ -49,6 +42,7 @@ export default function SignUpPage() {
                             variant="standard"
                         />
                     )}
+                    {/* генерируется когда гид */}
                     {isGuide && (
                         <TextField
                             required
@@ -80,6 +74,7 @@ export default function SignUpPage() {
                         onClick={() => setGuide(!isGuide)}
                         label="Хотите ли вы зарегистрироваться как гид?"
                     />
+                    {/* генерируется когда гид */}
                     {isGuide && (
                         <div className="entryForm">
                             <TextField

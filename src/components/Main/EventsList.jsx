@@ -5,6 +5,7 @@ import {changeEventList} from '../../reduxFiles/actions/changePageStateAction';
 import Event from './Event';
 import {Button} from '@mui/material';
 import stylesTitle from '..//..//componentStyles/TitleStyle.css';
+import Search from '..//Search';
 
 export default function Events() {
     // const [isCollapced, setCollapse] = useState(true);
@@ -26,6 +27,7 @@ export default function Events() {
     const dispatch = useDispatch();
     return (
         <div>
+            <div className="searchBlock"><Search/></div>
             <div className="d-grid  m-3">
                 <Button
                     variant="contained"

@@ -18,6 +18,8 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import {useNavigate} from 'react-router-dom';
 import {homePage, signInPage, signUpPage} from '../utils/constants';
 import style from '../componentStyles/Header.css';
+import {useDispatch, useSelector} from 'react-redux';
+import {loggingOutAction} from '../reduxFiles/actions/isSignedAction';
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
@@ -62,21 +64,23 @@ const StyledInputBase = styled(InputBase)(({theme}) => ({
 export default function HeaderMUI() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-    const [isAutorised, setAutorised] = React.useState(false);
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    const isAutorised = useSelector(state => state.isSignedIn);
+    console.log(isAutorised);
     const handleProfileMenuOpen = event => {
         setAnchorEl(event.currentTarget);
     };
 
     const handleMobileMenuClose = () => {
+        dispatch(loggingOutAction());
         setMobileMoreAnchorEl(null);
     };
 
     const handleMenuClose = () => {
+        dispatch(loggingOutAction());
         setAnchorEl(null);
         handleMobileMenuClose();
     };
@@ -148,59 +152,13 @@ export default function HeaderMUI() {
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
-            {/*             <MenuItem>
-                <IconButton
-                    size="large"
-                    aria-label="show 4 new mails"
-                    color="inherit"
-                >
-                    <Badge badgeContent={0} color="error">
-                        <MailIcon />
-                    </Badge>
-                </IconButton>
-                <p>Messages</p>
-            </MenuItem>
-            <MenuItem>
-                <IconButton
-                    size="large"
-                    aria-label="show 17 new notifications"
-                    color="inherit"
-                >
-                    <Badge badgeContent={0} color="error">
-                        <NotificationsIcon />
-                    </Badge>
-                </IconButton>
-                <p>Notifications</p>
-            </MenuItem> 
-            <MenuItem onClick={handleProfileMenuOpen}>
-                <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="primary-search-account-menu"
-                    aria-haspopup="true"
-                    color="inherit"
-                >
-                    <AccountCircle />
-                </IconButton>
-                <p>Profile</p>
-            </MenuItem>*/}
             {!isAutorised && (
                 <MenuItem>
-                    {/* <IconButton
-                    size="large"
-                    aria-label="show 17 new notifications"
-                    color="inherit"
-                ></IconButton> */}
                     <p onClick={() => navigate(`../${signInPage}`)}>Sign In</p>
                 </MenuItem>
             )}
             {!isAutorised && (
                 <MenuItem>
-                    {/* <IconButton
-                    size="large"
-                    aria-label="show 17 new notifications"
-                    color="inherit"
-                ></IconButton> */}
                     <p onClick={() => navigate(`../${signUpPage}`)}>Sign Up</p>
                 </MenuItem>
             )}

@@ -8,19 +8,11 @@ import {login} from '../../../firebaseFiles/services/authService';
 export default function SignInPage() {
     const navigate = useNavigate();
     const [state, setState] = useState({email: '', password: ''});
-    const [userId, setUserid] = useState('1123456');
 
     function signInButtonHandler() {
-        setUserid('654321');
-        let temp = login(state.email, state.password);
-        console.log(temp);
-        if (userId) {
-            console.log(userId);
-            navigate(`../${profilePage}/${userId}`);
-        } else {
-            console.log(userId);
-            navigate(`../${errorPage}/`);
-        }
+        login(state.email, state.password)
+            .then(data => data)
+            .then(id => navigate(`../${profilePage}/${id}`));
     }
 
     return (
@@ -49,7 +41,7 @@ export default function SignInPage() {
                         }
                     />
                     <TextField
-                        required
+                        required={true}
                         id="standard-required"
                         label="Пароль"
                         variant="standard"
@@ -59,6 +51,7 @@ export default function SignInPage() {
                         }
                     />
                     <Button
+                        disabled={!(state.email && state.password)}
                         variant="contained"
                         type="button"
                         onClick={signInButtonHandler}

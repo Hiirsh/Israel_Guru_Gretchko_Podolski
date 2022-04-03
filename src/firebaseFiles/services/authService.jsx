@@ -1,5 +1,6 @@
 import 'firebase/compat/auth';
 import {fb} from '../config/firebaseConfig';
+
 export async function login(email, password) {
     try {
         const responce = await fb

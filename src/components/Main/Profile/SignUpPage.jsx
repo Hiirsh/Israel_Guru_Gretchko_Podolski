@@ -9,6 +9,14 @@ export default function SignUpPage() {
     const [isGuide, setGuide] = useState(false);
     // setGuide = () => {};
     const [value, setValue] = React.useState('');
+    const [firstName, setFirstName] = React.useState('');
+    const [lastName, setLastName] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const [password2, setPassword2] = React.useState('');
+    const [license, setLicense] = React.useState(0);
+    const [phone, setPhone] = React.useState('');
+    const [aboutUser, setAboutUser] = React.useState('');
 
     const handleChange = event => {
         setValue(event.target.value);
@@ -33,6 +41,8 @@ export default function SignUpPage() {
                         id="standard-required"
                         label="Имя"
                         variant="standard"
+                        value={firstName}
+                        onChange={e => setFirstName(e.target.value)}
                     />
                     {/* генерируется когда турист */}
                     {!isGuide && (
@@ -40,6 +50,8 @@ export default function SignUpPage() {
                             id="standard-required"
                             label="Фамилия"
                             variant="standard"
+                            value={lastName}
+                            onChange={e => setLastName(e.target.value)}
                         />
                     )}
                     {/* генерируется когда гид */}
@@ -49,6 +61,8 @@ export default function SignUpPage() {
                             id="standard-required"
                             label="Фамилия"
                             variant="standard"
+                            value={lastName}
+                            onChange={e => setLastName(e.target.value)}
                         />
                     )}
                     <TextField
@@ -56,18 +70,24 @@ export default function SignUpPage() {
                         id="standard-required"
                         label="Email"
                         variant="standard"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
                     />
                     <TextField
                         required
                         id="standard-required"
                         label="Пароль"
                         variant="standard"
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
                     />
                     <TextField
                         required
                         id="standard-required"
                         label="Повторить пароль"
                         variant="standard"
+                        value={password2}
+                        onChange={e => setPassword2(e.target.value)}
                     />
                     <FormControlLabel
                         control={<Switch />}

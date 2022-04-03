@@ -30,7 +30,7 @@ export default function Main() {
             <Route path={`/${ticketPage}/:pageId`} element={<TicketPage />} />
             <Route path={`/${signInPage}/`} element={<SignInPage />} />
             <Route path={`/${signUpPage}/`} element={<SignUpPage />} />
-            <Route path={`/${profilePage}/`} element={<ProfilePage />} />
+            <Route path={`/${profilePage}/:userId`} element={<ProfilePage />} />
             <Route path={`/${errorPage}/`} element={<ErrorPage />} />
         </Routes>
     );

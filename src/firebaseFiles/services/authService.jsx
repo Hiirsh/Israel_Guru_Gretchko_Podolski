@@ -5,15 +5,11 @@ export async function login(email, password) {
         const responce = await fb
             .auth()
             .signInWithEmailAndPassword(email, password);
-        return true;
+        return responce.user.uid;
     } catch (error) {
         console.log(error.message);
         return false;
     }
-}
-
-export function logout() {
-    fb.auth().signOut();
 }
 
 export async function registration(email, password) {
@@ -27,4 +23,8 @@ export async function registration(email, password) {
         console.log(error.message);
         return false;
     }
+}
+
+export function logout() {
+    fb.auth().signOut();
 }

@@ -8,6 +8,21 @@ import {login} from '../../../firebaseFiles/services/authService';
 export default function SignInPage() {
     const navigate = useNavigate();
     const [state, setState] = useState({email: '', password: ''});
+    const [userId, setUserid] = useState('1123456');
+
+    function signInButtonHandler() {
+        setUserid('654321');
+        let temp = login(state.email, state.password);
+        console.log(temp);
+        if (userId) {
+            console.log(userId);
+            navigate(`../${profilePage}/${userId}`);
+        } else {
+            console.log(userId);
+            navigate(`../${errorPage}/`);
+        }
+    }
+
     return (
         <div className="pageBody">
             <div className="entryFormBox">
@@ -46,11 +61,7 @@ export default function SignInPage() {
                     <Button
                         variant="contained"
                         type="button"
-                        onClick={() => {
-                            if (login(state.email, state.password))
-                                navigate(`../${profilePage}/`);
-                            else navigate(`../${errorPage}/`);
-                        }}
+                        onClick={signInButtonHandler}
                     >
                         Войти
                     </Button>

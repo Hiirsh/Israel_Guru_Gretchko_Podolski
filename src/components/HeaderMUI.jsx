@@ -25,11 +25,9 @@ import {
 } from '../utils/constants';
 import style from '../componentStyles/Header.css';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-    loggingOutAction,
-    signingAction,
-} from '../reduxFiles/actions/isSignedAction';
+import {signingAction} from '../reduxFiles/actions/isSignedAction';
 import {setUserIdAction} from '../reduxFiles/actions/setUserIdAction';
+import {logout} from '../firebaseFiles/services/authService';
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
@@ -123,38 +121,10 @@ export default function HeaderMUI() {
         navigate(`../${homePage}`);
         dispatch(signingAction(false));
         dispatch(setUserIdAction(''));
+        logout();
         console.log(isAutorised);
         setAnchorEl(null);
         handleMobileMenuClose();
-    };
-
-    const buttonsRender = () => {
-        return;
-        {
-            isAutorised && (
-                <MenuItem onClick={handleMenuProfile}>Profile</MenuItem>
-            );
-        }
-        {
-            isAutorised && (
-                <MenuItem onClick={handleMenuAccount}>My account</MenuItem>
-            );
-        }
-        {
-            isAutorised && (
-                <MenuItem onClick={handleMenuLogOut}>Log Out</MenuItem>
-            );
-        }
-        {
-            !isAutorised && (
-                <MenuItem onClick={handleMenuSignIn}>Sign In</MenuItem>
-            );
-        }
-        {
-            !isAutorised && (
-                <MenuItem onClick={handleMenuSignUp}>Sign Up</MenuItem>
-            );
-        }
     };
 
     const menuId = 'primary-search-account-menu';

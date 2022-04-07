@@ -11,7 +11,6 @@ import {setUserIdAction} from '../../../reduxFiles/actions/setUserIdAction';
 export default function SignInPage() {
     const navigate = useNavigate();
     const userIdTest = useSelector(state => state.userId);
-    console.log('test uid', userIdTest);
     const [state, setState] = useState({
         email: 'pupkin@mail.il',
         password: '123456',
@@ -24,7 +23,7 @@ export default function SignInPage() {
             .then(id => {
                 navigate(`../${profilePage}/${id}`);
                 dispatch(signingAction(true));
-                console.log(id);
+                // console.log(id);
                 dispatch(setUserIdAction(id));
             });
     }

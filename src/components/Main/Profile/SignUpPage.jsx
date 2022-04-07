@@ -5,12 +5,16 @@ import {useNavigate} from 'react-router-dom';
 import {profilePage, signUpPage} from '..//..//..//utils/constants';
 import {useDispatch} from 'react-redux';
 import {signingAction} from '../../../reduxFiles/actions/isSignedAction';
+import {
+    registration,
+    createUserProfileInDB,
+} from '../../../firebaseFiles/services/authService';
+import {setUserIdAction} from '../../../reduxFiles/actions/setUserIdAction';
 
 export default function SignUpPage() {
     const navigate = useNavigate();
     const [isGuide, setGuide] = useState(false);
     // setGuide = () => {};
-    const [value, setValue] = React.useState('');
     const [firstName, setFirstName] = React.useState('');
     const [lastName, setLastName] = React.useState('');
     const [email, setEmail] = React.useState('');
@@ -20,9 +24,6 @@ export default function SignUpPage() {
     const [phone, setPhone] = React.useState('');
     const [aboutUser, setAboutUser] = React.useState('');
     const dispatch = useDispatch();
-    const handleChange = event => {
-        setValue(event.target.value);
-    };
 
     return (
         <div className="pageBody">
@@ -116,20 +117,33 @@ export default function SignUpPage() {
                     )}
                     <Button
                         disabled={
-                            !(firstName &&
+                            !!(firstName &&
                             email &&
                             password &&
                             password2 &&
                             password === password2 &&
                             isGuide
                                 ? license && phone
-                                : true)
+                                : false)
                         }
                         variant="contained"
                         type="button"
                         onClick={() => {
-                            navigate(`../${profilePage}/`);
-                            dispatch(signingAction(true));
+                            registration(email, password)
+                                .then(userId => {
+                                    dispatch(setUserIdAction(userId));
+                                    dispatch(signingAction(true));
+                                    createUserProfileInDB({
+                                        userId,
+                                        email,
+                                        firstName,
+                                        lastName,
+                                        phone,
+                                        aboutUser,
+                                        license,
+                                    });
+                                })
+                                .then(navigate(`../${profilePage}/`));
                         }}
                     >
                         Зарегистрироваться

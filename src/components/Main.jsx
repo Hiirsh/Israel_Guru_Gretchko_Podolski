@@ -23,7 +23,9 @@ import ProfilePage from '../components/Main/Profile/ProfilePage';
 import ErrorPage from './Main/ErrorPage';
 import AccountPage from './Main/Profile/AccountPage';
 import RegConfirm from './Main/Profile/RegConfirm';
+import {useSelector} from 'react-redux';
 export default function Main() {
+    const isAutorised = useSelector(state => state.isSignedIn);
     return (
         <Routes>
             <Route path={`${homePage}`} element={<EventsList />} />
@@ -31,10 +33,24 @@ export default function Main() {
             <Route path={`/${entryPage}/:pageId`} element={<EntryPage />} />
             <Route path={`/${paymentPage}/:pageId`} element={<PaymentPage />} />
             <Route path={`/${ticketPage}/:pageId`} element={<TicketPage />} />
-            <Route path={`/${signInPage}/`} element={<SignInPage />} />
-            <Route path={`/${signUpPage}/`} element={<SignUpPage />} />
-            <Route path={`/${profilePage}/:userId`} element={<ProfilePage />} />
-            <Route path={`/${accountPage}/:userId`} element={<AccountPage />} />
+            {!isAutorised && (
+                <Route path={`/${signInPage}/`} element={<SignInPage />} />
+            )}
+            {!isAutorised && (
+                <Route path={`/${signUpPage}/`} element={<SignUpPage />} />
+            )}
+            {isAutorised && (
+                <Route
+                    path={`/${profilePage}/:userId`}
+                    element={<ProfilePage />}
+                />
+            )}
+            {isAutorised && (
+                <Route
+                    path={`/${accountPage}/:userId`}
+                    element={<AccountPage />}
+                />
+            )}
             <Route
                 path={`/${regConfirmPage}/:userId`}
                 element={<RegConfirm />}

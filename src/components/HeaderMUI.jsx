@@ -16,10 +16,20 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import {useNavigate} from 'react-router-dom';
-import {homePage, signInPage, signUpPage} from '../utils/constants';
+import {
+    accountPage,
+    homePage,
+    profilePage,
+    signInPage,
+    signUpPage,
+} from '../utils/constants';
 import style from '../componentStyles/Header.css';
 import {useDispatch, useSelector} from 'react-redux';
-import {loggingOutAction} from '../reduxFiles/actions/isSignedAction';
+import {
+    loggingOutAction,
+    signingAction,
+} from '../reduxFiles/actions/isSignedAction';
+import {setUserIdAction} from '../reduxFiles/actions/setUserIdAction';
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
@@ -69,18 +79,29 @@ export default function HeaderMUI() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isAutorised = useSelector(state => state.isSignedIn);
-    console.log(isAutorised);
+    const userId = useSelector(state => state.userId);
+    // console.log(userId)
+    // console.log(isAutorised);
     const handleProfileMenuOpen = event => {
         setAnchorEl(event.currentTarget);
     };
 
     const handleMobileMenuClose = () => {
-        dispatch(loggingOutAction());
         setMobileMoreAnchorEl(null);
     };
 
     const handleMenuClose = () => {
-        dispatch(loggingOutAction());
+        setAnchorEl(null);
+        handleMobileMenuClose();
+    };
+
+    const handleMenuAccount = () => {
+        navigate(`../${accountPage}/${userId}`);
+        setAnchorEl(null);
+        handleMobileMenuClose();
+    };
+    const handleMenuProfile = () => {
+        navigate(`../${profilePage}/${userId}`);
         setAnchorEl(null);
         handleMobileMenuClose();
     };
@@ -97,6 +118,43 @@ export default function HeaderMUI() {
 
     const handleMobileMenuOpen = event => {
         setMobileMoreAnchorEl(event.currentTarget);
+    };
+    const handleMenuLogOut = () => {
+        navigate(`../${homePage}`);
+        dispatch(signingAction(false));
+        dispatch(setUserIdAction(''));
+        console.log(isAutorised);
+        setAnchorEl(null);
+        handleMobileMenuClose();
+    };
+
+    const buttonsRender = () => {
+        return;
+        {
+            isAutorised && (
+                <MenuItem onClick={handleMenuProfile}>Profile</MenuItem>
+            );
+        }
+        {
+            isAutorised && (
+                <MenuItem onClick={handleMenuAccount}>My account</MenuItem>
+            );
+        }
+        {
+            isAutorised && (
+                <MenuItem onClick={handleMenuLogOut}>Log Out</MenuItem>
+            );
+        }
+        {
+            !isAutorised && (
+                <MenuItem onClick={handleMenuSignIn}>Sign In</MenuItem>
+            );
+        }
+        {
+            !isAutorised && (
+                <MenuItem onClick={handleMenuSignUp}>Sign Up</MenuItem>
+            );
+        }
     };
 
     const menuId = 'primary-search-account-menu';
@@ -118,13 +176,13 @@ export default function HeaderMUI() {
         >
             {/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Менять здесь */}
             {isAutorised && (
-                <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+                <MenuItem onClick={handleMenuProfile}>Profile</MenuItem>
             )}
             {isAutorised && (
-                <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+                <MenuItem onClick={handleMenuAccount}>My account</MenuItem>
             )}
             {isAutorised && (
-                <MenuItem onClick={handleMenuClose}>Log Out</MenuItem>
+                <MenuItem onClick={handleMenuLogOut}>Log Out</MenuItem>
             )}
             {!isAutorised && (
                 <MenuItem onClick={handleMenuSignIn}>Sign In</MenuItem>
@@ -152,14 +210,23 @@ export default function HeaderMUI() {
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
+            {isAutorised && (
+                <MenuItem onClick={handleMenuProfile}>Profile</MenuItem>
+            )}
+            {isAutorised && (
+                <MenuItem onClick={handleMenuAccount}>My account</MenuItem>
+            )}
+            {isAutorised && (
+                <MenuItem onClick={handleMenuLogOut}>Log Out</MenuItem>
+            )}
             {!isAutorised && (
                 <MenuItem>
-                    <p onClick={() => navigate(`../${signInPage}`)}>Sign In</p>
+                    <p onClick={handleMenuSignIn}>Sign In</p>
                 </MenuItem>
             )}
             {!isAutorised && (
                 <MenuItem>
-                    <p onClick={() => navigate(`../${signUpPage}`)}>Sign Up</p>
+                    <p onClick={handleMenuSignUp}>Sign Up</p>
                 </MenuItem>
             )}
         </Menu>

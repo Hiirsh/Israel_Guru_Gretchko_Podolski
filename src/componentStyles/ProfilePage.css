@@ -1,0 +1,16 @@
+
+.title {
+    font-weight: 600;
+    font-size: 2em;
+    padding: 0 1rem 0 0;
+}
+.buttonContainer {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 2%;
+    text-align: center;
+}
+.buttonStyle {
+    width: 20%;
+    display: block;
+}

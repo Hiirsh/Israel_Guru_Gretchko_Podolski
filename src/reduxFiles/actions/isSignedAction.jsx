@@ -1,9 +1,6 @@
 export const SIGN_IN = 'SIGN_IN';
-export const LOG_OUT = 'LOG_OUT';
 
-export const signingInAction = () => ({
+export const signingAction = isSigned => ({
     type: SIGN_IN,
-});
-export const loggingOutAction = () => ({
-    type: LOG_OUT,
+    payload: isSigned,
 });

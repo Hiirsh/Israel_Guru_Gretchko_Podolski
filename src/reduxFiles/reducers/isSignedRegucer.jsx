@@ -1,15 +1,9 @@
-import {LOG_OUT, SIGN_IN} from '../actions/isSignedAction';
+import {SIGN_IN} from '../actions/isSignedAction';
 
-const initialState = {
-    isSignedIn: true,
-};
-
-export const isSignedReducer = (signedInState = initialState, action) => {
+export const isSignedReducer = (signedInState = false, action) => {
     switch (action.type) {
         case SIGN_IN:
-            return {...signedInState, isSignedIn: true};
-        case LOG_OUT:
-            return {...signedInState, isSignedIn: false};
+            return action.payload;
         default:
             return signedInState;
     }

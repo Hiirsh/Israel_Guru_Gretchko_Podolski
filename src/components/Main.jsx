@@ -3,12 +3,13 @@ import EventsList from './Main/EventsList';
 import {Routes, Route} from 'react-router-dom';
 import EventPage from './Main/EventPage';
 import {
+    accountPage,
     entryPage,
-    errorPage,
     eventPage,
     homePage,
     paymentPage,
     profilePage,
+    regConfirmPage,
     signInPage,
     signUpPage,
     ticketPage,
@@ -20,6 +21,8 @@ import SignInPage from '../components/Main/Profile/SignInPage';
 import SignUpPage from '../components/Main/Profile/SignUpPage';
 import ProfilePage from '../components/Main/Profile/ProfilePage';
 import ErrorPage from './Main/ErrorPage';
+import AccountPage from './Main/Profile/AccountPage';
+import RegConfirm from './Main/Profile/RegConfirm';
 export default function Main() {
     return (
         <Routes>
@@ -31,7 +34,12 @@ export default function Main() {
             <Route path={`/${signInPage}/`} element={<SignInPage />} />
             <Route path={`/${signUpPage}/`} element={<SignUpPage />} />
             <Route path={`/${profilePage}/:userId`} element={<ProfilePage />} />
-            <Route path={`/${errorPage}/`} element={<ErrorPage />} />
+            <Route path={`/${accountPage}/:userId`} element={<AccountPage />} />
+            <Route
+                path={`/${regConfirmPage}/:userId`}
+                element={<RegConfirm />}
+            />
+            <Route path={`*`} element={<ErrorPage />} />
         </Routes>
     );
 }

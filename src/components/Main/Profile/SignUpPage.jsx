@@ -3,6 +3,8 @@ import style from '..//../..//componentStyles/SignIn.css';
 import {Box, Button, FormControlLabel, Switch, TextField} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
 import {profilePage, signUpPage} from '..//..//..//utils/constants';
+import {useDispatch} from 'react-redux';
+import {signingAction} from '../../../reduxFiles/actions/isSignedAction';
 
 export default function SignUpPage() {
     const navigate = useNavigate();
@@ -17,7 +19,7 @@ export default function SignUpPage() {
     const [license, setLicense] = React.useState('');
     const [phone, setPhone] = React.useState('');
     const [aboutUser, setAboutUser] = React.useState('');
-
+    const dispatch = useDispatch();
     const handleChange = event => {
         setValue(event.target.value);
     };
@@ -125,7 +127,10 @@ export default function SignUpPage() {
                         }
                         variant="contained"
                         type="button"
-                        onClick={() => navigate(`../${profilePage}/`)}
+                        onClick={() => {
+                            navigate(`../${profilePage}/`);
+                            dispatch(signingAction(true));
+                        }}
                     >
                         Зарегистрироваться
                     </Button>

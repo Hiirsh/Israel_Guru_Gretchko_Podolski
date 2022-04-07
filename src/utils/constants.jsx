@@ -8,5 +8,7 @@ export const ticketPage = '/ticket';
 export const signInPage = '/sign_in';
 export const signUpPage = '/sign_up';
 export const profilePage = '/profile';
+export const accountPage = '/account';
 export const errorPage = '/error';
+export const regConfirmPage = '/reg_confirm';
 export const guidePhoto = guidePh;

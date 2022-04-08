@@ -9,6 +9,7 @@ import Main from './components/Main';
 import TestBar from './components/TestBar';
 import {homePage} from './utils/constants';
 import {signingAction} from './reduxFiles/actions/isSignedAction';
+import {setUserIdAction} from './reduxFiles/actions/setUserIdAction';
 
 function App() {
     const auth = getAuth();
@@ -20,7 +21,11 @@ function App() {
         if (user) {
             localStorage.setItem('user', JSON.stringify(user));
             dispatch(signingAction(true));
-        } else dispatch(signingAction(false));
+            dispatch(setUserIdAction(user.uid));
+        } else {
+            dispatch(signingAction(false));
+            dispatch(setUserIdAction(''));
+        }
     });
 
     return (

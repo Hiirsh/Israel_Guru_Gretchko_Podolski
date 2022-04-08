@@ -2,12 +2,12 @@ import React, {useState} from 'react';
 import style from '..//../..//componentStyles/SignIn.css';
 import {Box, Button, FormControlLabel, Switch, TextField} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
-import {profilePage, signUpPage} from '..//..//..//utils/constants';
-import {useDispatch} from 'react-redux';
+import {profilePage} from '..//..//..//utils/constants';
+import {useDispatch, useSelector} from 'react-redux';
 import {signingAction} from '../../../reduxFiles/actions/isSignedAction';
 import {
     registration,
-    createUserProfileInDB,
+    updateUserProfileInDB,
 } from '../../../firebaseFiles/services/authService';
 import {setUserIdAction} from '../../../reduxFiles/actions/setUserIdAction';
 
@@ -24,6 +24,7 @@ export default function SignUpPage() {
     const [phone, setPhone] = React.useState('');
     const [aboutUser, setAboutUser] = React.useState('');
     const dispatch = useDispatch();
+    const userIdTest = useSelector(state => state.userId);
 
     return (
         <div className="pageBody">
@@ -129,21 +130,21 @@ export default function SignUpPage() {
                         variant="contained"
                         type="button"
                         onClick={() => {
-                            registration(email, password)
-                                .then(userId => {
-                                    dispatch(setUserIdAction(userId));
-                                    dispatch(signingAction(true));
-                                    createUserProfileInDB({
-                                        userId,
-                                        email,
-                                        firstName,
-                                        lastName,
-                                        phone,
-                                        aboutUser,
-                                        license,
-                                    });
-                                })
-                                .then(navigate(`../${profilePage}/`));
+                            registration(email, password).then(userId => {
+                                dispatch(signingAction(true));
+                                dispatch(setUserIdAction(userId));
+                                console.log(userId);
+                                updateUserProfileInDB({
+                                    userId,
+                                    email,
+                                    firstName,
+                                    lastName,
+                                    phone,
+                                    aboutUser,
+                                    license,
+                                });
+                                navigate(`../${profilePage}/${userId}`);
+                            });
                         }}
                     >
                         Зарегистрироваться

@@ -24,6 +24,7 @@ import ErrorPage from './Main/ErrorPage';
 import AccountPage from './Main/Profile/AccountPage';
 import RegConfirm from './Main/Profile/RegConfirm';
 import {useSelector} from 'react-redux';
+import PleaseWaitPage from './Main/PleaseWaitPage';
 export default function Main() {
     const isAutorised = useSelector(state => state.isSignedIn);
     return (
@@ -55,7 +56,8 @@ export default function Main() {
                 path={`/${regConfirmPage}/:userId`}
                 element={<RegConfirm />}
             />
-            <Route path={`*`} element={<ErrorPage />} />
+            <Route path={`*`} element={<PleaseWaitPage />} />
+            <Route path={`/error`} element={<ErrorPage />} />
         </Routes>
     );
 }

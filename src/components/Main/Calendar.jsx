@@ -11,6 +11,7 @@ export default function Calendar() {
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
                 label="Event data"
+                inputFormat="dd/MM/yyyy" //поменял формат даты
                 value={value}
                 onChange={newValue => {
                     setValue(newValue);

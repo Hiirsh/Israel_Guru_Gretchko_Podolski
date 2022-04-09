@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import style from '..//../..//componentStyles/SignIn.css';
 import {Box, Button, TextField} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
-import {profilePage, signUpPage} from '..//..//..//utils/constants';
+import {errorPage, profilePage, signUpPage} from '..//..//..//utils/constants';
 import {login} from '../../../firebaseFiles/services/authService';
 import {useDispatch, useSelector} from 'react-redux';
 import {signingAction} from '../../../reduxFiles/actions/isSignedAction';
@@ -27,6 +27,7 @@ export default function SignInPage() {
         password: '123456',
         showPassword: false,
     });
+    const [isError, setError] = useState(false);
 
     const handleChange = prop => event => {
         setValues({...values, [prop]: event.target.value});
@@ -44,13 +45,20 @@ export default function SignInPage() {
     };
 
     function signInButtonHandler() {
-        login(/* state.email, state.password */ email, values.password)
-            .then(data => data)
-            .then(userId => {
-                navigate(`../${profilePage}/${userId}`);
-                dispatch(signingAction(true));
-                dispatch(setUserIdAction(userId));
-            });
+        try {
+            login(/* state.email, state.password */ email, values.password)
+                .then(data => data)
+                .then(userId => {
+                    if (userId) {
+                        navigate(`../${profilePage}/${userId}`);
+                        dispatch(signingAction(true));
+                        dispatch(setUserIdAction(userId));
+                        setError(false);
+                    } else setError(true);
+                });
+        } catch (error) {
+            console.log(error.messege);
+        }
     }
 
     return (
@@ -103,6 +111,7 @@ export default function SignInPage() {
                             }
                         />
                     </FormControl>
+                    {isError && <p>Неверные имя пользователя или пароль</p>}
                     <Button
                         disabled={!(email && values.password)}
                         variant="contained"

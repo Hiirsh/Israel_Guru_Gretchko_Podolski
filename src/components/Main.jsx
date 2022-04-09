@@ -5,6 +5,7 @@ import EventPage from './Main/EventPage';
 import {
     accountPage,
     entryPage,
+    errorPage,
     eventPage,
     homePage,
     paymentPage,
@@ -56,8 +57,8 @@ export default function Main() {
                 path={`/${regConfirmPage}/:userId`}
                 element={<RegConfirm />}
             />
+            <Route path={`/${errorPage}`} element={<ErrorPage />} />
             <Route path={`*`} element={<PleaseWaitPage />} />
-            <Route path={`/error`} element={<ErrorPage />} />
         </Routes>
     );
 }

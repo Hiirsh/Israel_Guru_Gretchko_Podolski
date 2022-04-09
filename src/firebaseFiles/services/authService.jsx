@@ -32,7 +32,7 @@ export async function registration(email, password) {
         return responce.user.uid;
     } catch (error) {
         console.log(error.message);
-        return false;
+        return error;
     }
 }
 

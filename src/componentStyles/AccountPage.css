@@ -1,0 +1,49 @@
+.accMenu{
+    margin-top: 2em;
+}
+
+.accBut{
+    width: 15em;
+margin-left: auto;
+margin-right: auto;
+text-align: center;
+font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+color: #3e52c4;
+cursor: pointer;
+}
+
+h2:hover{
+    color: #252e5e;
+}
+
+.createEventForm p{
+    color: white;
+    background-color: #3e52c4;
+}
+
+.buttonStyle {
+    width: 18em;
+}
+
+.buttonStyle h2{
+    font-size: 1em;
+    padding: 0.5em 1em 0.5em 1em;
+    margin-bottom: 0;
+}
+
+.returnBut button{
+    margin: 1em auto;
+    display: flex;
+    text-align: center;
+}
+
+.createTextField{
+    width: 14.7em;
+    margin-top: 1em;
+    margin-left: 0.5em;
+}
+
+.createTextField placeholder{
+    font-style: normal;
+    font-weight: 100;
+}

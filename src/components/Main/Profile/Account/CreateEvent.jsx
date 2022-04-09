@@ -5,7 +5,10 @@ import {homePage} from '../../../../utils/constants';
 import Stack from '@mui/material/Stack';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import TimePicker from '@mui/lab/TimePicker';
+import TimePicker from '@mui/lab/TimePicker'
+import Calendar from '..//..//Calendar';
+import TextareaAutosize from '@mui/base/TextareaAutosize';
+// import Place from '..//..//Place';
 
 export default function CreateEvent() {
     const dateNow = new Date();
@@ -20,9 +23,9 @@ export default function CreateEvent() {
     const [totalSpace, setTotalSpace] = useState('');
     const [preview, setPreview] = useState('');
     const [description, setDescription] = useState('');
-    const [additionalInfo, setAdditionalInfo] = useState('');
-    const [difficulty, setDifficulty] = useState('');
-    const [meetingPoint, setMeetingPoint] = useState('');
+    const [additionalInfo, setAdditionalInfo] = useState('');  //nafig
+    const [difficulty, setDifficulty] = useState(''); //nafig
+    const [meetingPoint, setMeetingPoint] = useState(''); //nafig
     const navigate = useNavigate();
 
     const handleTimeStart = time => {
@@ -33,9 +36,17 @@ export default function CreateEvent() {
         }
     };
 
+    const handleTimeEnd = time => {
+        try {
+            setTimeEnd(time);
+        } catch {
+            setTimeEnd('');
+        }
+    };
+
     return (
-        <div>
-            CreateEvent
+        <div className='createEventForm'>
+            <p>CreateEvent</p>
             <div className="entryFormBox">
                 <Box
                     className="entryForm"
@@ -54,39 +65,66 @@ export default function CreateEvent() {
                         value={place}
                         onChange={e => setPlace(e.target.value)}
                     />
-                    <TextField
-                        required
-                        id="standard-required"
-                        label="Дата экскурсии"
-                        variant="standard"
-                        value={date}
-                        onChange={e => setDate(e.target.value)}
-                    />
+                   
+                   <Calendar />
+
+                   {/* <Place /> */}
+
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <TimePicker
-                            label="Time"
+                            label="Start time"
                             ampm={false}
                             value={timeStart}
                             onChange={handleTimeStart}
                             renderInput={params => <TextField {...params} />}
                         />
                     </LocalizationProvider>
-                    <TextField
+
+                    {/* <TextField
                         required
                         id="standard-required"
                         label="Начало"
                         variant="standard"
                         value={timeStart}
                         onChange={e => setTimeStart(e.target.value)}
-                    />
-                    <TextField
+                    /> */}
+                    {/* <TextField
                         required
                         id="standard-required"
                         label="Окончание"
                         variant="standard"
                         value={timeEnd}
                         onChange={e => setTimeEnd(e.target.value)}
+                    /> */}
+
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <TimePicker
+                            label="End time"
+                            ampm={false}
+                            value={timeEnd}
+                            onChange={handleTimeEnd}
+                            renderInput={params => <TextField {...params} />}
+                        />
+                    </LocalizationProvider>
+
+                    <TextareaAutosize
+                        aria-label="Preview"
+                        minRows={3}
+                        placeholder="Preview"
+                        className="createTextField"
+                        value={preview}
+                        onChange={e => setPreview(e.target.value)}
                     />
+
+                    <TextareaAutosize
+                        aria-label="Description"
+                        minRows={6}
+                        placeholder="Description"
+                        className="createTextField"
+                        value={description}
+                        onChange={e => setDescription(e.target.value)}
+                    />
+
                     <TextField
                         required
                         id="standard-required"
@@ -109,13 +147,7 @@ export default function CreateEvent() {
                         }}
                     />
 
-                    <Button disabled={false} variant="contained" type="button">
-                        Создать событите
-                    </Button>
-                    <Button
-                        variant="text"
-                        onClick={() => navigate(`../${homePage}/`)}
-                    >
+                    <Button disabled={false} variant="contained" type="button" onClick={() => navigate(`../${homePage}/`)}>
                         Создать событие
                     </Button>
                 </Box>

@@ -8,14 +8,14 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import TimePicker from '@mui/lab/TimePicker';
 
 export default function CreateEvent() {
-    const dateNow = new Date();
-    console.log(dateNow);
+    // const dateNow = new Date();
+    // console.log(dateNow);
     // const [dateNow, setDateNow] = useState(new Date().getMinutes());
     const [eventId, setEventId] = useState('');
     const [place, setPlace] = useState('');
     const [date, setDate] = useState('');
-    const [timeStart, setTimeStart] = useState(dateNow);
-    const [timeEnd, setTimeEnd] = useState(dateNow);
+    const [timeStart, setTimeStart] = useState(new Date());
+    const [timeEnd, setTimeEnd] = useState(new Date());
     const [price, setPrice] = useState('');
     const [totalSpace, setTotalSpace] = useState('');
     const [preview, setPreview] = useState('');
@@ -32,7 +32,6 @@ export default function CreateEvent() {
             setTimeStart('');
         }
     };
-
     return (
         <div>
             CreateEvent
@@ -67,7 +66,8 @@ export default function CreateEvent() {
                             label="Time"
                             ampm={false}
                             value={timeStart}
-                            onChange={handleTimeStart}
+                            onBlur={handleTimeStart || ''}
+                            onChange={e => console.log(e)}
                             renderInput={params => <TextField {...params} />}
                         />
                     </LocalizationProvider>
@@ -93,7 +93,11 @@ export default function CreateEvent() {
                         label="Стоимость"
                         variant="standard"
                         value={price}
-                        onChange={e => setPrice(e.target.value)}
+                        onChange={e => {
+                            if (!isNaN(Number(e.target.value))) {
+                                setPrice(e.target.value);
+                            }
+                        }}
                     />
                     <TextField
                         required
@@ -109,14 +113,8 @@ export default function CreateEvent() {
                         }}
                     />
 
-                    <Button disabled={false} variant="contained" type="button">
+                    <Button variant="contained" type="button">
                         Создать событите
-                    </Button>
-                    <Button
-                        variant="text"
-                        onClick={() => navigate(`../${homePage}/`)}
-                    >
-                        Создать событие
                     </Button>
                 </Box>
             </div>

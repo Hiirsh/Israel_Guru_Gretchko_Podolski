@@ -1,7 +1,6 @@
 import 'firebase/compat/auth';
-import {fb, storageFB} from '../config/firebaseConfig';
+import {fb} from '../config/firebaseConfig';
 import {getAuth, signOut} from 'firebase/auth';
-import {doc, setDoc} from 'firebase/firestore';
 import 'firebase/compat/firestore';
 import 'firebase/compat/app';
 import firebase from 'firebase/compat/app';

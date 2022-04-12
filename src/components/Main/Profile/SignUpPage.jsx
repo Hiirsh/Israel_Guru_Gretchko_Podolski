@@ -124,7 +124,7 @@ export default function SignUpPage() {
                             password2 &&
                             password === password2 &&
                             isGuide
-                                ? license && phone
+                                ? !(license && phone)
                                 : false)
                         }
                         variant="contained"
@@ -142,6 +142,7 @@ export default function SignUpPage() {
                                     phone,
                                     aboutUser,
                                     license,
+                                    events: [],
                                 });
                                 navigate(`../${profilePage}/${userId}`);
                             });

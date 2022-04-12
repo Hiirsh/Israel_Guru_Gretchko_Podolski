@@ -10,18 +10,24 @@ import TestBar from './components/TestBar';
 import {homePage} from './utils/constants';
 import {signingAction} from './reduxFiles/actions/isSignedAction';
 import {setUserIdAction} from './reduxFiles/actions/setUserIdAction';
+import {getUserData} from './firebaseFiles/services/authService';
 
 function App() {
     const auth = getAuth();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const dispatch = useDispatch();
 
     // console.log(auth);
     onAuthStateChanged(auth, user => {
         if (user) {
             localStorage.setItem('user', JSON.stringify(user));
+
             dispatch(signingAction(true));
             dispatch(setUserIdAction(user.uid));
+            // console.log(getUserData(user.uid));
+            getUserData(user.uid).then(data =>
+                localStorage.setItem('userData', JSON.stringify(data))
+            );
         } else {
             dispatch(signingAction(false));
             dispatch(setUserIdAction(''));

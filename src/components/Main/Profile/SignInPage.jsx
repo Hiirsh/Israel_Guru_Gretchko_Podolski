@@ -22,7 +22,7 @@ export default function SignInPage() {
     //     email: 'pupkin@mail.il',
     //     password: '123456',
     // });
-    const [email, setEmail] = useState('pupkin@mail.il');
+    const [email, setEmail] = useState('testguide@test.com');
     const [values, setValues] = useState({
         password: '123456',
         showPassword: false,

@@ -13,14 +13,17 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import {updateEvent} from '../../../../firebaseFiles/services/eventsService';
+import {
+    addEventToGuide,
+    updateEvent,
+} from '../../../../firebaseFiles/services/eventsService';
 import {v4 as uuidv4} from 'uuid';
 import {useSelector} from 'react-redux';
+import {updateUserProfileInDB} from '../../../../firebaseFiles/services/authService';
 
 export default function CreateEvent(props) {
     const navigate = useNavigate();
-    const guide = useSelector(state => state.userId);
-    // const [eventId, setEventId] = useState('');
+    const guideId = useSelector(state => state.userId);
     const [place, setPlace] = useState(props.place || '');
     const [title, setTitle] = useState(props.title || '');
     const [timeStart, setTimeStart] = useState(props.timeStart || new Date());
@@ -34,7 +37,8 @@ export default function CreateEvent(props) {
     ); //nafig
     const [difficulty, setDifficulty] = useState(props.difficulty || ''); //nafig
     const [meetingPoint, setMeetingPoint] = useState(props.meetingPoint || ''); //nafig
-
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    // console.log(userData.events);
     const handleTimeStart = time => {
         try {
             setTimeStart(time);
@@ -53,9 +57,13 @@ export default function CreateEvent(props) {
 
     const handleCreateEvent = () => {
         const id = uuidv4();
+        if (userData.events === undefined) userData.events = [id];
+        else userData.events.push(id);
+        localStorage.setItem('userData', JSON.stringify(userData));
+        addEventToGuide(userData.userId, id);
         updateEvent({
             id,
-            guide,
+            guideId: userData.userId,
             title,
             place,
             timeStart,

@@ -13,3 +13,20 @@ export async function updateEvent(eventData) {
         });
     else await ref.set(eventData);
 }
+
+export async function addEventToGuide(guideId, eventId) {
+    const ref = /* await */ fb.firestore().collection('users').doc(guideId);
+    // ref.set({tasks: [{title, status: false}]}); //ссылка на нужный документ
+    const doc = await ref.get();
+    if (doc.exists)
+        await ref.update({
+            events: firebase.firestore.FieldValue.arrayUnion(eventId),
+        });
+    else await ref.set({events: eventId});
+}
+
+export async function getEvents(eventId) {
+    const doc = await fb.firestore().collection('events').doc(eventId).get();
+    if (doc.exists) return doc.data();
+    else return '';
+}

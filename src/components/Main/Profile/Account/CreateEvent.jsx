@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {Box, Button, TextField} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
-import {homePage} from '../../../../utils/constants';
-import Stack from '@mui/material/Stack';
+// import {homePage} from '../../../../utils/constants';
+// import Stack from '@mui/material/Stack';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import TimePicker from '@mui/lab/TimePicker';
@@ -17,8 +17,8 @@ import {updateEvent} from '../../../../firebaseFiles/services/eventsService';
 import {v4 as uuidv4} from 'uuid';
 import {useSelector} from 'react-redux';
 import {Map} from '..//..//..//..//GoogleMap';
-import { API_KEY_MAPS } from '../../../../App';
 import {useJsApiLoader} from '@react-google-maps/api';
+import {API_KEY_MAPS} from '../../../../utils/constants';
 
 export default function CreateEvent(props) {
     const navigate = useNavigate();
@@ -76,26 +76,24 @@ export default function CreateEvent(props) {
 
     const defaultCenter = {
         lat: -3.745,
-        lng: -38.523
-      };
+        lng: -38.523,
+    };
 
-      const libraries = ['places'];
+    const libraries = ['places'];
 
-      const { isLoaded } = useJsApiLoader({
+    const {isLoaded} = useJsApiLoader({
         id: 'google-map-script',
-        // googleMapsApiKey: API_KEY_MAPS,
-        googleMapsApiKey: 'AIzaSyBpnB18W44YzT_OyF0Gd1OTUDZ266CHQkg',
+        googleMapsApiKey: API_KEY_MAPS,
         libraries,
-      })
+    });
 
     return (
         <div className="createEventForm">
+            <div>
+                {isLoaded ? <Map center={defaultCenter} /> : <h2>Loading</h2>}
+            </div>
             <p>CreateEvent</p>
             <div className="entryFormBox">
-
-                {isLoaded ? <Map center={defaultCenter}/> : <h2>Loading</h2>}
-
-
                 <Box
                     className="entryForm"
                     component="form"

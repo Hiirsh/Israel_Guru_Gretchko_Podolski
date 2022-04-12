@@ -11,6 +11,10 @@ import {homePage} from './utils/constants';
 import {signingAction} from './reduxFiles/actions/isSignedAction';
 import {setUserIdAction} from './reduxFiles/actions/setUserIdAction';
 
+
+export const API_KEY_MAPS = process.env.REACT_APP_API_KEY;
+
+
 function App() {
     const auth = getAuth();
     const navigate = useNavigate();

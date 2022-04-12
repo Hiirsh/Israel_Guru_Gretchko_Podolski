@@ -16,6 +16,9 @@ import Select from '@mui/material/Select';
 import {updateEvent} from '../../../../firebaseFiles/services/eventsService';
 import {v4 as uuidv4} from 'uuid';
 import {useSelector} from 'react-redux';
+import {Map} from '..//..//..//..//GoogleMap';
+import { API_KEY_MAPS } from '../../../../App';
+import {useJsApiLoader} from '@react-google-maps/api';
 
 export default function CreateEvent(props) {
     const navigate = useNavigate();
@@ -71,10 +74,28 @@ export default function CreateEvent(props) {
         });
     };
 
+    const defaultCenter = {
+        lat: -3.745,
+        lng: -38.523
+      };
+
+      const libraries = ['places'];
+
+      const { isLoaded } = useJsApiLoader({
+        id: 'google-map-script',
+        // googleMapsApiKey: API_KEY_MAPS,
+        googleMapsApiKey: 'AIzaSyBpnB18W44YzT_OyF0Gd1OTUDZ266CHQkg',
+        libraries,
+      })
+
     return (
         <div className="createEventForm">
             <p>CreateEvent</p>
             <div className="entryFormBox">
+
+                {isLoaded ? <Map center={defaultCenter}/> : <h2>Loading</h2>}
+
+
                 <Box
                     className="entryForm"
                     component="form"

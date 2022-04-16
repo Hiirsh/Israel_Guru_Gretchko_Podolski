@@ -4,7 +4,7 @@ import {CHANGE_EVENTS_LIST} from '../actions/changePageStateAction';
 //     eventListCollapced: true,
 // };
 
-export const pageStateReduser = (pageState = true, action) => {
+export const pageStateReduser = (pageState = false, action) => {
     switch (action.type) {
         case CHANGE_EVENTS_LIST:
             let temp = !pageState.eventListCollapced;

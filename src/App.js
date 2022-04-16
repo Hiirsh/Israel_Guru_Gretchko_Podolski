@@ -11,20 +11,21 @@ import {homePage} from './utils/constants';
 import {signingAction} from './reduxFiles/actions/isSignedAction';
 import {setUserIdAction} from './reduxFiles/actions/setUserIdAction';
 import {getUserData} from './firebaseFiles/services/authService';
+import {getEvents} from './firebaseFiles/services/eventsService';
+import {useEffect} from 'react';
+import {getEventsAction} from './reduxFiles/actions/eventActions';
 
 function App() {
     const auth = getAuth();
-    // const navigate = useNavigate();
     const dispatch = useDispatch();
+    useEffect(() => dispatch(getEventsAction()), []);
 
-    // console.log(auth);
     onAuthStateChanged(auth, user => {
         if (user) {
             localStorage.setItem('user', JSON.stringify(user));
 
             dispatch(signingAction(true));
             dispatch(setUserIdAction(user.uid));
-            // console.log(getUserData(user.uid));
             getUserData(user.uid).then(data =>
                 localStorage.setItem('userData', JSON.stringify(data))
             );

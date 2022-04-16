@@ -25,8 +25,28 @@ export async function addEventToGuide(guideId, eventId) {
     else await ref.set({events: eventId});
 }
 
-export async function getEvents(eventId) {
+export async function getEventById(eventId) {
     const doc = await fb.firestore().collection('events').doc(eventId).get();
     if (doc.exists) return doc.data();
     else return '';
 }
+export async function getEvents() {
+    const doc = await fb.firestore().collection('events').get();
+    return doc.docs.map(events => events.data());
+}
+
+// export async function getEventsRowsArrarById(eventsId) {
+//     console.log(eventsId);
+//     const arr = eventsId.map((item, index) =>
+//         getEventById(item).then(data => ({
+//             key: index,
+//             id: index + 1,
+//             date: data.timeStart,
+//             title: data.title,
+//             price: data.price,
+//             places: data.totalSpace,
+//         }))
+//     );
+//     console.log(arr);
+//     return arr;
+// }

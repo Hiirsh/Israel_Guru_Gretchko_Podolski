@@ -50,7 +50,6 @@ export async function getUserData(userId) {
 }
 
 export function logout() {
-    // fb.auth().signOut();
     signOut(auth).then(() => {
         localStorage.removeItem('user');
         localStorage.removeItem('userData');

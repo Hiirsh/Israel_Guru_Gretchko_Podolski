@@ -1,14 +1,11 @@
 import React, {useState} from 'react';
 import {Box, Button, TextField} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
-// import {homePage} from '../../../../utils/constants';
-// import Stack from '@mui/material/Stack';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import TimePicker from '@mui/lab/TimePicker';
 import Calendar from '..//..//Calendar';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
-// import Place from '..//..//Place';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -23,13 +20,14 @@ import {Map} from '..//..//..//..//GoogleMap';
 import {useJsApiLoader} from '@react-google-maps/api';
 import {API_KEY_MAPS} from '../../../../utils/constants';
 import {updateUserProfileInDB} from '../../../../firebaseFiles/services/authService';
+const libraries = ['places'];
 
 export default function CreateEvent(props) {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const guideId = useSelector(state => state.userId);
     const [place, setPlace] = useState(props.place || '');
     const [title, setTitle] = useState(props.title || '');
-    const [timeStart, setTimeStart] = useState(props.timeStart || new Date());
+    const [timeStart, setTimeStart] = useState(props.timeStart || new Date()); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     const [timeEnd, setTimeEnd] = useState(props.timeEnd || new Date());
     const [price, setPrice] = useState(props.price || '');
     const [totalSpace, setTotalSpace] = useState(props.totalSpace || '');
@@ -37,11 +35,10 @@ export default function CreateEvent(props) {
     const [description, setDescription] = useState(props.description || '');
     const [additionalInfo, setAdditionalInfo] = useState(
         props.additionalInfo || ''
-    ); //nafig
-    const [difficulty, setDifficulty] = useState(props.difficulty || ''); //nafig
-    const [meetingPoint, setMeetingPoint] = useState(props.meetingPoint || ''); //nafig
+    );
+    const [difficulty, setDifficulty] = useState(props.difficulty || '');
+    const [meetingPoint, setMeetingPoint] = useState(props.meetingPoint || '');
     const userData = JSON.parse(localStorage.getItem('userData'));
-    // console.log(userData.events);
     const handleTimeStart = time => {
         try {
             setTimeStart(time);
@@ -86,8 +83,6 @@ export default function CreateEvent(props) {
         lat: -3.745,
         lng: -38.523,
     };
-
-    const libraries = ['places'];
 
     const {isLoaded} = useJsApiLoader({
         id: 'google-map-script',

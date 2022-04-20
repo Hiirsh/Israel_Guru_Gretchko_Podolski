@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Box, Button, TextField} from '@mui/material';
-import {useNavigate} from 'react-router-dom';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import TimePicker from '@mui/lab/TimePicker';
@@ -15,19 +14,18 @@ import {
     updateEvent,
 } from '../../../../firebaseFiles/services/eventsService';
 import {v4 as uuidv4} from 'uuid';
-import {useSelector} from 'react-redux';
-import {Map} from '..//..//..//..//GoogleMap';
 import {useJsApiLoader} from '@react-google-maps/api';
-import {API_KEY_MAPS} from '../../../../utils/constants';
-import {updateUserProfileInDB} from '../../../../firebaseFiles/services/authService';
-const libraries = ['places'];
+import Map, {MODES} from '../../../../GoogleMap/Map';
+import s from '../../../../componentStyles/CreateEvent.css';
+import {getBrowserLocation} from '../../../../utils/geo.js';
+import Autocomplete from '../../../../GoogleMap/Autocomplete';
+import {libraries, defaultCenter} from '../../../../utils/geo.js';
+const MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_KEY;
 
 export default function CreateEvent(props) {
-    // const navigate = useNavigate();
-    const guideId = useSelector(state => state.userId);
     const [place, setPlace] = useState(props.place || '');
     const [title, setTitle] = useState(props.title || '');
-    const [timeStart, setTimeStart] = useState(props.timeStart || new Date()); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    const [timeStart, setTimeStart] = useState(props.timeStart || new Date());
     const [timeEnd, setTimeEnd] = useState(props.timeEnd || new Date());
     const [price, setPrice] = useState(props.price || '');
     const [totalSpace, setTotalSpace] = useState(props.totalSpace || '');
@@ -38,6 +36,10 @@ export default function CreateEvent(props) {
     );
     const [difficulty, setDifficulty] = useState(props.difficulty || '');
     const [meetingPoint, setMeetingPoint] = useState(props.meetingPoint || '');
+    const [center, setCenter] = useState(defaultCenter);
+    // const [mode, setMode] = useState(MODES.SET_MARKER);
+    const [marker, setMarker] = useState(center);
+
     const userData = JSON.parse(localStorage.getItem('userData'));
     const handleTimeStart = time => {
         try {
@@ -55,7 +57,7 @@ export default function CreateEvent(props) {
         }
     };
 
-    const handleCreateEvent = () => {
+    const handleCreateEvent = (/* isNewEvent */) => {
         const id = uuidv4();
         if (userData.events === undefined) userData.events = [id];
         else userData.events.push(id);
@@ -76,159 +78,215 @@ export default function CreateEvent(props) {
             difficulty,
             meetingPoint,
             participants: [],
+            marker,
         });
-    };
-
-    const defaultCenter = {
-        lat: -3.745,
-        lng: -38.523,
     };
 
     const {isLoaded} = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: API_KEY_MAPS,
+        googleMapsApiKey: MAPS_API_KEY,
         libraries,
     });
 
-    return (
-        <div className="createEventForm">
-            <div>
-                {isLoaded ? <Map center={defaultCenter} /> : <h2>Loading</h2>}
-            </div>
-            <p>CreateEvent</p>
-            <div className="entryFormBox">
-                <Box
-                    className="entryForm"
-                    component="form"
-                    sx={{
-                        '& .MuiTextField-root': {m: 1, width: '25ch'},
-                    }}
-                    noValidate
-                    autoComplete="off"
-                >
-                    <TextField
-                        required
-                        id="standard-required"
-                        label="Название экскурсии"
-                        variant="standard"
-                        value={title}
-                        onChange={e => setTitle(e.target.value)}
-                    />
-                    <TextField
-                        required
-                        id="standard-required"
-                        label="Место экскурсии"
-                        variant="standard"
-                        value={place}
-                        onChange={e => setPlace(e.target.value)}
-                    />
-                    <Calendar />
-                    {/* <Place /> */}
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <TimePicker
-                            label="Start time"
-                            ampm={false}
-                            value={timeStart}
-                            // onBlur={handleTimeStart || ''}
-                            onChange={handleTimeStart}
-                            renderInput={params => <TextField {...params} />}
-                        />
-                    </LocalizationProvider>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <TimePicker
-                            label="End time"
-                            ampm={false}
-                            value={timeEnd}
-                            onChange={handleTimeEnd}
-                            renderInput={params => <TextField {...params} />}
-                        />
-                    </LocalizationProvider>
-                    <TextareaAutosize
-                        aria-label="Preview"
-                        minRows={3}
-                        placeholder="Краткое описание"
-                        className="createTextField"
-                        value={preview}
-                        onChange={e => setPreview(e.target.value)}
-                    />
-                    <TextareaAutosize
-                        aria-label="Description"
-                        minRows={6}
-                        placeholder="Описание"
-                        className="createTextField"
-                        value={description}
-                        onChange={e => setDescription(e.target.value)}
-                    />
+    const onPlaceSelect = useCallback(coordinates => {
+        setCenter(coordinates);
+    }, []);
 
-                    <TextField
-                        required
-                        id="standard-required"
-                        label="Стоимость"
-                        variant="standard"
-                        value={price}
-                        onChange={e => {
-                            if (!isNaN(Number(e.target.value))) {
-                                setPrice(e.target.value);
-                            }
-                        }}
+    /*     const toggleModeHandler = useCallback(
+        e => {
+            e.preventDefault();
+            switch (mode) {
+                case MODES.MOVE:
+                    setMode(MODES.SET_MARKER);
+                    break;
+                case MODES.SET_MARKER:
+                    setMode(MODES.MOVE);
+                    break;
+                default:
+                    setMode(MODES.MOVE);
+            }
+            console.log(mode);
+        },
+        [mode]
+    ); */
+
+    const onMarkerAdd = useCallback(
+        coordinates => setMarker(coordinates),
+        [marker]
+    );
+
+    const clear = useCallback(e => {
+        e.preventDefault();
+        setMarker('');
+    }, []);
+
+    useEffect(() => {
+        getBrowserLocation()
+            .then(currentLocation => setCenter(currentLocation))
+            .catch(defaultLocation => setCenter(defaultLocation));
+    }, []);
+
+    return (
+        <Box
+            className="entryForm"
+            component="form"
+            sx={{
+                '& .MuiTextField-root': {m: 1, width: '100%'},
+            }}
+            noValidate
+            autoComplete="off"
+        >
+            <TextField
+                required
+                id="standard-required"
+                label="Название экскурсии"
+                variant="standard"
+                fullWidth={true}
+                value={title}
+                onChange={e => setTitle(e.target.value)}
+            />
+            <TextField
+                required
+                id="standard-required"
+                label="Место экскурсии"
+                variant="standard"
+                value={place}
+                onChange={e => setPlace(e.target.value)}
+            />
+            <Calendar />
+            {/* <Place /> */}
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <TimePicker
+                    label="Start time"
+                    ampm={false}
+                    value={timeStart}
+                    // onBlur={handleTimeStart || ''}
+                    onChange={handleTimeStart}
+                    renderInput={params => <TextField {...params} />}
+                />
+            </LocalizationProvider>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <TimePicker
+                    label="End time"
+                    ampm={false}
+                    value={timeEnd}
+                    onChange={handleTimeEnd}
+                    renderInput={params => <TextField {...params} />}
+                />
+            </LocalizationProvider>
+            <TextareaAutosize
+                aria-label="Preview"
+                minRows={3}
+                placeholder="Краткое описание"
+                className="createTextField"
+                value={preview}
+                onChange={e => setPreview(e.target.value)}
+                style={{width: '100%'}}
+            />
+            <TextareaAutosize
+                aria-label="Description"
+                minRows={6}
+                placeholder="Описание"
+                className="createTextField"
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+                style={{width: '100%'}}
+            />
+
+            <TextField
+                required
+                id="standard-required"
+                label="Стоимость"
+                variant="standard"
+                value={price}
+                onChange={e => {
+                    if (!isNaN(Number(e.target.value))) {
+                        setPrice(e.target.value);
+                    }
+                }}
+            />
+            <TextField
+                required
+                id="standard-required"
+                inputProps={{inputMode: 'numeric', pattern: '[0-9]*'}}
+                label="Всего мест"
+                variant="standard"
+                value={totalSpace}
+                onChange={e => {
+                    if (!isNaN(Number(e.target.value))) {
+                        setTotalSpace(e.target.value);
+                    }
+                }}
+            />
+            <FormControl variant="standard" sx={{m: 1, minWidth: 120}}>
+                <InputLabel id="demo-simple-select-standard-label">
+                    Сложность
+                </InputLabel>
+                <Select
+                    labelId="demo-simple-select-standard-label"
+                    id="demo-simple-select-standard"
+                    value={difficulty}
+                    onChange={e => setDifficulty(e.target.value)}
+                    label="Сложность"
+                >
+                    <MenuItem value={'Турист'}>Турист</MenuItem>
+                    <MenuItem value={'Местный'}>Местный</MenuItem>
+                    <MenuItem value={'Гуру'}>Гуру</MenuItem>
+                </Select>
+            </FormControl>
+            <TextareaAutosize
+                aria-label="Description"
+                minRows={3}
+                placeholder="meetingPoint"
+                className="createTextField"
+                value={meetingPoint}
+                onChange={e => setMeetingPoint(e.target.value)}
+                style={{width: '100%'}}
+            />
+            <div>
+                <div className={s.addressContainer}>
+                    <Autocomplete
+                        isLoaded={isLoaded}
+                        onSelect={onPlaceSelect}
                     />
-                    <TextField
-                        required
-                        id="standard-required"
-                        inputProps={{inputMode: 'numeric', pattern: '[0-9]*'}}
-                        label="Всего мест"
-                        variant="standard"
-                        value={totalSpace}
-                        onChange={e => {
-                            if (!isNaN(Number(e.target.value))) {
-                                setTotalSpace(e.target.value);
-                            }
-                        }}
+                    {/* <button
+                                className={s.modeToggle}
+                                onClick={toggleModeHandler}
+                            >
+                                Set markers
+                            </button> */}
+                    <button className={s.modeToggle} onClick={clear}>
+                        Убрать метку
+                    </button>
+                </div>
+                {isLoaded ? (
+                    <Map
+                        center={center}
+                        mode={/* mode */ MODES.SET_MARKER}
+                        marker={marker}
+                        onMarkerAdd={onMarkerAdd}
                     />
-                    <FormControl variant="standard" sx={{m: 1, minWidth: 120}}>
-                        <InputLabel id="demo-simple-select-standard-label">
-                            Сложность
-                        </InputLabel>
-                        <Select
-                            labelId="demo-simple-select-standard-label"
-                            id="demo-simple-select-standard"
-                            value={difficulty}
-                            onChange={e => setDifficulty(e.target.value)}
-                            label="Сложность"
-                        >
-                            <MenuItem value={'Турист'}>Турист</MenuItem>
-                            <MenuItem value={'Местный'}>Местный</MenuItem>
-                            <MenuItem value={'Гуру'}>Гуру</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <TextareaAutosize
-                        aria-label="Description"
-                        minRows={3}
-                        placeholder="meetingPoint"
-                        className="createTextField"
-                        value={meetingPoint}
-                        onChange={e => setMeetingPoint(e.target.value)}
-                    />
-                    <TextareaAutosize
-                        aria-label="Description"
-                        minRows={3}
-                        placeholder="additionalInfo"
-                        className="createTextField"
-                        value={additionalInfo}
-                        onChange={e => setAdditionalInfo(e.target.value)}
-                    />
-                    <Button
-                        disabled={false}
-                        variant="contained"
-                        type="button"
-                        onClick={
-                            handleCreateEvent /* navigate(`../${homePage}/`) */
-                        }
-                    >
-                        Создать событие
-                    </Button>
-                </Box>
+                ) : (
+                    <h1>Loading...</h1>
+                )}
             </div>
-        </div>
+            <TextareaAutosize
+                aria-label="Description"
+                minRows={3}
+                placeholder="additionalInfo"
+                className="createTextField"
+                value={additionalInfo}
+                onChange={e => setAdditionalInfo(e.target.value)}
+                style={{width: '100%'}}
+            />
+            <Button
+                disabled={false}
+                variant="contained"
+                type="button"
+                onClick={handleCreateEvent /* navigate(`../${homePage}/`) */}
+            >
+                Создать событие
+            </Button>
+        </Box>
     );
 }

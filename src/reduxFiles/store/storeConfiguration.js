@@ -7,7 +7,7 @@ export const store = createStore(
     rootReducer,
     compose(
         applyMiddleware(/* logger, */ thunk),
-        window.__REDUX_DEVTOOLS_EXTENSION__ &&
+        window.__REDUX_DEVTOOLS_EXTENSION__ && //DEV
             window.__REDUX_DEVTOOLS_EXTENSION__()
     )
 );

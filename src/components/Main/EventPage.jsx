@@ -29,6 +29,7 @@ export default function EventPage() {
                 <div>
                     <Event ev={eventExt} extended={true} />
                     <EventMainInfo ev={eventExt} />
+
                     <div className="buttonContainer">
                         <Button
                             variant="contained"

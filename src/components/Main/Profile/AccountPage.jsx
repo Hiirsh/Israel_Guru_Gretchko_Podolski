@@ -1,15 +1,13 @@
 import React from 'react';
 import {Button} from '@mui/material';
-import {useNavigate} from 'react-router-dom';
-import {useSelector} from 'react-redux';
+import {useNavigate, useParams} from 'react-router-dom';
 import {profilePage} from '../../../utils/constants';
 import CreateEvent from './Account/CreateEvent';
-import styles from '../../../componentStyles/AccountPage.css';
+import s from '../../../componentStyles/AccountPage.css';
 import MyEvents from './Account/MyEvents';
 export default function AccountPage() {
     const navigate = useNavigate();
-    const userId = useSelector(state => state.userId);
-    const eventsId = JSON.parse(localStorage.getItem('userData')).events;
+    const userId = useParams().userId;
 
     return (
         <div className="accMenu">
@@ -21,7 +19,7 @@ export default function AccountPage() {
             </div>
             <div className="accBut">
                 <h2>My events</h2>
-                <MyEvents eventsId={eventsId} />
+                <MyEvents />
             </div>
             <div className="accBut">
                 <h2>Create event</h2>

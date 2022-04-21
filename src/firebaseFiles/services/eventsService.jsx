@@ -3,7 +3,6 @@ import {fb} from '../config/firebaseConfig';
 import 'firebase/compat/firestore';
 import 'firebase/compat/app';
 import firebase from 'firebase/compat/app';
-import {doc, deleteDoc} from 'firebase/firestore';
 
 export async function updateEvent(eventData) {
     const ref = fb.firestore().collection('events').doc(eventData.id);
@@ -16,8 +15,7 @@ export async function updateEvent(eventData) {
 }
 
 export async function addEventToGuide(guideId, eventId) {
-    const ref = /* await */ fb.firestore().collection('users').doc(guideId);
-    // ref.set({tasks: [{title, status: false}]}); //ссылка на нужный документ
+    const ref = fb.firestore().collection('users').doc(guideId);
     const doc = await ref.get();
     if (doc.exists)
         await ref.update({
@@ -44,19 +42,3 @@ export async function getEvents() {
 export async function deleteEvent(eventId) {
     fb.firestore().collection('events').doc(eventId).delete();
 }
-
-// export async function getEventsRowsArrarById(eventsId) {
-//     console.log(eventsId);
-//     const arr = eventsId.map((item, index) =>
-//         getEventById(item).then(data => ({
-//             key: index,
-//             id: index + 1,
-//             date: data.timeStart,
-//             title: data.title,
-//             price: data.price,
-//             places: data.totalSpace,
-//         }))
-//     );
-//     console.log(arr);
-//     return arr;
-// }

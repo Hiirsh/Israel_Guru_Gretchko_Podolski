@@ -37,6 +37,7 @@ export default function EventMainInfo(props) {
                         `${hoursStart}:${minutesStart}-${hoursEnd}:${minutesEnd}
                     `}
                 </h4>
+                <h4>Сложность: {ev.difficulty}</h4>
             </div>
             {!props.noButton && (
                 <div className="timeAndButton">

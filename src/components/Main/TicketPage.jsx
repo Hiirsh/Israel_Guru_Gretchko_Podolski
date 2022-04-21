@@ -8,7 +8,7 @@ import stylesMain from '..//..//componentStyles/TicketPage.css';
 import EventMainInfo from './EventMainInfo';
 
 export default function TicketPage() {
-    const eventId = useParams().pageId;
+    const {eventId} = useParams();
     const [ev, setEvent] = useState('');
     useEffect(() => getEventById(eventId).then(data => setEvent(data)), []);
     const navigate = useNavigate();

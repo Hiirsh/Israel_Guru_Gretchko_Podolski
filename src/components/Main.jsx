@@ -37,10 +37,13 @@ export default function Main() {
     return (
         <Routes>
             <Route path={`${homePage}`} element={<EventsList />} />
-            <Route path={`/${eventPage}/:pageId`} element={<EventPage />} />
-            <Route path={`/${entryPage}/:pageId`} element={<EntryPage />} />
-            <Route path={`/${paymentPage}/:pageId`} element={<PaymentPage />} />
-            <Route path={`/${ticketPage}/:pageId`} element={<TicketPage />} />
+            <Route path={`/${eventPage}/:eventId`} element={<EventPage />} />
+            <Route path={`/${entryPage}/:eventId`} element={<EntryPage />} />
+            <Route
+                path={`/${paymentPage}/:eventId`}
+                element={<PaymentPage />}
+            />
+            <Route path={`/${ticketPage}/:eventId`} element={<TicketPage />} />
             {!isAutorised && (
                 <Route path={`/${signInPage}/`} element={<SignInPage />} />
             )}
@@ -61,7 +64,7 @@ export default function Main() {
             )}
             {isAutorised && (
                 <Route
-                    path={`/${editEventPage}/:userId/:pageId`}
+                    path={`/${editEventPage}/:userId/:eventId`}
                     element={<EditEventPage />}
                 />
             )}

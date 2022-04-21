@@ -9,7 +9,7 @@ import {Box} from '@mui/material';
 import {getEventById} from '../../firebaseFiles/services/eventsService';
 
 export default function PaymentPage() {
-    const eventId = useParams().pageId;
+    const {eventId} = useParams();
     const [isLoaded, setIsLoaded] = useState(false);
     const [ev, setEvent] = useState('');
     useEffect(() => getEventById(eventId).then(data => setEvent(data)), []);

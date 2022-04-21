@@ -9,7 +9,7 @@ import {getEventById} from '../../firebaseFiles/services/eventsService';
 
 export default function EntryPage() {
     const navigate = useNavigate();
-    const eventId = useParams().pageId;
+    const {eventId} = useParams();
     const [ev, setEvent] = useState('');
     useEffect(() => getEventById(eventId).then(data => setEvent(data)));
 

@@ -265,15 +265,17 @@ export default function CreateEvent(props) {
             <TextareaAutosize
                 aria-label="Description"
                 minRows={3}
-                placeholder="meetingPoint"
+                placeholder="Место встречи"
                 className="createTextField"
                 value={meetingPoint}
                 onChange={e => setMeetingPoint(e.target.value)}
                 style={{width: '100%'}}
             />
-            <div>
-                <div className={s.addressContainer}>
+        
+                <div className="Autocomplite_root__IVhsz">
                     <Autocomplete
+                        placeholder="Куда пойдете?"
+                        className="Autocomplite_input__kkeXW"
                         isLoaded={isLoaded}
                         onSelect={onPlaceSelect}
                     />
@@ -291,24 +293,27 @@ export default function CreateEvent(props) {
                 ) : (
                     <h1>Loading...</h1>
                 )}
-            </div>
+
             <TextareaAutosize
                 aria-label="Description"
                 minRows={3}
-                placeholder="additionalInfo"
+                placeholder="Дополнительная информация"
                 className="createTextField"
                 value={additionalInfo}
                 onChange={e => setAdditionalInfo(e.target.value)}
-                style={{width: '100%'}}
-            />
+                style={{width: '100%', marginTop: '7em'}}
+                />
+            <div className="btnCreate">
             <Button
                 disabled={false}
                 variant="contained"
                 type="button"
                 onClick={handleCreateEvent}
+                style={{width: '18em', display: 'flex',  textAlign: 'center'}}
             >
                 Создать событие
             </Button>
+            </div>
         </Box>
     );
 }

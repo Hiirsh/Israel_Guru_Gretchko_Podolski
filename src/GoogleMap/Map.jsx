@@ -10,15 +10,13 @@ export const MODES = {
 };
 
 const containerStyle = {
-<<<<<<< HEAD
-    width: '1000px',
-    height: '1000px'
+    width: '20em',
+    height: '15em',
+    margin: '1em 0 5em 0',
+    display: 'flex',
   };
-=======
-    width: '100%',
-    height: '100%',
-};
-const defaultOptions = {
+
+  const defaultOptions = {
     panControl: true,
     zoomControl: true,
     mapTypeControl: false,
@@ -32,7 +30,6 @@ const defaultOptions = {
     fullscreenControl: false,
     // styles: defaultTheme,
 };
->>>>>>> upstream/develop
 
 export default function Map({center, mode, marker, onMarkerAdd}) {
     const mapRef = useRef(undefined);

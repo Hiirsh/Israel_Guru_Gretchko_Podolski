@@ -34,7 +34,8 @@
     "styled-components": "^5.3.5",
     "use-places-autocomplete": "^2.0.0",
     "uuid": "^8.3.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "webpack": "^5.72.0"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -1,17 +1,49 @@
-.addressContainer {
-    /* max-width: 500px; */
+/* .addressContainer {
     position: fixed;
     top: 20px;
-    left: 50%;
+    left: 30%;
     transform: translateX(-50%);
     z-index: 15;
     display: flex;
     width: 100px;
+    
+
+} */
+
+.Autocomplite_root__IVhsz{
+    width: 100%;
+    margin-left: 0.25em;
+    margin-bottom: 1em;
 }
 
-.modeToggle {
+.Autocomplite_root__IVhsz input{
+    border: 1px solid black;
+}
+
+.btnCreate{
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+}
+
+/* .modeToggle {
     background: #fff;
-    border: 2px solid black;
+    border: 1px solid black;
     font-size: 1rem;
     cursor: pointer;
+    margin-top: 5em;
 }
+
+.modeToggle button {
+    margin-top: 5em;
+}
+
+s.addressContainer{
+    border-top: 1px solid black;
+    margin-bottom: 3em;
+}
+
+.adressInput{
+    border: 1px solid black;
+    margin-bottom: 3em;
+} */

@@ -28,6 +28,9 @@ export default function CreateEvent(props) {
     const editEvent = props.editEvent;
     const [place, setPlace] = useState(isEditing ? editEvent.place || '' : '');
     const [title, setTitle] = useState(isEditing ? editEvent.title || '' : '');
+    const [eventDate, setEventDate] = useState(
+        isEditing ? editEvent.timeStart || new Date() : new Date()
+    );
     const [timeStart, setTimeStart] = useState(
         isEditing ? editEvent.timeStart || new Date() : new Date()
     );
@@ -60,10 +63,16 @@ export default function CreateEvent(props) {
 
     const userData = JSON.parse(localStorage.getItem('userData'));
 
+    const handleEventDate = time => {
+        try {
+            setEventDate(time);
+        } catch {
+            setEventDate('');
+        }
+    };
     const handleTimeStart = time => {
         try {
             setTimeStart(time);
-            console.log(time);
         } catch {
             setTimeStart('');
         }
@@ -88,8 +97,20 @@ export default function CreateEvent(props) {
             guideId: userData.userId,
             title,
             place,
-            timeStart,
-            timeEnd,
+            timeStart: new Date(
+                eventDate.getYear(),
+                eventDate.getMonth(),
+                eventDate.getDate(),
+                timeStart.getHours(),
+                timeStart.getMinutes()
+            ),
+            timeEnd: new Date(
+                eventDate.getYear(),
+                eventDate.getMonth(),
+                eventDate.getDate(),
+                timeEnd.getHours(),
+                timeEnd.getMinutes()
+            ),
             price,
             totalSpace,
             preview,
@@ -127,7 +148,6 @@ export default function CreateEvent(props) {
             .then(currentLocation => setCenter(currentLocation))
             .catch(defaultLocation => setCenter(defaultLocation));
     }, []);
-    console.log(timeStart);
     return (
         <Box
             className="entryForm"
@@ -159,8 +179,8 @@ export default function CreateEvent(props) {
                 <DatePicker
                     label="Event data"
                     inputFormat="dd/MM/yyyy" //поменял формат даты
-                    value={timeStart}
-                    onChange={handleTimeStart}
+                    value={eventDate}
+                    onChange={handleEventDate}
                     renderInput={params => <TextField {...params} />}
                 />
             </LocalizationProvider>

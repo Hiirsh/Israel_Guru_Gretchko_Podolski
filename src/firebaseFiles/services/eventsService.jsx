@@ -25,7 +25,12 @@ export async function addEventToGuide(guideId, eventId) {
         });
     else await ref.set({events: eventId});
 }
-
+export async function removeEventFromGuide(guideId, eventId) {
+    const ref = fb.firestore().collection('users').doc(guideId);
+    await ref.update({
+        events: firebase.firestore.FieldValue.arrayRemove(eventId),
+    });
+}
 export async function getEventById(eventId) {
     const doc = await fb.firestore().collection('events').doc(eventId).get();
     if (doc.exists) return doc.data();
@@ -37,7 +42,7 @@ export async function getEvents() {
 }
 
 export async function deleteEvent(eventId) {
-    await deleteDoc(doc(fb, 'events', eventId));
+    fb.firestore().collection('events').doc(eventId).delete();
 }
 
 // export async function getEventsRowsArrarById(eventsId) {

@@ -12,8 +12,6 @@ export async function login(email, password) {
         const responce = await fb
             .auth()
             .signInWithEmailAndPassword(email, password);
-        // console.log(auth.currentUser);
-        // console.log(responce.user.uid);
         return responce.user.uid;
     } catch (error) {
         console.log(error.message);
@@ -26,7 +24,6 @@ export async function registration(email, password) {
         const responce = await fb
             .auth()
             .createUserWithEmailAndPassword(email, password);
-        // console.log(responce.user);
         return responce.user.uid;
     } catch (error) {
         console.log(error.message);

@@ -20,6 +20,7 @@ import s from '../../../../componentStyles/CreateEvent.css';
 import {getBrowserLocation} from '../../../../utils/geo.js';
 import Autocomplete from '../../../../GoogleMap/Autocomplete';
 import {libraries, defaultCenter} from '../../../../utils/geo.js';
+import {DatePicker} from '@mui/lab';
 const MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_KEY;
 
 export default function CreateEvent(props) {
@@ -58,9 +59,11 @@ export default function CreateEvent(props) {
     const [center, setCenter] = useState(defaultCenter);
 
     const userData = JSON.parse(localStorage.getItem('userData'));
+
     const handleTimeStart = time => {
         try {
             setTimeStart(time);
+            console.log(time);
         } catch {
             setTimeStart('');
         }
@@ -124,7 +127,7 @@ export default function CreateEvent(props) {
             .then(currentLocation => setCenter(currentLocation))
             .catch(defaultLocation => setCenter(defaultLocation));
     }, []);
-
+    console.log(timeStart);
     return (
         <Box
             className="entryForm"
@@ -152,8 +155,15 @@ export default function CreateEvent(props) {
                 value={place}
                 onChange={e => setPlace(e.target.value)}
             />
-            <Calendar />
-            {/* <Place /> */}
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                    label="Event data"
+                    inputFormat="dd/MM/yyyy" //поменял формат даты
+                    value={timeStart}
+                    onChange={handleTimeStart}
+                    renderInput={params => <TextField {...params} />}
+                />
+            </LocalizationProvider>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <TimePicker
                     label="Start time"

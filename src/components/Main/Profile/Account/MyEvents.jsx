@@ -1,8 +1,10 @@
 import {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import {
+    deleteEvent,
     getEventById,
     getEvents,
+    removeEventFromGuide,
 } from '../../../../firebaseFiles/services/eventsService';
 import {getMonthName} from '../../../../utils/dateUtils';
 import Table from '@mui/material/Table';
@@ -32,13 +34,10 @@ export default function MyEvents() {
     const handleClickCopy = eventId => {
         const id = uuidv4();
         const userData = JSON.parse(localStorage.getItem('userData'));
-        localStorage.setItem(
-            'userData',
-            JSON.stringify(userData.events.push(id))
-        );
+        userData.events.push(id);
+        localStorage.setItem('userData', JSON.stringify(userData));
         addEventToGuide(userData.userId, id);
         getEventById(eventId).then(data => {
-            console.log(data);
             updateEvent({...data, id});
             const date = new Date(data.timeStart.seconds * 1000);
             setRows([
@@ -60,7 +59,14 @@ export default function MyEvents() {
     const handleClickEdit = eventId => {
         navigate(`../${editEventPage}/${guideId}/${eventId}`);
     };
-    const handleClickDelete = eventId => {};
+    const handleClickDelete = eventId => {
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        userData.events.splice(userData.events.indexOf(eventId));
+        localStorage.setItem('userData', JSON.stringify(userData));
+        setRows(rows.filter(el => el.eventId !== eventId));
+        deleteEvent(eventId);
+        removeEventFromGuide(guideId, eventId);
+    };
 
     const getGuidesEvents = id =>
         getEvents()

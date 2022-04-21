@@ -11,6 +11,8 @@
     "@mui/material": "^5.5.3",
     "@mui/styled-engine-sc": "^5.5.2",
     "@mui/x-data-grid": "^5.8.0",
+    "@mui/x-date-pickers": "^5.0.0-alpha.1",
+    "@mui/x-date-pickers-pro": "^5.0.0-alpha.1",
     "@react-google-maps/api": "^2.8.1",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.2",

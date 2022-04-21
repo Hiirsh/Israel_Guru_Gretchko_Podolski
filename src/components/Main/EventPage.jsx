@@ -11,7 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
 export default function EventPage() {
-    const eventId = useParams().pageId;
+    const {eventId} = useParams();
     const [eventExt, setEventExt] = useState('');
     useEffect(
         () =>

@@ -25,7 +25,7 @@ export const initialState = [
     },
 ];
 
-export const guidesReducer = (guides = initialState, action) => {
+export const guidesReducer = (guides = [], action) => {
     switch (action.type) {
         case ADD_GUIDE:
             return {...guides};

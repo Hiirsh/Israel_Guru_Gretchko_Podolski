@@ -11,6 +11,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import {
     addEventToGuide,
+    deleteEvent,
     updateEvent,
 } from '../../../../firebaseFiles/services/eventsService';
 import {v4 as uuidv4} from 'uuid';
@@ -25,17 +26,23 @@ const MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_KEY;
 
 export default function CreateEvent(props) {
     const isEditing = !!Object.keys(props).length;
-    const editEvent = props.editEvent;
+    const editEvent = props.event;
     const [place, setPlace] = useState(isEditing ? editEvent.place || '' : '');
     const [title, setTitle] = useState(isEditing ? editEvent.title || '' : '');
     const [eventDate, setEventDate] = useState(
-        isEditing ? editEvent.timeStart || new Date() : new Date()
+        isEditing
+            ? new Date(editEvent.timeStart.seconds * 1000) || new Date()
+            : new Date()
     );
     const [timeStart, setTimeStart] = useState(
-        isEditing ? editEvent.timeStart || new Date() : new Date()
+        isEditing
+            ? new Date(editEvent.timeStart.seconds * 1000) || new Date()
+            : new Date()
     );
     const [timeEnd, setTimeEnd] = useState(
-        isEditing ? editEvent.timeEnd || new Date() : new Date()
+        isEditing
+            ? new Date(editEvent.timeEnd.seconds * 1000) || new Date()
+            : new Date()
     );
     const [price, setPrice] = useState(isEditing ? editEvent.price || '' : '');
     const [totalSpace, setTotalSpace] = useState(
@@ -87,25 +94,27 @@ export default function CreateEvent(props) {
     };
 
     const handleCreateEvent = () => {
-        const id = uuidv4();
-        if (userData.events === undefined) userData.events = [id];
-        else userData.events.push(id);
+        const id = isEditing ? editEvent.id : uuidv4();
+        if (!isEditing)
+            if (userData.events === undefined) userData.events = [id];
+            else userData.events.push(id);
         localStorage.setItem('userData', JSON.stringify(userData));
         addEventToGuide(userData.userId, id);
+        if (isEditing) deleteEvent(id);
         updateEvent({
             id,
             guideId: userData.userId,
             title,
             place,
             timeStart: new Date(
-                eventDate.getYear(),
+                eventDate.getFullYear(),
                 eventDate.getMonth(),
                 eventDate.getDate(),
                 timeStart.getHours(),
                 timeStart.getMinutes()
             ),
             timeEnd: new Date(
-                eventDate.getYear(),
+                eventDate.getFullYear(),
                 eventDate.getMonth(),
                 eventDate.getDate(),
                 timeEnd.getHours(),
@@ -145,7 +154,9 @@ export default function CreateEvent(props) {
 
     useEffect(() => {
         getBrowserLocation()
-            .then(currentLocation => setCenter(currentLocation))
+            .then(currentLocation => {
+                setCenter(currentLocation);
+            })
             .catch(defaultLocation => setCenter(defaultLocation));
     }, []);
     return (
@@ -307,7 +318,7 @@ export default function CreateEvent(props) {
                 type="button"
                 onClick={handleCreateEvent}
             >
-                Создать событие
+                {isEditing ? 'Редактировать событие' : 'Создать событие'}
             </Button>
         </Box>
     );

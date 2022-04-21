@@ -1,11 +1,14 @@
-.list-group{
-    margin: 1em 2em 1em 2em; 
+.list-group {
+    margin: 1em 2em 1em 2em;
 }
 
-.eventInList{
+.eventInList {
     border: solid 1px;
     border-radius: 1em;
     padding: 1em;
     margin-bottom: 1em;
 }
 
+.search {
+    margin: 1em;
+}

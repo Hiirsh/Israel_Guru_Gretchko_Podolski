@@ -10,10 +10,13 @@ export const MODES = {
 };
 
 const containerStyle = {
-    width: '100%',
-    height: '100%',
-};
-const defaultOptions = {
+    width: '20em',
+    height: '15em',
+    margin: '1em 0 5em 0',
+    display: 'flex',
+  };
+
+  const defaultOptions = {
     panControl: true,
     zoomControl: true,
     mapTypeControl: false,

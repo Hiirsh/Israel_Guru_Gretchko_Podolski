@@ -9,6 +9,11 @@ export const signInPage = '/sign_in';
 export const signUpPage = '/sign_up';
 export const profilePage = '/profile';
 export const accountPage = '/account';
+export const editEventPage = '/edit_event';
+export const createEventPage = '/create_event';
+export const myEventsPage = '/my_events';
 export const errorPage = '/error';
 export const regConfirmPage = '/reg_confirm';
 export const guidePhoto = guidePh;
+
+export const API_KEY_MAPS = process.env.REACT_APP_API_KEY;

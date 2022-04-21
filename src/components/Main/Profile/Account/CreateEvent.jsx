@@ -1,43 +1,75 @@
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Box, Button, TextField} from '@mui/material';
-import {useNavigate} from 'react-router-dom';
-import {homePage} from '../../../../utils/constants';
-import Stack from '@mui/material/Stack';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import TimePicker from '@mui/lab/TimePicker';
 import Calendar from '..//..//Calendar';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
-// import Place from '..//..//Place';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import {updateEvent} from '../../../../firebaseFiles/services/eventsService';
+import {
+    addEventToGuide,
+    updateEvent,
+} from '../../../../firebaseFiles/services/eventsService';
 import {v4 as uuidv4} from 'uuid';
-import {useSelector} from 'react-redux';
-import {Map} from '..//..//..//..//GoogleMap';
-import { API_KEY_MAPS } from '../../../../App';
 import {useJsApiLoader} from '@react-google-maps/api';
+import Map, {MODES} from '../../../../GoogleMap/Map';
+import s from '../../../../componentStyles/CreateEvent.css';
+import {getBrowserLocation} from '../../../../utils/geo.js';
+import Autocomplete from '../../../../GoogleMap/Autocomplete';
+import {libraries, defaultCenter} from '../../../../utils/geo.js';
+import {DatePicker} from '@mui/lab';
+const MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_KEY;
 
 export default function CreateEvent(props) {
-    const navigate = useNavigate();
-    const guide = useSelector(state => state.userId);
-    // const [eventId, setEventId] = useState('');
-    const [place, setPlace] = useState(props.place || '');
-    const [title, setTitle] = useState(props.title || '');
-    const [timeStart, setTimeStart] = useState(props.timeStart || new Date());
-    const [timeEnd, setTimeEnd] = useState(props.timeEnd || new Date());
-    const [price, setPrice] = useState(props.price || '');
-    const [totalSpace, setTotalSpace] = useState(props.totalSpace || '');
-    const [preview, setPreview] = useState(props.preview || '');
-    const [description, setDescription] = useState(props.description || '');
+    const isEditing = !!Object.keys(props).length;
+    const editEvent = props.editEvent;
+    const [place, setPlace] = useState(isEditing ? editEvent.place || '' : '');
+    const [title, setTitle] = useState(isEditing ? editEvent.title || '' : '');
+    const [eventDate, setEventDate] = useState(
+        isEditing ? editEvent.timeStart || new Date() : new Date()
+    );
+    const [timeStart, setTimeStart] = useState(
+        isEditing ? editEvent.timeStart || new Date() : new Date()
+    );
+    const [timeEnd, setTimeEnd] = useState(
+        isEditing ? editEvent.timeEnd || new Date() : new Date()
+    );
+    const [price, setPrice] = useState(isEditing ? editEvent.price || '' : '');
+    const [totalSpace, setTotalSpace] = useState(
+        isEditing ? editEvent.totalSpace : ''
+    );
+    const [preview, setPreview] = useState(
+        isEditing ? editEvent.preview || '' : ''
+    );
+    const [description, setDescription] = useState(
+        isEditing ? editEvent.description || '' : ''
+    );
     const [additionalInfo, setAdditionalInfo] = useState(
-        props.additionalInfo || ''
-    ); //nafig
-    const [difficulty, setDifficulty] = useState(props.difficulty || ''); //nafig
-    const [meetingPoint, setMeetingPoint] = useState(props.meetingPoint || ''); //nafig
+        isEditing ? editEvent.additionalInfo || '' : ''
+    );
+    const [difficulty, setDifficulty] = useState(
+        isEditing ? editEvent.difficulty || '' : ''
+    );
+    const [meetingPoint, setMeetingPoint] = useState(
+        isEditing ? editEvent.meetingPoint || '' : ''
+    );
+    const [marker, setMarker] = useState(
+        isEditing ? editEvent.marker || undefined : undefined
+    );
+    const [center, setCenter] = useState(defaultCenter);
 
+    const userData = JSON.parse(localStorage.getItem('userData'));
+
+    const handleEventDate = time => {
+        try {
+            setEventDate(time);
+        } catch {
+            setEventDate('');
+        }
+    };
     const handleTimeStart = time => {
         try {
             setTimeStart(time);
@@ -56,13 +88,29 @@ export default function CreateEvent(props) {
 
     const handleCreateEvent = () => {
         const id = uuidv4();
+        if (userData.events === undefined) userData.events = [id];
+        else userData.events.push(id);
+        localStorage.setItem('userData', JSON.stringify(userData));
+        addEventToGuide(userData.userId, id);
         updateEvent({
             id,
-            guide,
+            guideId: userData.userId,
             title,
             place,
-            timeStart,
-            timeEnd,
+            timeStart: new Date(
+                eventDate.getYear(),
+                eventDate.getMonth(),
+                eventDate.getDate(),
+                timeStart.getHours(),
+                timeStart.getMinutes()
+            ),
+            timeEnd: new Date(
+                eventDate.getYear(),
+                eventDate.getMonth(),
+                eventDate.getDate(),
+                timeEnd.getHours(),
+                timeEnd.getMinutes()
+            ),
             price,
             totalSpace,
             preview,
@@ -71,163 +119,196 @@ export default function CreateEvent(props) {
             difficulty,
             meetingPoint,
             participants: [],
+            marker,
         });
     };
 
-    const defaultCenter = {
-        lat: -3.745,
-        lng: -38.523
-      };
-
-      const libraries = ['places'];
-
-      const { isLoaded } = useJsApiLoader({
+    const {isLoaded} = useJsApiLoader({
         id: 'google-map-script',
-        // googleMapsApiKey: API_KEY_MAPS,
-        googleMapsApiKey: 'AIzaSyBpnB18W44YzT_OyF0Gd1OTUDZ266CHQkg',
+        googleMapsApiKey: MAPS_API_KEY,
         libraries,
-      })
+    });
 
+    const onPlaceSelect = useCallback(coordinates => {
+        setCenter(coordinates);
+    }, []);
+
+    const onMarkerAdd = useCallback(
+        coordinates => setMarker(coordinates),
+        [marker]
+    );
+
+    const clear = useCallback(e => {
+        e.preventDefault();
+        setMarker(undefined);
+    }, []);
+
+    useEffect(() => {
+        getBrowserLocation()
+            .then(currentLocation => setCenter(currentLocation))
+            .catch(defaultLocation => setCenter(defaultLocation));
+    }, []);
     return (
-        <div className="createEventForm">
-            <p>CreateEvent</p>
-            <div className="entryFormBox">
+        <Box
+            className="entryForm"
+            component="form"
+            sx={{
+                '& .MuiTextField-root': {m: 1, width: '100%'},
+            }}
+            noValidate
+            autoComplete="off"
+        >
+            <TextField
+                required
+                id="standard-required"
+                label="Название экскурсии"
+                variant="standard"
+                fullWidth={true}
+                value={title}
+                onChange={e => setTitle(e.target.value)}
+            />
+            <TextField
+                required
+                id="standard-required"
+                label="Место экскурсии"
+                variant="standard"
+                value={place}
+                onChange={e => setPlace(e.target.value)}
+            />
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                    label="Event data"
+                    inputFormat="dd/MM/yyyy" //поменял формат даты
+                    value={eventDate}
+                    onChange={handleEventDate}
+                    renderInput={params => <TextField {...params} />}
+                />
+            </LocalizationProvider>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <TimePicker
+                    label="Start time"
+                    ampm={false}
+                    value={timeStart}
+                    onChange={handleTimeStart}
+                    renderInput={params => <TextField {...params} />}
+                />
+            </LocalizationProvider>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <TimePicker
+                    label="End time"
+                    ampm={false}
+                    value={timeEnd}
+                    onChange={handleTimeEnd}
+                    renderInput={params => <TextField {...params} />}
+                />
+            </LocalizationProvider>
+            <TextareaAutosize
+                aria-label="Preview"
+                minRows={3}
+                placeholder="Краткое описание"
+                className="createTextField"
+                value={preview}
+                onChange={e => setPreview(e.target.value)}
+                style={{width: '100%'}}
+            />
+            <TextareaAutosize
+                aria-label="Description"
+                minRows={6}
+                placeholder="Описание"
+                className="createTextField"
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+                style={{width: '100%'}}
+            />
 
-                {isLoaded ? <Map center={defaultCenter}/> : <h2>Loading</h2>}
-
-
-                <Box
-                    className="entryForm"
-                    component="form"
-                    sx={{
-                        '& .MuiTextField-root': {m: 1, width: '25ch'},
-                    }}
-                    noValidate
-                    autoComplete="off"
+            <TextField
+                required
+                id="standard-required"
+                label="Стоимость"
+                variant="standard"
+                value={price}
+                onChange={e => {
+                    if (!isNaN(Number(e.target.value))) {
+                        setPrice(e.target.value);
+                    }
+                }}
+            />
+            <TextField
+                required
+                id="standard-required"
+                inputProps={{inputMode: 'numeric', pattern: '[0-9]*'}}
+                label="Всего мест"
+                variant="standard"
+                value={totalSpace}
+                onChange={e => {
+                    if (!isNaN(Number(e.target.value))) {
+                        setTotalSpace(e.target.value);
+                    }
+                }}
+            />
+            <FormControl variant="standard" sx={{m: 1, minWidth: 120}}>
+                <InputLabel id="demo-simple-select-standard-label">
+                    Сложность
+                </InputLabel>
+                <Select
+                    labelId="demo-simple-select-standard-label"
+                    id="demo-simple-select-standard"
+                    value={difficulty}
+                    onChange={e => setDifficulty(e.target.value)}
+                    label="Сложность"
                 >
-                    <TextField
-                        required
-                        id="standard-required"
-                        label="Название экскурсии"
-                        variant="standard"
-                        value={title}
-                        onChange={e => setTitle(e.target.value)}
+                    <MenuItem value={'Турист'}>Турист</MenuItem>
+                    <MenuItem value={'Местный'}>Местный</MenuItem>
+                    <MenuItem value={'Гуру'}>Гуру</MenuItem>
+                </Select>
+            </FormControl>
+            <TextareaAutosize
+                aria-label="Description"
+                minRows={3}
+                placeholder="meetingPoint"
+                className="createTextField"
+                value={meetingPoint}
+                onChange={e => setMeetingPoint(e.target.value)}
+                style={{width: '100%'}}
+            />
+            <div>
+                <div className={s.addressContainer}>
+                    <Autocomplete
+                        isLoaded={isLoaded}
+                        onSelect={onPlaceSelect}
                     />
-                    <TextField
-                        required
-                        id="standard-required"
-                        label="Место экскурсии"
-                        variant="standard"
-                        value={place}
-                        onChange={e => setPlace(e.target.value)}
+                    <button className={s.modeToggle} onClick={clear}>
+                        Убрать метку
+                    </button>
+                </div>
+                {isLoaded ? (
+                    <Map
+                        center={center}
+                        mode={/* mode */ MODES.SET_MARKER}
+                        marker={marker}
+                        onMarkerAdd={onMarkerAdd}
                     />
-                    <Calendar />
-                    {/* <Place /> */}
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <TimePicker
-                            label="Start time"
-                            ampm={false}
-                            value={timeStart}
-                            // onBlur={handleTimeStart || ''}
-                            onChange={handleTimeStart}
-                            renderInput={params => <TextField {...params} />}
-                        />
-                    </LocalizationProvider>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <TimePicker
-                            label="End time"
-                            ampm={false}
-                            value={timeEnd}
-                            onChange={handleTimeEnd}
-                            renderInput={params => <TextField {...params} />}
-                        />
-                    </LocalizationProvider>
-                    <TextareaAutosize
-                        aria-label="Preview"
-                        minRows={3}
-                        placeholder="Краткое описание"
-                        className="createTextField"
-                        value={preview}
-                        onChange={e => setPreview(e.target.value)}
-                    />
-                    <TextareaAutosize
-                        aria-label="Description"
-                        minRows={6}
-                        placeholder="Описание"
-                        className="createTextField"
-                        value={description}
-                        onChange={e => setDescription(e.target.value)}
-                    />
-
-                    <TextField
-                        required
-                        id="standard-required"
-                        label="Стоимость"
-                        variant="standard"
-                        value={price}
-                        onChange={e => {
-                            if (!isNaN(Number(e.target.value))) {
-                                setPrice(e.target.value);
-                            }
-                        }}
-                    />
-                    <TextField
-                        required
-                        id="standard-required"
-                        inputProps={{inputMode: 'numeric', pattern: '[0-9]*'}}
-                        label="Всего мест"
-                        variant="standard"
-                        value={totalSpace}
-                        onChange={e => {
-                            if (!isNaN(Number(e.target.value))) {
-                                setTotalSpace(e.target.value);
-                            }
-                        }}
-                    />
-                    <FormControl variant="standard" sx={{m: 1, minWidth: 120}}>
-                        <InputLabel id="demo-simple-select-standard-label">
-                            Сложность
-                        </InputLabel>
-                        <Select
-                            labelId="demo-simple-select-standard-label"
-                            id="demo-simple-select-standard"
-                            value={difficulty}
-                            onChange={e => setDifficulty(e.target.value)}
-                            label="Сложность"
-                        >
-                            <MenuItem value={'Турист'}>Турист</MenuItem>
-                            <MenuItem value={'Местный'}>Местный</MenuItem>
-                            <MenuItem value={'Гуру'}>Гуру</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <TextareaAutosize
-                        aria-label="Description"
-                        minRows={3}
-                        placeholder="meetingPoint"
-                        className="createTextField"
-                        value={meetingPoint}
-                        onChange={e => setMeetingPoint(e.target.value)}
-                    />
-                    <TextareaAutosize
-                        aria-label="Description"
-                        minRows={3}
-                        placeholder="additionalInfo"
-                        className="createTextField"
-                        value={additionalInfo}
-                        onChange={e => setAdditionalInfo(e.target.value)}
-                    />
-                    <Button
-                        disabled={false}
-                        variant="contained"
-                        type="button"
-                        onClick={
-                            handleCreateEvent /* navigate(`../${homePage}/`) */
-                        }
-                    >
-                        Создать событие
-                    </Button>
-                </Box>
+                ) : (
+                    <h1>Loading...</h1>
+                )}
             </div>
-        </div>
+            <TextareaAutosize
+                aria-label="Description"
+                minRows={3}
+                placeholder="additionalInfo"
+                className="createTextField"
+                value={additionalInfo}
+                onChange={e => setAdditionalInfo(e.target.value)}
+                style={{width: '100%'}}
+            />
+            <Button
+                disabled={false}
+                variant="contained"
+                type="button"
+                onClick={handleCreateEvent}
+            >
+                Создать событие
+            </Button>
+        </Box>
     );
 }

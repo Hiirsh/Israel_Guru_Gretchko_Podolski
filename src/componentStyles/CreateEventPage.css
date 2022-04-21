@@ -1,0 +1,16 @@
+.body {
+    margin-top: 2em;
+}
+.elements {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #3e52c4;
+}
+.returnBut button {
+    margin: 1em auto;
+    display: flex;
+    text-align: center;
+}

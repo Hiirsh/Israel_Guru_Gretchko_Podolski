@@ -12,10 +12,7 @@ export async function login(email, password) {
         const responce = await fb
             .auth()
             .signInWithEmailAndPassword(email, password);
-        // console.log(auth.currentUser);
-        console.log(responce.user.uid);
         return responce.user.uid;
-        // return (await responce.user.getIdToken()).slice(0, 20);
     } catch (error) {
         console.log(error.message);
         return false;
@@ -27,7 +24,6 @@ export async function registration(email, password) {
         const responce = await fb
             .auth()
             .createUserWithEmailAndPassword(email, password);
-        console.log(responce.user);
         return responce.user.uid;
     } catch (error) {
         console.log(error.message);
@@ -39,35 +35,20 @@ export async function updateUserProfileInDB(userData) {
     const ref = fb.firestore().collection('users').doc(userData.userId);
     const doc = await ref.get();
     if (doc.exists)
-        await ref.update({
-            users: firebase.firestore.FieldValue.arrayUnion(userData),
-        });
+        await ref.update(
+            /* users: */ firebase.firestore.FieldValue.arrayUnion(userData)
+        );
     else await ref.set(userData);
 }
 
-/* 
-    userId,
-    email,
-    firstName,
-    lastName,
-    phone,
-    aboutUser,
-    license
-*/
+export async function getUserData(userId) {
+    const doc = await fb.firestore().collection('users').doc(userId).get();
+    if (doc.exists) return doc.data();
+}
 
-/* 
-    export async function updateUserProfile(
-        email,
-        firstName,
-        lastName,
-        phone,
-        aboutUser,
-        license,
-        photo,
-        userId
- ) {}
- */
 export function logout() {
-    // fb.auth().signOut();
-    signOut(auth).then(() => localStorage.removeItem('user'));
+    signOut(auth).then(() => {
+        localStorage.removeItem('user');
+        localStorage.removeItem('userData');
+    });
 }

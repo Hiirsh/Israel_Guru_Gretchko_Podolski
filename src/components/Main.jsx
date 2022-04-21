@@ -4,10 +4,13 @@ import {Routes, Route} from 'react-router-dom';
 import EventPage from './Main/EventPage';
 import {
     accountPage,
+    createEventPage,
+    editEventPage,
     entryPage,
     errorPage,
     eventPage,
     homePage,
+    myEventsPage,
     paymentPage,
     profilePage,
     regConfirmPage,
@@ -26,6 +29,9 @@ import AccountPage from './Main/Profile/AccountPage';
 import RegConfirm from './Main/Profile/RegConfirm';
 import {useSelector} from 'react-redux';
 import PleaseWaitPage from './Main/PleaseWaitPage';
+import EditEventPage from './Main/Profile/Account/EditEventPage';
+import CreateEventPage from './Main/Profile/Account/CreateEventPage';
+import MyEventsPage from './Main/Profile/Account/MyEventsPage';
 export default function Main() {
     const isAutorised = useSelector(state => state.isSignedIn);
     return (
@@ -53,10 +59,29 @@ export default function Main() {
                     element={<AccountPage />}
                 />
             )}
+            {isAutorised && (
+                <Route
+                    path={`/${editEventPage}/:userId/:pageId`}
+                    element={<EditEventPage />}
+                />
+            )}
+            {isAutorised && (
+                <Route
+                    path={`/${createEventPage}/:userId/`}
+                    element={<CreateEventPage />}
+                />
+            )}
+            {isAutorised && (
+                <Route
+                    path={`/${myEventsPage}/:userId/`}
+                    element={<MyEventsPage />}
+                />
+            )}
             <Route
                 path={`/${regConfirmPage}/:userId`}
                 element={<RegConfirm />}
             />
+
             <Route path={`/${errorPage}`} element={<ErrorPage />} />
             <Route path={`*`} element={<PleaseWaitPage />} />
         </Routes>

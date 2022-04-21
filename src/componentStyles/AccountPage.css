@@ -3,13 +3,16 @@
 }
 
 .accBut {
+    cursor: pointer;
+}
+
+.elements {
     width: 80%;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     color: #3e52c4;
-    cursor: pointer;
 }
 
 h2:hover {

@@ -23,22 +23,39 @@ import {libraries, defaultCenter} from '../../../../utils/geo.js';
 const MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_KEY;
 
 export default function CreateEvent(props) {
-    const [place, setPlace] = useState(props.place || '');
-    const [title, setTitle] = useState(props.title || '');
-    const [timeStart, setTimeStart] = useState(props.timeStart || new Date());
-    const [timeEnd, setTimeEnd] = useState(props.timeEnd || new Date());
-    const [price, setPrice] = useState(props.price || '');
-    const [totalSpace, setTotalSpace] = useState(props.totalSpace || '');
-    const [preview, setPreview] = useState(props.preview || '');
-    const [description, setDescription] = useState(props.description || '');
-    const [additionalInfo, setAdditionalInfo] = useState(
-        props.additionalInfo || ''
+    const isEditing = !!Object.keys(props).length;
+    const editEvent = props.editEvent;
+    const [place, setPlace] = useState(isEditing ? editEvent.place || '' : '');
+    const [title, setTitle] = useState(isEditing ? editEvent.title || '' : '');
+    const [timeStart, setTimeStart] = useState(
+        isEditing ? editEvent.timeStart || new Date() : new Date()
     );
-    const [difficulty, setDifficulty] = useState(props.difficulty || '');
-    const [meetingPoint, setMeetingPoint] = useState(props.meetingPoint || '');
+    const [timeEnd, setTimeEnd] = useState(
+        isEditing ? editEvent.timeEnd || new Date() : new Date()
+    );
+    const [price, setPrice] = useState(isEditing ? editEvent.price || '' : '');
+    const [totalSpace, setTotalSpace] = useState(
+        isEditing ? editEvent.totalSpace : ''
+    );
+    const [preview, setPreview] = useState(
+        isEditing ? editEvent.preview || '' : ''
+    );
+    const [description, setDescription] = useState(
+        isEditing ? editEvent.description || '' : ''
+    );
+    const [additionalInfo, setAdditionalInfo] = useState(
+        isEditing ? editEvent.additionalInfo || '' : ''
+    );
+    const [difficulty, setDifficulty] = useState(
+        isEditing ? editEvent.difficulty || '' : ''
+    );
+    const [meetingPoint, setMeetingPoint] = useState(
+        isEditing ? editEvent.meetingPoint || '' : ''
+    );
+    const [marker, setMarker] = useState(
+        isEditing ? editEvent.marker || undefined : undefined
+    );
     const [center, setCenter] = useState(defaultCenter);
-    // const [mode, setMode] = useState(MODES.SET_MARKER);
-    const [marker, setMarker] = useState(center);
 
     const userData = JSON.parse(localStorage.getItem('userData'));
     const handleTimeStart = time => {
@@ -57,7 +74,7 @@ export default function CreateEvent(props) {
         }
     };
 
-    const handleCreateEvent = (/* isNewEvent */) => {
+    const handleCreateEvent = () => {
         const id = uuidv4();
         if (userData.events === undefined) userData.events = [id];
         else userData.events.push(id);
@@ -92,24 +109,6 @@ export default function CreateEvent(props) {
         setCenter(coordinates);
     }, []);
 
-    /*     const toggleModeHandler = useCallback(
-        e => {
-            e.preventDefault();
-            switch (mode) {
-                case MODES.MOVE:
-                    setMode(MODES.SET_MARKER);
-                    break;
-                case MODES.SET_MARKER:
-                    setMode(MODES.MOVE);
-                    break;
-                default:
-                    setMode(MODES.MOVE);
-            }
-            console.log(mode);
-        },
-        [mode]
-    ); */
-
     const onMarkerAdd = useCallback(
         coordinates => setMarker(coordinates),
         [marker]
@@ -117,7 +116,7 @@ export default function CreateEvent(props) {
 
     const clear = useCallback(e => {
         e.preventDefault();
-        setMarker('');
+        setMarker(undefined);
     }, []);
 
     useEffect(() => {
@@ -160,7 +159,6 @@ export default function CreateEvent(props) {
                     label="Start time"
                     ampm={false}
                     value={timeStart}
-                    // onBlur={handleTimeStart || ''}
                     onChange={handleTimeStart}
                     renderInput={params => <TextField {...params} />}
                 />
@@ -249,12 +247,6 @@ export default function CreateEvent(props) {
                         isLoaded={isLoaded}
                         onSelect={onPlaceSelect}
                     />
-                    {/* <button
-                                className={s.modeToggle}
-                                onClick={toggleModeHandler}
-                            >
-                                Set markers
-                            </button> */}
                     <button className={s.modeToggle} onClick={clear}>
                         Убрать метку
                     </button>
@@ -283,7 +275,7 @@ export default function CreateEvent(props) {
                 disabled={false}
                 variant="contained"
                 type="button"
-                onClick={handleCreateEvent /* navigate(`../${homePage}/`) */}
+                onClick={handleCreateEvent}
             >
                 Создать событие
             </Button>

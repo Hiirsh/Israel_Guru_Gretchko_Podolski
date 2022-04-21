@@ -3,6 +3,7 @@ import {fb} from '../config/firebaseConfig';
 import 'firebase/compat/firestore';
 import 'firebase/compat/app';
 import firebase from 'firebase/compat/app';
+import {doc, deleteDoc} from 'firebase/firestore';
 
 export async function updateEvent(eventData) {
     const ref = fb.firestore().collection('events').doc(eventData.id);
@@ -33,6 +34,10 @@ export async function getEventById(eventId) {
 export async function getEvents() {
     const doc = await fb.firestore().collection('events').get();
     return doc.docs.map(events => events.data());
+}
+
+export async function deleteEvent(eventId) {
+    await deleteDoc(doc(fb, 'events', eventId));
 }
 
 // export async function getEventsRowsArrarById(eventsId) {

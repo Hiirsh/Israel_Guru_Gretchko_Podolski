@@ -196,7 +196,6 @@ export default function MyEvents() {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <button onClick={handleClickOpenDelete}>Check</button>
             <Dialog
                 open={openDelete}
                 onClose={handleCloseDelete}

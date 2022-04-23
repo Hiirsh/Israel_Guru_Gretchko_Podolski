@@ -35,7 +35,7 @@ export default function MyEventsPage() {
                 >
                     <h2 className="return">Назад</h2>
                 </Button>
-            </div>{' '}
+            </div>
         </div>
     );
 }

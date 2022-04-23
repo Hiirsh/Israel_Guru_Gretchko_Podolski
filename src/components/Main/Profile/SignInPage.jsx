@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import style from '..//../..//componentStyles/SignIn.css';
 import {Box, Button, TextField} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
-import {errorPage, profilePage, signUpPage} from '..//..//..//utils/constants';
+import {accountPage, signUpPage} from '..//..//..//utils/constants';
 import {login} from '../../../firebaseFiles/services/authService';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {signingAction} from '../../../reduxFiles/actions/isSignedAction';
 import {setUserIdAction} from '../../../reduxFiles/actions/setUserIdAction';
 import IconButton from '@mui/material/IconButton';
@@ -17,11 +17,6 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 export default function SignInPage() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    // const userIdTest = useSelector(state => state.userId);
-    // const [state, setState] = useState({
-    //     email: 'pupkin@mail.il',
-    //     password: '123456',
-    // });
     const [email, setEmail] = useState('testguide@test.com');
     const [values, setValues] = useState({
         password: '123456',
@@ -46,11 +41,11 @@ export default function SignInPage() {
 
     function signInButtonHandler() {
         try {
-            login(/* state.email, state.password */ email, values.password)
+            login( email, values.password)
                 .then(data => data)
                 .then(userId => {
                     if (userId) {
-                        navigate(`../${profilePage}/${userId}`);
+                        navigate(`../${accountPage}/${userId}`);
                         dispatch(signingAction(true));
                         dispatch(setUserIdAction(userId));
                         setError(false);

@@ -45,9 +45,6 @@ export default function Event(props) {
                         // src={`${ev.image}`}/>
                     )}
                 </div>
-                {/* {isExtended && ev.marker && isLoaded && (
-                    <Map center={center} mode={MODES.MOVE} marker={ev.marker} />
-                )} */}
                 <div>
                     {isExtended ? (
                         <h1 className="eventTitle ">{`${ev.title}`}</h1>
@@ -69,7 +66,10 @@ export default function Event(props) {
                     <p>{`${isExtended ? ev.description : ''}`}</p>
                 </div>
                 {isExtended && ev.marker && isLoaded && (
-                    <Map center={center} mode={MODES.MOVE} marker={ev.marker} />
+                    <Map
+                        center={ev.marker}
+                        mode={MODES.MOVE} /*  marker={ev.marker}  */
+                    />
                 )}
             </>
         </>

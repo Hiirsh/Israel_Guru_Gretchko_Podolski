@@ -14,34 +14,90 @@ import {DateRangePicker} from '@mui/x-date-pickers-pro/DateRangePicker';
 import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 
-export default function Events() {
+export default function EventList() {
+    const [renderFirstEvent, setRenderFirstEvent] = useState(0);
+    const [renderLastEvent, setRenderLastEvent] = useState(3);
     const [searchDate, setSearchDate] = useState([null, null]);
     const [searchText, setSearchText] = useState('');
     const [searchPlace, setSearchPlace] = useState('');
-    const [searchDifficulty, setSearchDifficulty] = useState('Турист');
+    const [searchDifficulty, setSearchDifficulty] = useState('');
     const [events, setEvents] = useState([]);
-    const [renderFirstEvent, setRenderFirstEvent] = useState(0);
+    const [eventsRender, setEventsRender] = useState([]);
+    const [eventsFilter, setEventsFilter] = useState([]);
+    const [flag, setFlag] = useState(false);
+
     const isCollapced = useSelector(
         state => state.pageState.eventListCollapced
     );
+
     let numEvents = events.length;
-    const [renderLastEvent, setRenderLastEvent] = useState(3);
-    let eventsRender = events.slice(renderFirstEvent, renderLastEvent);
     const dispatch = useDispatch();
 
-    const handleSearch = () => {
-        // eventsRender.filter((ev)=>{if (searchDate[0]) return ev.timeStart>=searchDate[1]&&
-        // if(searchDate[1])return ev.timeStart>=searchDate[1]})
+    useEffect(() => {
+        dispatch(changeEventList());
+        getEventsToRender();
+        filterEvents();
+    }, [flag, searchDate, searchDifficulty, searchPlace, searchText]);
+
+    const handleClickShow = e => {
+        e.preventDefault();
+        setRenderLastEvent(!isCollapced ? 3 : numEvents);
+        setEventsRender(events.slice(renderFirstEvent, renderLastEvent));
+        dispatch(changeEventList());
     };
-    useEffect(
-        () =>
-            getEvents().then(data => {
-                setEvents(data);
-                setRenderLastEvent(3);
-                dispatch(changeEventList());
-            }),
-        []
-    );
+
+    const filterEvents = () => {
+        setEventsFilter(events);
+        if (searchDate[0] !== null) {
+            eventsRender.filter(
+                item => new Date(item.timeStart.seconds * 1000) >= searchDate[0]
+            );
+            setEventsFilter(
+                eventsRender.filter(
+                    item =>
+                        new Date(item.timeStart.seconds * 1000) >= searchDate[0]
+                )
+            );
+        } else if (searchDate[1] !== null) {
+            setEventsFilter(
+                eventsRender.filter(
+                    item =>
+                        new Date(item.timeEnd.seconds * 1000) <= searchDate[0]
+                )
+            );
+        } else if (searchText !== '') {
+            setEventsFilter(
+                eventsRender.filter(item =>
+                    JSON.stringify(item)
+                        .toLowerCase()
+                        .includes(searchText.toLowerCase().trim())
+                )
+            );
+        } else if (searchPlace !== '') {
+            setEventsFilter(
+                eventsRender.filter(item =>
+                    item.place
+                        .toLowerCase()
+                        .includes(searchPlace.toLowerCase().trim())
+                )
+            );
+        } else if (searchDifficulty !== '') {
+            setEventsFilter(
+                eventsRender.filter(item =>
+                    item.difficulty.includes(searchDifficulty)
+                )
+            );
+        } else setEventsFilter(eventsRender);
+    };
+
+    const getEventsToRender = () => {
+        getEvents().then(data => {
+            setEvents(data);
+            setEventsRender(data);
+            setFlag(true);
+        });
+    };
+
     function renderEvents() {
         return (
             <div>
@@ -54,7 +110,7 @@ export default function Events() {
                     </div>
                 ) : (
                     <div className="list-group">
-                        {eventsRender.map((item, index) => (
+                        {eventsFilter.map((item, index) => (
                             <div className="eventInList" key={index}>
                                 <Event ev={item} extended={false} />
                             </div>
@@ -70,15 +126,6 @@ export default function Events() {
             <div className="search">
                 <div>
                     <div>Поиск</div>
-                    {/* <Box
-                        className="entryForm"
-                        component="form"
-                        sx={{
-                            '& .MuiTextField-root': {m: 1, width: '100%'},
-                        }}
-                        noValidate
-                        autoComplete="off"
-                    > */}
                     <TextField
                         required
                         id="standard-required"
@@ -87,7 +134,6 @@ export default function Events() {
                         value={searchText}
                         onChange={e => setSearchText(e.target.value)}
                     />
-                    {/* </Box> */}
                 </div>
                 <div>
                     <div>Дата</div>
@@ -132,7 +178,6 @@ export default function Events() {
                             id="demo-simple-select-standard"
                             value={searchDifficulty}
                             onChange={e => setSearchDifficulty(e.target.value)}
-                            // label="Сложность"
                         >
                             <MenuItem value={'Турист'}>Турист</MenuItem>
                             <MenuItem value={'Местный'}>Местный</MenuItem>
@@ -141,26 +186,13 @@ export default function Events() {
                     </FormControl>
                 </div>
             </div>
-            <div className="d-grid  m-3">
-                <Button
-                    variant="contained"
-                    type="button"
-                    // className="btn btn-secondary "
-                    onClick={handleSearch}
-                >
-                    Search
-                </Button>
-            </div>
             {renderEvents()}
             <div className="d-grid gap-2 m-3">
                 <Button
                     variant="contained"
                     type="button"
-                    // className="btn btn-secondary "
                     onClick={e => {
-                        e.preventDefault();
-                        setRenderLastEvent(!isCollapced ? 3 : numEvents);
-                        dispatch(changeEventList());
+                        handleClickShow(e);
                     }}
                 >
                     {`${isCollapced ? 'Show all' : 'Hide'}`}

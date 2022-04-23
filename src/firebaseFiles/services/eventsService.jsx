@@ -23,17 +23,20 @@ export async function addEventToGuide(guideId, eventId) {
         });
     else await ref.set({events: eventId});
 }
+
 export async function removeEventFromGuide(guideId, eventId) {
     const ref = fb.firestore().collection('users').doc(guideId);
     await ref.update({
         events: firebase.firestore.FieldValue.arrayRemove(eventId),
     });
 }
+
 export async function getEventById(eventId) {
     const doc = await fb.firestore().collection('events').doc(eventId).get();
     if (doc.exists) return doc.data();
     else return '';
 }
+
 export async function getEvents() {
     const doc = await fb.firestore().collection('events').get();
     return doc.docs.map(events => events.data());

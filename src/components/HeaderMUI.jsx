@@ -225,7 +225,7 @@ export default function HeaderMUI() {
                     >
                         Israel Guru
                     </Typography>
-                    <Search>
+                    {/* <Search>
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>
@@ -233,7 +233,7 @@ export default function HeaderMUI() {
                             placeholder="Search…"
                             inputProps={{'aria-label': 'search'}}
                         />
-                    </Search>
+                    </Search> */}
                     <Box sx={{flexGrow: 1}} />
                     <Box sx={{display: {xs: 'none', md: 'flex'}}}>
                         <IconButton

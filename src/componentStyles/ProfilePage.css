@@ -1,11 +1,10 @@
-
 .title {
     font-weight: 600;
     font-size: 2em;
     padding: 0 1rem 0 0;
 }
 
-.elements h1{
+.elementsProfile h1 {
     margin-bottom: 1em;
 }
 .buttonContainer {
@@ -18,14 +17,14 @@
     width: 20%;
     display: block;
     text-align: center;
-    margin-top:5em;
+    margin-top: 5em;
 }
 
-.elements button {
+.elementsProfile button {
     margin-top: 2em;
 }
 
-.labelName{
+.labelName {
     color: #252e5e;
     font-size: 1.5em;
     text-align: left;
@@ -33,13 +32,12 @@
     position: relative;
 }
 
-.storageInfo text{
+.storageInfo text {
     margin-top: 2em;
-    font-size:2em;
-    
+    font-size: 2em;
 }
 
-.elements h2{
+.elementsProfile h2 {
     width: 80%;
     margin-left: auto;
     margin-right: auto;
@@ -48,19 +46,16 @@
     color: #3e52c4;
 }
 
-.elements{
+.elementsProfile {
     display: flex;
     direction: row;
 }
 
-
-.elements h1{
+.elementsProfile h1 {
     text-align: center;
     color: #252e5e;
 }
 
-.profileUserInfo{
-    margin-bottom:2em;
+.profileUserInfo {
+    margin-bottom: 2em;
 }
-
-

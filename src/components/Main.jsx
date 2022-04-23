@@ -32,6 +32,7 @@ import PleaseWaitPage from './Main/PleaseWaitPage';
 import EditEventPage from './Main/Profile/Account/EditEventPage';
 import CreateEventPage from './Main/Profile/Account/CreateEventPage';
 import MyEventsPage from './Main/Profile/Account/MyEventsPage';
+import DatePicker from '@mui/lab/DatePicker';
 export default function Main() {
     const isAutorised = useSelector(state => state.isSignedIn);
     return (

@@ -18,7 +18,7 @@ export default function Events() {
     const [searchDate, setSearchDate] = useState([null, null]);
     const [searchText, setSearchText] = useState('');
     const [searchPlace, setSearchPlace] = useState('');
-    const [searchDifficulty, setSearchDifficulty] = useState('Турист');
+    const [searchDifficulty, setSearchDifficulty] = useState('Сложность');
     const [events, setEvents] = useState([]);
     const [renderFirstEvent, setRenderFirstEvent] = useState(0);
     const isCollapced = useSelector(
@@ -66,19 +66,10 @@ export default function Events() {
     }
 
     return (
-        <div>
-            <div className="search">
-                <div>
-                    <div>Поиск</div>
-                    {/* <Box
-                        className="entryForm"
-                        component="form"
-                        sx={{
-                            '& .MuiTextField-root': {m: 1, width: '100%'},
-                        }}
-                        noValidate
-                        autoComplete="off"
-                    > */}
+        // <div>
+        <div className="sticky">
+            <div className="searchBlock">
+                <div className="searchInput">
                     <TextField
                         required
                         id="standard-required"
@@ -87,14 +78,14 @@ export default function Events() {
                         value={searchText}
                         onChange={e => setSearchText(e.target.value)}
                     />
-                    {/* </Box> */}
+    
                 </div>
-                <div>
-                    <div>Дата</div>
+                <div className="searchCalendar">
+    
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DateRangePicker
-                            startText="Check-in"
-                            endText="Check-out"
+                            startText="От"
+                            endText="До"
                             value={searchDate}
                             inputFormat="dd/MM/yyyy"
                             onChange={newValue => {
@@ -103,53 +94,53 @@ export default function Events() {
                             renderInput={(startProps, endProps) => (
                                 <React.Fragment>
                                     <TextField {...startProps} />
-                                    <Box sx={{mx: 2}}> to </Box>
+                                    <Box sx={{mx: 1}}>  </Box>
                                     <TextField {...endProps} />
                                 </React.Fragment>
                             )}
                         />
                     </LocalizationProvider>
                 </div>
-                <div>
-                    <div>Место</div>
+                <div className="searchInput">
                     <TextField
                         required
                         id="standard-required"
-                        label=" "
+                        placeholder="Место"
+                        label="Место"
                         variant="standard"
                         value={searchPlace}
                         onChange={e => setSearchPlace(e.target.value)}
                     />
                 </div>
-                <div>
-                    <div>Сложность</div>
-                    <FormControl variant="standard" sx={{m: 1, minWidth: 120}}>
-                        <InputLabel id="demo-simple-select-standard-label">
+                <div className="searchInput">
+                    <FormControl variant="standard" sx={{m: 1, minWidth: 120}} >
+                        {/* <InputLabel id="demo-simple-select-standard-label">
                             Сложность
-                        </InputLabel>
+                        </InputLabel> */}
                         <Select
                             labelId="demo-simple-select-standard-label"
                             id="demo-simple-select-standard"
                             value={searchDifficulty}
                             onChange={e => setSearchDifficulty(e.target.value)}
-                            // label="Сложность"
                         >
+                            <MenuItem value={'Сложность'} disabled>Сложность</MenuItem>
                             <MenuItem value={'Турист'}>Турист</MenuItem>
                             <MenuItem value={'Местный'}>Местный</MenuItem>
                             <MenuItem value={'Гуру'}>Гуру</MenuItem>
                         </Select>
                     </FormControl>
                 </div>
-            </div>
-            <div className="d-grid  m-3">
+            
+                <div 
+                className="btnSearch">
                 <Button
                     variant="contained"
                     type="button"
-                    // className="btn btn-secondary "
                     onClick={handleSearch}
                 >
                     Search
                 </Button>
+            </div>
             </div>
             {renderEvents()}
             <div className="d-grid gap-2 m-3">
@@ -167,5 +158,6 @@ export default function Events() {
                 </Button>
             </div>
         </div>
+        /* </div> */
     );
 }

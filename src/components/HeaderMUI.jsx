@@ -203,7 +203,8 @@ export default function HeaderMUI() {
     );
 
     return (
-        <Box sx={{flexGrow: 1}}>
+        <Box sx={{flexGrow: 1}}
+        className="headerMui">
             <AppBar position="static">
                 <Toolbar>
                     <IconButton

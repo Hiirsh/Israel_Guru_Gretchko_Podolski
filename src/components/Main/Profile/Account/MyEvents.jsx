@@ -29,7 +29,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import {Button} from '@mui/material';
+import {Box, Button, CircularProgress} from '@mui/material';
 
 export default function MyEvents() {
     const {userId: guideId} = useParams();
@@ -40,7 +40,7 @@ export default function MyEvents() {
     //Диалоговое окно
     const [eventIdToDialog, setEventIdToDialog] = useState('');
     const [openCopy, setOpenCopy] = useState(false);
-    // const [openEdit, setOpenEdit] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const handleClickOpenCopy = () => {
         setOpenCopy(true);
@@ -124,140 +124,169 @@ export default function MyEvents() {
 
     return (
         <>
-            <TableContainer component={Paper} className={s.table}>
-                <Table sx={{width: '100%'}} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>№</TableCell>
-                            <TableCell>Дата</TableCell>
-                            <TableCell>Название</TableCell>
-                            <TableCell>Цена</TableCell>
-                            <TableCell>Место</TableCell>
-                            <TableCell></TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows.map(row => (
-                            <TableRow
-                                key={row.eventId}
-                                sx={{
-                                    '&:last-child td, &:last-child th': {
-                                        border: 0,
-                                    },
+            {rows ? (
+                <>
+                    <TableContainer component={Paper} className={s.table}>
+                        <Table sx={{width: '100%'}} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>№</TableCell>
+                                    <TableCell>Дата</TableCell>
+                                    <TableCell>Название</TableCell>
+                                    <TableCell>Цена</TableCell>
+                                    <TableCell>Место</TableCell>
+                                    <TableCell></TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {rows.map(row => (
+                                    <TableRow
+                                        key={row.eventId}
+                                        sx={{
+                                            '&:last-child td, &:last-child th':
+                                                {
+                                                    border: 0,
+                                                },
+                                        }}
+                                    >
+                                        <TableCell component="th" scope="row">
+                                            {row.id}
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {row.date}
+                                        </TableCell>
+                                        <TableCell align="left">
+                                            {row.title}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            {row.price}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            {row.places}
+                                        </TableCell>
+                                        <TableCell
+                                            sx={{width: 20}}
+                                            align="center"
+                                        >
+                                            <div
+                                                className="icon"
+                                                onClick={() =>
+                                                    handleClickEdit(row.eventId)
+                                                }
+                                            >
+                                                <EditIcon />
+                                            </div>
+                                        </TableCell>
+                                        <TableCell
+                                            align="center"
+                                            sx={{width: '30px'}}
+                                        >
+                                            <div
+                                                className="icon"
+                                                onClick={() => {
+                                                    setEventIdToDialog(
+                                                        row.eventId
+                                                    );
+                                                    handleClickOpenCopy();
+                                                }}
+                                            >
+                                                <CopyIcon />
+                                            </div>
+                                        </TableCell>
+                                        <TableCell
+                                            align="center"
+                                            sx={{width: 30}}
+                                        >
+                                            <div
+                                                className="icon"
+                                                onClick={() => {
+                                                    setEventIdToDialog(
+                                                        row.eventId
+                                                    );
+                                                    handleClickOpenDelete();
+                                                }}
+                                            >
+                                                <DeleteIcon />
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <Dialog
+                        open={openDelete}
+                        onClose={handleCloseDelete}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title">
+                            {'Удалить событие'}
+                        </DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                                После нажатия кнопки “Удалить” данное
+                                мероприятие будет удалено, всем участникам будут
+                                высланы уведомления и возвращены деньги.
+                                Мероприятие будет перенесено в раздел
+                                “Прошедшие”
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button
+                                onClick={() => {
+                                    handleCloseDelete();
+                                    handleClickDelete(eventIdToDialog);
                                 }}
                             >
-                                <TableCell component="th" scope="row">
-                                    {row.id}
-                                </TableCell>
-                                <TableCell component="th" scope="row">
-                                    {row.date}
-                                </TableCell>
-                                <TableCell align="left">{row.title}</TableCell>
-                                <TableCell align="center">
-                                    {row.price}
-                                </TableCell>
-                                <TableCell align="center">
-                                    {row.places}
-                                </TableCell>
-                                <TableCell sx={{width: 20}} align="center">
-                                    <div
-                                        className="icon"
-                                        onClick={() =>
-                                            handleClickEdit(row.eventId)
-                                        }
-                                    >
-                                        <EditIcon />
-                                    </div>
-                                </TableCell>
-                                <TableCell align="center" sx={{width: '30px'}}>
-                                    <div
-                                        className="icon"
-                                        onClick={() => {
-                                            setEventIdToDialog(row.eventId);
-                                            handleClickOpenCopy();
-                                        }}
-                                    >
-                                        <CopyIcon />
-                                    </div>
-                                </TableCell>
-                                <TableCell align="center" sx={{width: 30}}>
-                                    <div
-                                        className="icon"
-                                        onClick={() => {
-                                            setEventIdToDialog(row.eventId);
-                                            handleClickOpenDelete();
-                                        }}
-                                    >
-                                        <DeleteIcon />
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <Dialog
-                open={openDelete}
-                onClose={handleCloseDelete}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">
-                    {'Удалить событие'}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        После нажатия кнопки “Удалить” данное мероприятие будет
-                        удалено, всем участникам будут высланы уведомления и
-                        возвращены деньги. Мероприятие будет перенесено в раздел
-                        “Прошедшие”
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button
-                        onClick={() => {
-                            handleCloseDelete();
-                            handleClickDelete(eventIdToDialog);
-                        }}
+                                Да
+                            </Button>
+                            <Button onClick={handleCloseDelete} autoFocus>
+                                Нет
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+                    <Dialog
+                        open={openCopy}
+                        onClose={handleCloseCopy}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
                     >
-                        Да
-                    </Button>
-                    <Button onClick={handleCloseDelete} autoFocus>
-                        Нет
-                    </Button>
-                </DialogActions>
-            </Dialog>
-            <Dialog
-                open={openCopy}
-                onClose={handleCloseCopy}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">
-                    {'Дублировать событие'}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        После нажатия кнопки “Дублировать” будет создана копия
-                        данного мероприятия, доступная для редактирования.
-                        Информации по участникам скопирована не будет.
-                        Оригинальное мероприятие останется без изменений.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button
-                        onClick={() => {
-                            handleCloseCopy();
-                            handleClickCopy(eventIdToDialog);
-                        }}
-                    >
-                        Да
-                    </Button>
-                    <Button onClick={handleCloseCopy} autoFocus>
-                        Нет
-                    </Button>
-                </DialogActions>
-            </Dialog>
+                        <DialogTitle id="alert-dialog-title">
+                            {'Дублировать событие'}
+                        </DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                                После нажатия кнопки “Дублировать” будет создана
+                                копия данного мероприятия, доступная для
+                                редактирования. Информации по участникам
+                                скопирована не будет. Оригинальное мероприятие
+                                останется без изменений.
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button
+                                onClick={() => {
+                                    handleCloseCopy();
+                                    handleClickCopy(eventIdToDialog);
+                                }}
+                            >
+                                Да
+                            </Button>
+                            <Button onClick={handleCloseCopy} autoFocus>
+                                Нет
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+                </>
+            ) : (
+                <div>
+                    <h1>Please Wait</h1>
+                    <Box sx={{display: 'flex'}}>
+                        <CircularProgress />
+                    </Box>
+                </div>
+            )}
         </>
     );
 }

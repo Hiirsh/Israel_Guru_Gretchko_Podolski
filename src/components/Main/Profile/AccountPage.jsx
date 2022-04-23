@@ -5,6 +5,7 @@ import {
     createEventPage,
     myEventsPage,
     profilePage,
+    userTicketsPage,
 } from '../../../utils/constants';
 import s from '../../../componentStyles/AccountPage.css';
 export default function AccountPage() {
@@ -17,7 +18,12 @@ export default function AccountPage() {
                 <h2 className="accBut">Favorite events</h2>
             </div>
             <div className="elements">
-                <h2 className="accBut">I'll go</h2>
+                <h2
+                    className="accBut"
+                    onClick={() => navigate(`../${userTicketsPage}/${userId}`)}
+                >
+                    Tickets
+                </h2>
             </div>
             <div className="elements">
                 <h2

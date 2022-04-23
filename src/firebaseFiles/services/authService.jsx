@@ -50,5 +50,6 @@ export function logout() {
     signOut(auth).then(() => {
         localStorage.removeItem('user');
         localStorage.removeItem('userData');
+        localStorage.removeItem('eventToPay');
     });
 }

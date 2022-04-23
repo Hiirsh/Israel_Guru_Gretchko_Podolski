@@ -17,6 +17,7 @@ import {
     signInPage,
     signUpPage,
     ticketPage,
+    userTicketsPage,
 } from '../utils/constants';
 import EntryPage from './Main/EntryPage';
 import PaymentPage from './Main/PaymentPage';
@@ -33,6 +34,7 @@ import EditEventPage from './Main/Profile/Account/EditEventPage';
 import CreateEventPage from './Main/Profile/Account/CreateEventPage';
 import MyEventsPage from './Main/Profile/Account/MyEventsPage';
 import DatePicker from '@mui/lab/DatePicker';
+import UserTicketsPage from './Main/Profile/Account/UserTicketsPage';
 export default function Main() {
     const isAutorised = useSelector(state => state.isSignedIn);
     return (
@@ -79,6 +81,12 @@ export default function Main() {
                 <Route
                     path={`/${myEventsPage}/:userId/`}
                     element={<MyEventsPage />}
+                />
+            )}
+            {isAutorised && (
+                <Route
+                    path={`/${userTicketsPage}/:userId/`}
+                    element={<UserTicketsPage />}
                 />
             )}
             <Route

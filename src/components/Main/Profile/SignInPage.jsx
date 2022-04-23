@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import style from '..//../..//componentStyles/SignIn.css';
 import {Box, Button, TextField} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
-import {accountPage, signUpPage} from '..//..//..//utils/constants';
+import {homePage, signUpPage} from '..//..//..//utils/constants';
 import {login} from '../../../firebaseFiles/services/authService';
 import {useDispatch} from 'react-redux';
 import {signingAction} from '../../../reduxFiles/actions/isSignedAction';
@@ -41,11 +41,12 @@ export default function SignInPage() {
 
     function signInButtonHandler() {
         try {
-            login( email, values.password)
+            login(email, values.password)
                 .then(data => data)
                 .then(userId => {
                     if (userId) {
-                        navigate(`../${accountPage}/${userId}`);
+                        navigate(`../${homePage}`);
+                        // navigate(`../${accountPage}/${userId}`);
                         dispatch(signingAction(true));
                         dispatch(setUserIdAction(userId));
                         setError(false);

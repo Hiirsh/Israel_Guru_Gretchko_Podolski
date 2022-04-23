@@ -9,6 +9,7 @@ export const signInPage = '/sign_in';
 export const signUpPage = '/sign_up';
 export const profilePage = '/profile';
 export const accountPage = '/account';
+export const userTicketsPage = '/user_tickets';
 export const editEventPage = '/edit_event';
 export const createEventPage = '/create_event';
 export const myEventsPage = '/my_events';

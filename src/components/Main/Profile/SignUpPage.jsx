@@ -24,7 +24,6 @@ export default function SignUpPage() {
     const [phone, setPhone] = React.useState('');
     const [aboutUser, setAboutUser] = React.useState('');
     const dispatch = useDispatch();
-    const userIdTest = useSelector(state => state.userId);
 
     return (
         <div className="pageBody">

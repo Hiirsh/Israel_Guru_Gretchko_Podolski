@@ -13,16 +13,15 @@ export default function EntryPage() {
     const [ev, setEvent] = useState('');
     const userData = JSON.parse(localStorage.getItem('userData'));
     const [name, setName] = useState(
-        `${userData.lastName} ${userData.firstName}` || ''
+        userData ? `${userData.lastName} ${userData.firstName}` : ''
     );
-    const [phone, setPhone] = useState(userData.phone || '');
-    const [email, setEmail] = useState(userData.email || '');
+    const [phone, setPhone] = useState(userData ? userData.phone : '');
+    const [email, setEmail] = useState(userData ? userData.email : '');
     const [numParticipants, setNumParticipants] = useState(1);
 
     useEffect(() => getEventById(eventId).then(data => setEvent(data)));
 
     function handleClickPay() {
-        // addParticipantsToEvent(eventId, {name, phone, email, numParticipants});
         localStorage.setItem(
             'eventToPay',
             JSON.stringify({name, phone, email, numParticipants})
@@ -84,14 +83,13 @@ export default function EntryPage() {
                                     label={'Число участников'}
                                     variant="standard"
                                     value={numParticipants}
-                                    onChange={e => {
-                                        console.log(e.target.value);
+                                    onChange={e =>
                                         setNumParticipants(
                                             e.target.value == 0
                                                 ? 1
                                                 : e.target.value
-                                        );
-                                    }}
+                                        )
+                                    }
                                     width="20px"
                                     type="number"
                                 />

@@ -10,6 +10,7 @@ import {
     addEventToTourist,
     addParticipantsToEvent,
     getEventById,
+    updateNumParticipants,
 } from '../../firebaseFiles/services/eventsService';
 
 export default function PaymentPage() {
@@ -22,12 +23,26 @@ export default function PaymentPage() {
     function handleClickPay() {
         const eventToPay = JSON.parse(localStorage.getItem('eventToPay'));
         const userData = JSON.parse(localStorage.getItem('userData'));
+        const {uid} = JSON.parse(localStorage.getItem('user'));
+        // console.log(userId);
         if (userData) {
             addEventToTourist(userData.userId, eventId);
         }
-        addParticipantsToEvent(eventId, eventToPay);
+        addParticipantsToEvent(eventId, {...eventToPay, uid});
         localStorage.removeItem('eventToPay');
-        navigate(`../${ticketPage}/${ev.id}`);
+        getEventById(eventId)
+            .then(data => {
+                console.log(data.freeSpace, data.totalSpace);
+                return data.freeSpace;
+            })
+            .then(freeSpace => {
+                console.log(freeSpace - eventToPay.numParticipants);
+                return freeSpace - eventToPay.numParticipants;
+            })
+            .then(freeSpace => {
+                updateNumParticipants(eventId, freeSpace);
+                navigate(`../${ticketPage}/${ev.id}`);
+            });
     }
 
     return (

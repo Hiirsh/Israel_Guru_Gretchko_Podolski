@@ -3,7 +3,6 @@ import {Box, Button, TextField} from '@mui/material';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import TimePicker from '@mui/lab/TimePicker';
-// import Calendar from '..//..//Calendar';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -22,6 +21,14 @@ import {getBrowserLocation} from '../../../../utils/geo.js';
 import Autocomplete from '../../../../GoogleMap/Autocomplete';
 import {libraries, defaultCenter} from '../../../../utils/geo.js';
 import {DatePicker} from '@mui/lab';
+import UploadImages from './UploadImages';
+import {
+    getDownloadURL,
+    getStorage,
+    ref,
+    uploadBytesResumable,
+} from 'firebase/storage';
+import {fb, storage} from '../../../../firebaseFiles/config/firebaseConfig';
 const MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_KEY;
 
 export default function CreateEvent(props) {
@@ -66,9 +73,38 @@ export default function CreateEvent(props) {
     const [marker, setMarker] = useState(
         isEditing ? editEvent.marker || undefined : undefined
     );
+    const [images, setImages] = useState(
+        isEditing ? editEvent.images || [] : []
+    );
     const [center, setCenter] = useState(defaultCenter);
 
     const userData = JSON.parse(localStorage.getItem('userData'));
+
+    const storage = getStorage();
+
+    function formHandlerImages(e) {
+        e.preventDefault();
+        const files = e.target.files;
+        uploadFiles(files);
+    }
+    const arr = [];
+    function uploadFiles(file) {
+        for (let i = 0; i < file.length; i++) {
+            if (!file[i]) return;
+            const storageRef = ref(storage, `images/${uuidv4()}`);
+            const uploadTask = uploadBytesResumable(storageRef, file[i]);
+            uploadTask.on(
+                'state_changed',
+                snapshot => {},
+                err => console.log(err),
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref)
+                        .then(url => arr.push(url))
+                        .then(() => setImages([...arr]));
+                }
+            );
+        }
+    }
 
     const handleEventDate = time => {
         try {
@@ -129,6 +165,7 @@ export default function CreateEvent(props) {
             meetingPoint,
             participants: [],
             marker,
+            images,
         });
     };
 
@@ -282,29 +319,28 @@ export default function CreateEvent(props) {
                 onChange={e => setMeetingPoint(e.target.value)}
                 style={{width: '100%'}}
             />
-        
-                <div className="Autocomplite_root__IVhsz">
-                    <Autocomplete
-                        placeholder="Куда пойдете?"
-                        className="Autocomplite_input__kkeXW"
-                        isLoaded={isLoaded}
-                        onSelect={onPlaceSelect}
-                    />
-                    <button className={s.modeToggle} onClick={clear}>
-                        Убрать метку
-                    </button>
-                </div>
-                {isLoaded ? (
-                    <Map
-                        center={center}
-                        mode={/* mode */ MODES.SET_MARKER}
-                        marker={marker}
-                        onMarkerAdd={onMarkerAdd}
-                    />
-                ) : (
-                    <h1>Loading...</h1>
-                )}
 
+            <div className="Autocomplite_root__IVhsz">
+                <Autocomplete
+                    placeholder="Куда пойдете?"
+                    className="Autocomplite_input__kkeXW"
+                    isLoaded={isLoaded}
+                    onSelect={onPlaceSelect}
+                />
+                <button className={s.modeToggle} onClick={clear}>
+                    Убрать метку
+                </button>
+            </div>
+            {isLoaded ? (
+                <Map
+                    center={center}
+                    mode={/* mode */ MODES.SET_MARKER}
+                    marker={marker}
+                    onMarkerAdd={onMarkerAdd}
+                />
+            ) : (
+                <h1>Loading...</h1>
+            )}
             <TextareaAutosize
                 aria-label="Description"
                 minRows={3}
@@ -313,17 +349,32 @@ export default function CreateEvent(props) {
                 value={additionalInfo}
                 onChange={e => setAdditionalInfo(e.target.value)}
                 style={{width: '100%', marginTop: '7em'}}
+            />
+            <div className="createTextField">
+                <label htmlFor={'fileInput'}>Загрузить фото</label>
+                <input
+                    onChange={formHandlerImages}
+                    type={'file'}
+                    id={'fileInput'}
+                    name={'fileInput'}
+                    multiple
+                    accept={'image/*, image/jpeg'}
                 />
+            </div>
             <div className="btnCreate">
-            <Button
-                disabled={false}
-                variant="contained"
-                type="button"
-                onClick={handleCreateEvent}
-                style={{width: '18em', display: 'flex',  textAlign: 'center'}}
-            >
-                {isEditing ? 'Редактировать событие' : 'Создать событие'}
-            </Button>
+                <Button
+                    disabled={false}
+                    variant="contained"
+                    type="button"
+                    onClick={handleCreateEvent}
+                    style={{
+                        width: '18em',
+                        display: 'flex',
+                        textAlign: 'center',
+                    }}
+                >
+                    {isEditing ? 'Редактировать событие' : 'Создать событие'}
+                </Button>
             </div>
         </Box>
     );

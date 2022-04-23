@@ -3,6 +3,7 @@ import {fb} from '../config/firebaseConfig';
 import 'firebase/compat/firestore';
 import 'firebase/compat/app';
 import firebase from 'firebase/compat/app';
+import {doc, updateDoc} from 'firebase/firestore';
 
 export async function updateEvent(eventData) {
     const ref = fb.firestore().collection('events').doc(eventData.id);
@@ -23,7 +24,10 @@ export async function addParticipantsToEvent(eventId, participants) {
         });
     else await ref.set(participants);
 }
-
+export async function updateNumParticipants(eventId, freeSpace) {
+    const event = fb.firestore().collection('events').doc(eventId);
+    await updateDoc(event, {freeSpace: freeSpace});
+}
 export async function addEventToTourist(userId, eventId) {
     const ref = fb.firestore().collection('users').doc(userId);
     const doc = await ref.get();

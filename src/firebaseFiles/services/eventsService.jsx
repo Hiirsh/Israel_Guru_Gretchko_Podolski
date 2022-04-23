@@ -42,3 +42,7 @@ export async function getEvents() {
 export async function deleteEvent(eventId) {
     fb.firestore().collection('events').doc(eventId).delete();
 }
+
+export async function deleteFromFav(eventId) {
+    fb.firestore().collection('fav').doc(eventId).delete();
+}

@@ -9,6 +9,7 @@ import {
     entryPage,
     errorPage,
     eventPage,
+    favoritesPage,
     homePage,
     myEventsPage,
     paymentPage,
@@ -32,6 +33,7 @@ import PleaseWaitPage from './Main/PleaseWaitPage';
 import EditEventPage from './Main/Profile/Account/EditEventPage';
 import CreateEventPage from './Main/Profile/Account/CreateEventPage';
 import MyEventsPage from './Main/Profile/Account/MyEventsPage';
+import FavoritesPage from './Main/Profile/Account/FavoritesPage';
 import DatePicker from '@mui/lab/DatePicker';
 export default function Main() {
     const isAutorised = useSelector(state => state.isSignedIn);
@@ -79,6 +81,12 @@ export default function Main() {
                 <Route
                     path={`/${myEventsPage}/:userId/`}
                     element={<MyEventsPage />}
+                />
+            )}
+            {isAutorised && (
+                <Route
+                    path={`/${favoritesPage}/:userId/`}
+                    element={<FavoritesPage />}
                 />
             )}
             <Route

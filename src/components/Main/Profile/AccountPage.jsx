@@ -5,8 +5,10 @@ import {
     createEventPage,
     myEventsPage,
     profilePage,
+    favoritesPage
 } from '../../../utils/constants';
 import s from '../../../componentStyles/AccountPage.css';
+// import FavoritesPage from './Account/FavoritesPage';
 // import CreateEvent from './Account/CreateEvent';
 // import MyEvents from './Account/MyEvents';
 // import AddToFavorites from '../../../icons/AddToFavorites';
@@ -18,7 +20,10 @@ export default function AccountPage() {
     return (
         <div className="accMenu">
             <div className="elements">
-                <h2 className="accBut">Favorite events</h2>
+                <h2 className="accBut"
+                onClick={() => navigate(`../${favoritesPage}/${userId}`)}
+                >
+                    Favorite events</h2>
             </div>
             <div className="elements">
                 <h2 className="accBut">I'll go</h2>

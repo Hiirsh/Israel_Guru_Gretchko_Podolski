@@ -1,23 +1,54 @@
 .searchBlock{
     display: flex;
     direction: column;
-    width: 96%;
+    width: 100%;
     height: 4em;
     justify-content: space-between;
-    margin: 1em 1em 1em 1em;
+    text-align: center;
+    /* margin: 1em 2em 2em 2em; */
+    padding-left: 3em;
+    padding-right: 2em;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: #1976d2;
+    background: -webkit-linear-gradient(#1976d2, #ffffff);
+    background:    -moz-linear-gradient(#1976d2, #ffffff);
+    background:         linear-gradient(#1976d2, #ffffff);
 }
 
+
 .searchInput{
-    font-size: 1.5em;
+    font-size: 1em;
     size: 2em;
+    width: 10em;
+}
+
+#demo-simple-select-standard{
+    margin-top: 0.5em;
+}
+
+.searchCalendar{
+    margin-top: 0.5em;
 }
 
 .searchCalendar input{
-    padding:10px 14px;
+    padding:8.5px 14px;
+    width: 6em;
+}
+
+#standard-required{
+    width: 12em;
 }
 
 .btnSearch{
-    height: 2.7em;
+    height: 2.4em;
     border-radius: 5px;
     background-color: #1976d2;
+    margin-top: 0.6em;
 }
+
+.btnSearch button{
+    box-shadow: none;
+}
+

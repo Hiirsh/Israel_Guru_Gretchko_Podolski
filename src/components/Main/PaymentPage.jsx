@@ -6,7 +6,11 @@ import {homePage, ticketPage} from '../../utils/constants';
 import style from '../../componentStyles/Main.css';
 import CircularProgress from '@mui/material/CircularProgress';
 import {Box} from '@mui/material';
-import {getEventById} from '../../firebaseFiles/services/eventsService';
+import {
+    addEventToTourist,
+    addParticipantsToEvent,
+    getEventById,
+} from '../../firebaseFiles/services/eventsService';
 
 export default function PaymentPage() {
     const {eventId} = useParams();
@@ -14,6 +18,18 @@ export default function PaymentPage() {
     const [ev, setEvent] = useState('');
     useEffect(() => getEventById(eventId).then(data => setEvent(data)), []);
     const navigate = useNavigate();
+
+    function handleClickPay() {
+        const eventToPay = JSON.parse(localStorage.getItem('eventToPay'));
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        if (userData) {
+            addEventToTourist(userData.userId, eventId);
+        }
+        addParticipantsToEvent(eventId, eventToPay);
+        localStorage.removeItem('eventToPay');
+        navigate(`../${ticketPage}/${ev.id}`);
+    }
+
     return (
         <div className="eventAndMainInfo">
             {ev ? (
@@ -24,9 +40,7 @@ export default function PaymentPage() {
                         <Button
                             variant="contained"
                             className="buttonStyle"
-                            onClick={() =>
-                                navigate(`../${ticketPage}/${ev.id}`)
-                            }
+                            onClick={handleClickPay}
                         >
                             Оплатить
                         </Button>

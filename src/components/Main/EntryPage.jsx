@@ -6,8 +6,6 @@ import EventMainInfo from './EventMainInfo';
 import {homePage, paymentPage, ticketPage} from '../../utils/constants';
 import CircularProgress from '@mui/material/CircularProgress';
 import {getEventById} from '../../firebaseFiles/services/eventsService';
-import MinusIcon from '../../icons/MinusIcon';
-import PlusIcon from '../../icons/PlusIcon';
 
 export default function EntryPage() {
     const navigate = useNavigate();
@@ -22,6 +20,16 @@ export default function EntryPage() {
     const [numParticipants, setNumParticipants] = useState(1);
 
     useEffect(() => getEventById(eventId).then(data => setEvent(data)));
+
+    function handleClickPay() {
+        // addParticipantsToEvent(eventId, {name, phone, email, numParticipants});
+        localStorage.setItem(
+            'eventToPay',
+            JSON.stringify({name, phone, email, numParticipants})
+        );
+        navigate(`../${paymentPage}/${ev.id}`);
+    }
+
     return (
         <div className="eventAndMainInfo">
             {ev ? (
@@ -69,17 +77,6 @@ export default function EntryPage() {
                             onChange={e => setEmail(e.target.value)}
                         />
                         <div className="numParticipantsContainer">
-                            <div
-                                onClick={() =>
-                                    setNumParticipants(
-                                        numParticipants !== 1
-                                            ? numParticipants - 1
-                                            : numParticipants
-                                    )
-                                }
-                            >
-                                <MinusIcon />
-                            </div>
                             <div className="numParticipantsTextfield">
                                 <TextField
                                     required
@@ -87,22 +84,17 @@ export default function EntryPage() {
                                     label={'Число участников'}
                                     variant="standard"
                                     value={numParticipants}
-                                    onChange={e =>
-                                        setNumParticipants(e.target.value)
-                                    }
-                                    width="20px"
-                                    inputProps={{
-                                        inputMode: 'numeric',
-                                        pattern: '[0-9]*',
+                                    onChange={e => {
+                                        console.log(e.target.value);
+                                        setNumParticipants(
+                                            e.target.value == 0
+                                                ? 1
+                                                : e.target.value
+                                        );
                                     }}
+                                    width="20px"
+                                    type="number"
                                 />
-                            </div>
-                            <div
-                                onClick={() =>
-                                    setNumParticipants(1 + numParticipants)
-                                }
-                            >
-                                <PlusIcon />
                             </div>
                         </div>
                     </Box>
@@ -111,9 +103,7 @@ export default function EntryPage() {
                             variant="contained"
                             className="buttonStyle"
                             disabled={!(name && email && phone)}
-                            onClick={() =>
-                                navigate(`../${paymentPage}/${ev.id}`)
-                            }
+                            onClick={handleClickPay}
                         >
                             К оплате
                         </Button>

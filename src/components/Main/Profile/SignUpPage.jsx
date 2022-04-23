@@ -142,6 +142,8 @@ export default function SignUpPage() {
                                     aboutUser,
                                     license,
                                     events: [],
+                                    eventsToGo: [],
+                                    favoritesEvents: [],
                                 };
                                 updateUserProfileInDB(data);
                                 localStorage.setItem(

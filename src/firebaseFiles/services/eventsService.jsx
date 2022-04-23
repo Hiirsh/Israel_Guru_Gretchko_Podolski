@@ -13,7 +13,26 @@ export async function updateEvent(eventData) {
         });
     else await ref.set(eventData);
 }
+export async function addParticipantsToEvent(eventId, participants) {
+    const ref = fb.firestore().collection('events').doc(eventId);
+    const doc = await ref.get();
+    if (doc.exists)
+        await ref.update({
+            participants:
+                firebase.firestore.FieldValue.arrayUnion(participants),
+        });
+    else await ref.set(participants);
+}
 
+export async function addEventToTourist(userId, eventId) {
+    const ref = fb.firestore().collection('users').doc(userId);
+    const doc = await ref.get();
+    if (doc.exists)
+        await ref.update({
+            eventsToGo: firebase.firestore.FieldValue.arrayUnion(eventId),
+        });
+    else await ref.set({eventsToGo: eventId});
+}
 export async function addEventToGuide(guideId, eventId) {
     const ref = fb.firestore().collection('users').doc(guideId);
     const doc = await ref.get();

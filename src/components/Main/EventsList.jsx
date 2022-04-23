@@ -3,12 +3,13 @@ import {useDispatch, useSelector} from 'react-redux';
 import {changeEventList} from '../../reduxFiles/actions/changePageStateAction';
 import Event from './Event';
 import {Button, FormControl, InputLabel, MenuItem, Select} from '@mui/material';
-// import Search from '..//Search';
 import {getEvents} from '../../firebaseFiles/services/eventsService';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import styles from '..//..//componentStyles/EventList.css';
 import stylesTitle from '..//..//componentStyles/TitleStyle.css';
+import stylesSearch from '..//..//componentStyles/Search.css';
+
 import TextField from '@mui/material/TextField';
 import {DateRangePicker} from '@mui/x-date-pickers-pro/DateRangePicker';
 import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
@@ -21,6 +22,7 @@ export default function EventList() {
     const [searchText, setSearchText] = useState('');
     const [searchPlace, setSearchPlace] = useState('');
     const [searchDifficulty, setSearchDifficulty] = useState('');
+    // const [searchDifficulty, setSearchDifficulty] = useState('Сложность');
     const [events, setEvents] = useState([]);
     const [eventsRender, setEventsRender] = useState([]);
     const [eventsFilter, setEventsFilter] = useState([]);
@@ -98,6 +100,13 @@ export default function EventList() {
         });
     };
 
+    function handleClickReset() {
+        setSearchDate([null, null]);
+        setSearchText('');
+        setSearchPlace('');
+        setSearchDifficulty('');
+    }
+
     function renderEvents() {
         return (
             <div>
@@ -122,10 +131,9 @@ export default function EventList() {
     }
 
     return (
-        <div>
-            <div className="search">
-                <div>
-                    <div>Поиск</div>
+        <div className="sticky">
+            <div className="searchBlock">
+                <div className="searchInput">
                     <TextField
                         required
                         id="standard-required"
@@ -135,12 +143,11 @@ export default function EventList() {
                         onChange={e => setSearchText(e.target.value)}
                     />
                 </div>
-                <div>
-                    <div>Дата</div>
+                <div className="searchCalendar">
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DateRangePicker
-                            startText="Check-in"
-                            endText="Check-out"
+                            startText="От"
+                            endText="До"
                             value={searchDate}
                             inputFormat="dd/MM/yyyy"
                             onChange={newValue => {
@@ -149,41 +156,53 @@ export default function EventList() {
                             renderInput={(startProps, endProps) => (
                                 <React.Fragment>
                                     <TextField {...startProps} />
-                                    <Box sx={{mx: 2}}> to </Box>
+                                    <Box sx={{mx: 1}}> </Box>
                                     <TextField {...endProps} />
                                 </React.Fragment>
                             )}
                         />
                     </LocalizationProvider>
                 </div>
-                <div>
-                    <div>Место</div>
+                <div className="searchInput">
                     <TextField
                         required
                         id="standard-required"
-                        label=" "
+                        placeholder="Место"
+                        label="Место"
                         variant="standard"
                         value={searchPlace}
                         onChange={e => setSearchPlace(e.target.value)}
                     />
                 </div>
-                <div>
-                    <div>Сложность</div>
+                <div className="searchInput">
                     <FormControl variant="standard" sx={{m: 1, minWidth: 120}}>
-                        <InputLabel id="demo-simple-select-standard-label">
+                        {/* <InputLabel id="demo-simple-select-standard-label">
                             Сложность
-                        </InputLabel>
+                        </InputLabel> */}
                         <Select
                             labelId="demo-simple-select-standard-label"
                             id="demo-simple-select-standard"
                             value={searchDifficulty}
                             onChange={e => setSearchDifficulty(e.target.value)}
+                            label="Сложность"
                         >
+                            <MenuItem value={'Сложность'} disabled>
+                                Сложность
+                            </MenuItem>
                             <MenuItem value={'Турист'}>Турист</MenuItem>
                             <MenuItem value={'Местный'}>Местный</MenuItem>
                             <MenuItem value={'Гуру'}>Гуру</MenuItem>
                         </Select>
                     </FormControl>
+                </div>
+                <div className="btnSearch">
+                    <Button
+                        variant="contained"
+                        type="button"
+                        onClick={handleClickReset}
+                    >
+                        Сброс поиска
+                    </Button>
                 </div>
             </div>
             {renderEvents()}
@@ -199,5 +218,6 @@ export default function EventList() {
                 </Button>
             </div>
         </div>
+        /* </div> */
     );
 }

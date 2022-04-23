@@ -3,25 +3,28 @@ import {Button} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import {accountPage} from '../../../utils/constants';
+import style from '..//..//..//componentStyles/ProfilePage.css'
 
 export default function ProfilePage() {
     const navigate = useNavigate();
     const userId = useSelector(state => state.userId);
+    const userData = JSON.parse(localStorage.getItem('userData'));
     return (
-        <div className="text-left m-2">
-            <h1>Profile</h1>
-            <h2>Name</h2>
-            <h2>About me</h2>
-            <h2>Email</h2>
-            <h2>Phone</h2>
-            <h2>Lisence</h2>
-            <Button
+        <div className="profileUserInfo">
+            <div className="elements"><h1>Profile</h1></div>
+            <div className="elements"><div className="labelName">Name: </div> <div className="storageInf">{userData.firstName} {userData.lastName}</div></div>
+            <div className="elements"><div className="labelName" id="about">Information: </div><div className="storageInf">{userData.aboutUser}</div></div>
+            <div className="elements"><div className="labelName">Email: </div> <div className="storageInf">{userData.email}</div></div>
+            <div className="elements"><div className="labelName">Phone: </div><div className="storageInf">{userData.phone}</div></div>
+            <div className="elements"><div className="labelName">Lisence: </div><div className="storageInf">{userData.license}</div></div>
+            <div className="elements"><Button
                 variant="contained"
                 className="buttonStyle"
                 onClick={() => navigate(`../${accountPage}/${userId}`)}
-            >
+            > 
                 Аккаунт
             </Button>
+            </div>
         </div>
     );
 }

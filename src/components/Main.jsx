@@ -91,6 +91,12 @@ export default function Main() {
                     element={<FavoritesPage />}
                 />
             )}
+            {isAutorised && (
+                <Route
+                    path={`/${userTicketsPage}/:userId/`}
+                    element={<UserTicketsPage />}
+                />
+            )}
             <Route
                 path={`/${regConfirmPage}/:userId`}
                 element={<RegConfirm />}

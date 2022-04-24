@@ -21,7 +21,6 @@ import {getUserData} from '../../../../firebaseFiles/services/authService';
 export default function UserTickets() {
     const {userId} = useParams();
     const [rows, setRows] = useState([]);
-    const navigate = useNavigate();
     const arr = [];
 
     function getEventsToGo() {
@@ -49,7 +48,6 @@ export default function UserTickets() {
     }
     useEffect(() => {
         getEventsToGo(userId);
-        console.log(userId);
     }, []);
 
     return (

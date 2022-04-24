@@ -24,14 +24,15 @@ export default function UserTickets() {
     const arr = [];
 
     function getEventsToGo() {
-        getEvents().then(data =>
-            data.forEach(event =>
+        getEvents().then(data => {
+            let key = 1;
+            data.forEach(event => {
                 event.participants.forEach((participant, index) => {
                     const date = new Date(event.timeStart.seconds * 1000);
-                    console.log(participant);
-                    if (participant.userId === userId) {
+                    if (participant.uid === userId) {
                         arr.push({
-                            id: index + 1,
+                            id: key,
+                            index,
                             title: event.title,
                             price: event.price,
                             place: event.place,
@@ -41,10 +42,11 @@ export default function UserTickets() {
                             )} ${date.getFullYear()}`,
                         });
                         setRows([...arr]);
+                        key = key + 1;
                     }
-                })
-            )
-        );
+                });
+            });
+        });
     }
     useEffect(() => {
         getEventsToGo(userId);

@@ -53,10 +53,8 @@ export default function Event(props) {
             if (userData.userId) {
                 addEventToFavorites(userData.userId, ev.id);
                 userData.favoriteEvents.push(ev.id);
-                console.log(userData);
                 localStorage.setItem('userData', JSON.stringify(userData));
                 setFavoriteEvents(favoriteEvents.push(ev.id));
-                console.log(favoriteEvents);
             }
         } catch (error) {
             console.log(error.message);
@@ -68,17 +66,13 @@ export default function Event(props) {
         try {
             if (!!userData.userId) {
                 removeEventFromFavorites(userData.userId, ev.id);
-                console.log(userData.favoriteEvents);
                 userData.favoriteEvents = userData.favoriteEvents.filter(
                     favEvId => favEvId !== ev.id
                 );
-                console.log(userData.favoriteEvents);
-                console.log(userData);
                 localStorage.setItem('userData', JSON.stringify(userData));
                 setFavoriteEvents(
                     favoriteEvents.filter(favEv => favEv !== ev.id)
                 );
-                console.log(favoriteEvents);
             }
         } catch (error) {
             console.log(error.message);
@@ -86,12 +80,6 @@ export default function Event(props) {
     }
 
     useEffect(() => {
-        console.log(
-            favoriteEvents.includes('15111e8c-98cc-4b6c-bc24-b6608fbaf77e')
-        );
-        // setFavoriteEvents(
-        //     JSON.parse(localStorage.getItem('userData')).favoriteEvents
-        // );
         getBrowserLocation()
             .then(currentLocation => setCenter(currentLocation))
             .catch(defaultLocation => setCenter(defaultLocation));

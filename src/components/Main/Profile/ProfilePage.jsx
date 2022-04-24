@@ -11,6 +11,7 @@ export default function ProfilePage() {
     const userData = JSON.parse(localStorage.getItem('userData'));
     return (
         <div className="profileUserInfo">
+
             <div className="elementsProfile">
                 <h1>Profile</h1>
             </div>

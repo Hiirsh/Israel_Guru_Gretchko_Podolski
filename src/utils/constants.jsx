@@ -13,6 +13,7 @@ export const userTicketsPage = '/user_tickets';
 export const editEventPage = '/edit_event';
 export const createEventPage = '/create_event';
 export const myEventsPage = '/my_events';
+export const favoritesPage = '/favorites';
 export const errorPage = '/error';
 export const regConfirmPage = '/reg_confirm';
 export const guidePhoto = guidePh;

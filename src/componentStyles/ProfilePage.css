@@ -4,6 +4,7 @@
     padding: 0 1rem 0 0;
 }
 
+
 .elementsProfile h1 {
     margin-bottom: 1em;
 }
@@ -20,6 +21,7 @@
     margin-top: 5em;
 }
 
+
 .elementsProfile button {
     margin-top: 2em;
 }
@@ -33,11 +35,25 @@
 }
 
 .storageInfo text {
-    margin-top: 2em;
+    margin-top: 6em;
     font-size: 2em;
+    text-align: center;
 }
 
+.storageInfo {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding-top: 6em;
+    font-size: 2em;
+    text-align: center;
+}
+
+
 .elementsProfile h2 {
+
     width: 80%;
     margin-left: auto;
     margin-right: auto;
@@ -46,10 +62,11 @@
     color: #3e52c4;
 }
 
-.elementsProfile {
+.elementsProfile{
     display: flex;
     direction: row;
 }
+
 
 .elementsProfile h1 {
     text-align: center;

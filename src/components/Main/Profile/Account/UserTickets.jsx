@@ -49,6 +49,7 @@ export default function UserTickets() {
     }
     useEffect(() => {
         getEventsToGo(userId);
+        console.log(userId);
     }, []);
 
     return (

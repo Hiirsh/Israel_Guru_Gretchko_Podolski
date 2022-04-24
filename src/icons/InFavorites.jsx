@@ -10,7 +10,7 @@ export default function InFavorites() {
             x="0px"
             y="0px"
             viewBox="0 0 50 50"
-            enableackground="new 0 0 50 50;"
+            enableBackground="new 0 0 50 50;"
             xmlSpace="preserve"
             width="30px"
             height="30px"

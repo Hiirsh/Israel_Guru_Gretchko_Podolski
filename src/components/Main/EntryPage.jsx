@@ -13,7 +13,11 @@ export default function EntryPage() {
     const [ev, setEvent] = useState('');
     const userData = JSON.parse(localStorage.getItem('userData'));
     const [name, setName] = useState(
-        userData ? `${userData.lastName} ${userData.firstName}` : ''
+        userData
+            ? `${userData.lastName ? userData.lastName : ''}${
+                  userData.firstName ? ' ' + userData.firstName : ''
+              }`
+            : ''
     );
     const [phone, setPhone] = useState(userData ? userData.phone : '');
     const [email, setEmail] = useState(userData ? userData.email : '');

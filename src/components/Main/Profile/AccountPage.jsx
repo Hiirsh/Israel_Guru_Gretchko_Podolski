@@ -6,8 +6,10 @@ import {
     myEventsPage,
     profilePage,
     userTicketsPage,
+    favoritesPage
 } from '../../../utils/constants';
 import s from '../../../componentStyles/AccountPage.css';
+
 export default function AccountPage() {
     const navigate = useNavigate();
     const {userId} = useParams();
@@ -15,7 +17,10 @@ export default function AccountPage() {
     return (
         <div className="accMenu">
             <div className="elements">
-                <h2 className="accBut">Favorite events</h2>
+                <h2 className="accBut"
+                onClick={() => navigate(`../${favoritesPage}/${userId}`)}
+                >
+                    Favorite events</h2>
             </div>
             <div className="elements">
                 <h2

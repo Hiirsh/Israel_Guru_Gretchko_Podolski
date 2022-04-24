@@ -5,7 +5,6 @@ import {
     getEventById,
     getEvents,
     removeEventFromGuide,
-    deleteFromFav,
 } from '../../../../firebaseFiles/services/eventsService';
 import {getMonthName} from '../../../../utils/dateUtils';
 import Table from '@mui/material/Table';
@@ -18,8 +17,6 @@ import Paper from '@mui/material/Paper';
 import CopyIcon from '../../../../icons/CopyIcon';
 import DeleteIcon from '../../../../icons/DeleteIcon';
 import EditIcon from '../../../../icons/EditIcon';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import {editEventPage} from '../../../../utils/constants';
 import s from '../../../../componentStyles/MyEventsPage.css';
 import {v4 as uuidv4} from 'uuid';
@@ -33,14 +30,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import {Box, Button, CircularProgress} from '@mui/material';
-import Favorites from './Favorites';
 
 export default function MyEvents() {
     const {userId: guideId} = useParams();
     const [rows, setRows] = useState([]);
     const navigate = useNavigate();
     const arr = [];
-    const fav = [];
 
     //Диалоговое окно
     const [eventIdToDialog, setEventIdToDialog] = useState('');
@@ -89,38 +84,6 @@ export default function MyEvents() {
                 },
             ]);
         });
-    };
-
-    const handlePushToFav = eventId => {
-        const id = uuidv4();
-        const userData = JSON.parse(localStorage.getItem('userData'));
-        userData.fav.push(id);
-        localStorage.setItem('userData', JSON.stringify(userData));
-        getEventById(eventId).then(data => {
-            updateEvent({...data, id});
-            const date = new Date(data.timeStart.seconds * 1000);
-            setRows([
-                ...rows,
-                {
-                    id: rows.length + 1,
-                    date: `${date.getDate()} ${getMonthName(
-                        date.getMonth()
-                    )} ${date.getFullYear()}`,
-                    title: data.title,
-                    price: data.price,
-                    places: data.totalSpace,
-                    eventId: id,
-                },
-            ]);
-        });
-    };
-
-    const handleDeleteFromFav = eventId => {
-        const userData = JSON.parse(localStorage.getItem('userData'));
-        userData.fav.splice(userData.fav.indexOf(eventId));
-        localStorage.setItem('userData', JSON.stringify(userData));
-        setRows(rows.filter(el => el.eventId !== eventId));
-        deleteFromFav(eventId);
     };
 
     const handleClickEdit = eventId => {

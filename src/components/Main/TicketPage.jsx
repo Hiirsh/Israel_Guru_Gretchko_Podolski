@@ -1,6 +1,5 @@
 import {Box, Button, CircularProgress} from '@mui/material';
 import React, {useEffect, useState} from 'react';
-import {useSelector} from 'react-redux';
 import {useNavigate, useParams} from 'react-router-dom';
 import {getEventById} from '../../firebaseFiles/services/eventsService';
 import {homePage} from '../../utils/constants';

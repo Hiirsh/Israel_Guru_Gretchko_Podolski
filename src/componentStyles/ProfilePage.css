@@ -1,11 +1,11 @@
-
 .title {
     font-weight: 600;
     font-size: 2em;
     padding: 0 1rem 0 0;
 }
 
-.elements1 h1{
+
+.elementsProfile h1 {
     margin-bottom: 1em;
 }
 .buttonContainer {
@@ -18,14 +18,15 @@
     width: 20%;
     display: block;
     text-align: center;
-    margin-top:5em;
+    margin-top: 5em;
 }
 
-.elements1 button {
+
+.elementsProfile button {
     margin-top: 2em;
 }
 
-.labelName{
+.labelName {
     color: #252e5e;
     font-size: 1.5em;
     text-align: left;
@@ -33,13 +34,26 @@
     position: relative;
 }
 
-.storageInfo text{
-    margin-top: 2em;
-    font-size:2em;
-    
+.storageInfo text {
+    margin-top: 6em;
+    font-size: 2em;
+    text-align: center;
 }
 
-.elements1 h2{
+.storageInfo {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding-top: 6em;
+    font-size: 2em;
+    text-align: center;
+}
+
+
+.elementsProfile h2 {
+
     width: 80%;
     margin-left: auto;
     margin-right: auto;
@@ -48,19 +62,18 @@
     color: #3e52c4;
 }
 
-.elements1{
+.elementsProfile{
     display: flex;
     direction: row;
 }
 
 
-.elements1 h1{
+.elementsProfile h1 {
     text-align: center;
     color: #252e5e;
 }
 
 .profileUserInfo{
     margin: 2em 4em 2em 4em;
+
 }
-
-

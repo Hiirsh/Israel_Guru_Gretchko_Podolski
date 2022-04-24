@@ -8,11 +8,7 @@ import {
     favoritesPage
 } from '../../../utils/constants';
 import s from '../../../componentStyles/AccountPage.css';
-// import FavoritesPage from './Account/FavoritesPage';
-// import CreateEvent from './Account/CreateEvent';
-// import MyEvents from './Account/MyEvents';
-// import AddToFavorites from '../../../icons/AddToFavorites';
-// import InFavorites from '../../../icons/InFavorites';
+
 export default function AccountPage() {
     const navigate = useNavigate();
     const {userId} = useParams();

@@ -133,8 +133,7 @@ export default function SignUpPage() {
                             registration(email, password).then(userId => {
                                 dispatch(signingAction(true));
                                 dispatch(setUserIdAction(userId));
-                                console.log(userId);
-                                updateUserProfileInDB({
+                                const data = {
                                     userId,
                                     email,
                                     firstName,
@@ -143,7 +142,14 @@ export default function SignUpPage() {
                                     aboutUser,
                                     license,
                                     events: [],
-                                });
+                                    eventsToGo: [],
+                                    favoritesEvents: [],
+                                };
+                                updateUserProfileInDB(data);
+                                localStorage.setItem(
+                                    'userData',
+                                    JSON.stringify(data)
+                                );
                                 navigate(`../${profilePage}/${userId}`);
                             });
                         }}

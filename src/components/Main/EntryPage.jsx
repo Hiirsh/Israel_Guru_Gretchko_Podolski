@@ -11,7 +11,24 @@ export default function EntryPage() {
     const navigate = useNavigate();
     const {eventId} = useParams();
     const [ev, setEvent] = useState('');
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    const [name, setName] = useState(
+        `${userData.lastName} ${userData.firstName}` || ''
+    );
+    const [phone, setPhone] = useState(userData.phone || '');
+    const [email, setEmail] = useState(userData.email || '');
+    const [numParticipants, setNumParticipants] = useState(1);
+
     useEffect(() => getEventById(eventId).then(data => setEvent(data)));
+
+    function handleClickPay() {
+        // addParticipantsToEvent(eventId, {name, phone, email, numParticipants});
+        localStorage.setItem(
+            'eventToPay',
+            JSON.stringify({name, phone, email, numParticipants})
+        );
+        navigate(`../${paymentPage}/${ev.id}`);
+    }
 
     return (
         <div className="eventAndMainInfo">
@@ -25,6 +42,7 @@ export default function EntryPage() {
                         {ev.difficulty.toLowerCase()}.
                     </p>
                     <EventMainInfo ev={ev} noButton={true} />
+
                     <Box
                         className="entryForm"
                         component="form"
@@ -37,32 +55,55 @@ export default function EntryPage() {
                         <TextField
                             required
                             id="standard-required"
-                            label="Имя"
-                            // defaultValue="Имя"
+                            label={'Имя'}
                             variant="standard"
+                            value={name}
+                            onChange={e => setName(e.target.value)}
                         />
                         <TextField
                             required
                             id="standard-required"
-                            label="Телефон"
-                            // defaultValue="Телефон"
+                            label={'Телефон'}
                             variant="standard"
+                            value={phone}
+                            onChange={e => setPhone(e.target.value)}
                         />
                         <TextField
                             required
                             id="standard-required"
-                            label="Email"
-                            // defaultValue="Email"
+                            label={'Email'}
                             variant="standard"
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
                         />
+                        <div className="numParticipantsContainer">
+                            <div className="numParticipantsTextfield">
+                                <TextField
+                                    required
+                                    id="standard-required"
+                                    label={'Число участников'}
+                                    variant="standard"
+                                    value={numParticipants}
+                                    onChange={e => {
+                                        console.log(e.target.value);
+                                        setNumParticipants(
+                                            e.target.value == 0
+                                                ? 1
+                                                : e.target.value
+                                        );
+                                    }}
+                                    width="20px"
+                                    type="number"
+                                />
+                            </div>
+                        </div>
                     </Box>
                     <div className="buttonContainer">
                         <Button
                             variant="contained"
                             className="buttonStyle"
-                            onClick={() =>
-                                navigate(`../${paymentPage}/${ev.id}`)
-                            }
+                            disabled={!(name && email && phone)}
+                            onClick={handleClickPay}
                         >
                             К оплате
                         </Button>

@@ -3,6 +3,7 @@ import {useSelector} from 'react-redux';
 import Event from './Event';
 import EventMainInfo from './EventMainInfo';
 import style from '..//..//componentStyles/EventPage.css';
+
 import {useNavigate, useParams} from 'react-router-dom';
 import {Button} from '@mui/material';
 import {homePage} from '../../utils/constants';

@@ -45,7 +45,7 @@ export default function MyEvents() {
     //Диалоговое окно
     const [eventIdToDialog, setEventIdToDialog] = useState('');
     const [openCopy, setOpenCopy] = useState(false);
-    const [openEdit, setOpenEdit] = useState(false);
+    // const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const handleClickOpenCopy = () => {
         setOpenCopy(true);
@@ -53,12 +53,12 @@ export default function MyEvents() {
     const handleCloseCopy = () => {
         setOpenCopy(false);
     };
-    const handleClickOpenEdit = () => {
+    /* const handleClickOpenEdit = () => {
         setOpenEdit(true);
     };
     const handleCloseEdit = () => {
         setOpenEdit(false);
-    };
+    }; */
     const handleClickOpenDelete = () => {
         setOpenDelete(true);
     };
@@ -247,7 +247,6 @@ export default function MyEvents() {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <button onClick={handleClickOpenDelete}>Check</button>
             <Dialog
                 open={openDelete}
                 onClose={handleCloseDelete}

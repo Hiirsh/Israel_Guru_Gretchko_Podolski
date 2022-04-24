@@ -142,7 +142,7 @@ export default function SignUpPage() {
                                     license,
                                     events: [],
                                     eventsToGo: [],
-                                    favoritesEvents: [],
+                                    favoriteEvents: [],
                                 };
                                 updateUserProfileInDB(data);
                                 localStorage.setItem(

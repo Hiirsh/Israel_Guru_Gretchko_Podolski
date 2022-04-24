@@ -92,7 +92,9 @@ export default function CreateEvent(props) {
         for (let i = 0; i < file.length; i++) {
             if (!file[i]) return;
             const storageRef = ref(storage, `images/${uuidv4()}`);
+            console.log(storageRef);
             const uploadTask = uploadBytesResumable(storageRef, file[i]);
+            console.log(uploadTask);
             uploadTask.on(
                 'state_changed',
                 snapshot => {},

@@ -14,7 +14,6 @@ import TextField from '@mui/material/TextField';
 import {DateRangePicker} from '@mui/x-date-pickers-pro/DateRangePicker';
 import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
-
 export default function EventList() {
     const [renderFirstEvent, setRenderFirstEvent] = useState(0);
     const [renderLastEvent, setRenderLastEvent] = useState(3);

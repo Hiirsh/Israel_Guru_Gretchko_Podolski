@@ -9,6 +9,7 @@ import {
     entryPage,
     errorPage,
     eventPage,
+    favoritesPage,
     homePage,
     myEventsPage,
     paymentPage,
@@ -32,7 +33,15 @@ import PleaseWaitPage from './Main/PleaseWaitPage';
 import EditEventPage from './Main/Profile/Account/EditEventPage';
 import CreateEventPage from './Main/Profile/Account/CreateEventPage';
 import MyEventsPage from './Main/Profile/Account/MyEventsPage';
+import FavoritesPage from './Main/Profile/Account/FavoritesPage';
 import DatePicker from '@mui/lab/DatePicker';
+
+// import 'firebase/compat/auth';
+// import {fb} from '../config/firebaseConfig';
+// import 'firebase/compat/firestore';
+// import 'firebase/compat/app';
+// import firebase from 'firebase/compat/app';
+
 export default function Main() {
     const isAutorised = useSelector(state => state.isSignedIn);
     return (
@@ -79,6 +88,12 @@ export default function Main() {
                 <Route
                     path={`/${myEventsPage}/:userId/`}
                     element={<MyEventsPage />}
+                />
+            )}
+            {isAutorised && (
+                <Route
+                    path={`/${favoritesPage}/:userId/`}
+                    element={<FavoritesPage />}
                 />
             )}
             <Route

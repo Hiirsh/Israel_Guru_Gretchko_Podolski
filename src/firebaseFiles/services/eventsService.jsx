@@ -33,6 +33,25 @@ export async function addEventToTourist(userId, eventId) {
         });
     else await ref.set({eventsToGo: eventId});
 }
+
+export async function addEventToFavorites(userId, eventId) {
+    const ref = fb.firestore().collection('users').doc(userId);
+    const doc = await ref.get();
+    if (doc.exists)
+        await ref.update({
+            favoriteEvents: firebase.firestore.FieldValue.arrayUnion(eventId),
+        });
+    else await ref.set({favoriteEvents: eventId});
+}
+export async function removeEventFromFavorites(userId, eventId) {
+    const ref = fb.firestore().collection('users').doc(userId);
+    const doc = await ref.get();
+    if (doc.exists)
+        await ref.update({
+            favoriteEvents: firebase.firestore.FieldValue.arrayRemove(eventId),
+        });
+    // else await ref.set({favoriteEvents: eventId});
+}
 export async function addEventToGuide(guideId, eventId) {
     const ref = fb.firestore().collection('users').doc(guideId);
     const doc = await ref.get();
@@ -63,4 +82,8 @@ export async function getEvents() {
 
 export async function deleteEvent(eventId) {
     fb.firestore().collection('events').doc(eventId).delete();
+}
+
+export async function deleteFromFav(eventId) {
+    fb.firestore().collection('favoriteEvents').doc(eventId).delete();
 }

@@ -1,6 +1,7 @@
 .main {
     margin-left: 2em;
     font-family: 'Merriweather', serif;
+    height:100vh;
 }
 
 .eventAndMainInfo {
